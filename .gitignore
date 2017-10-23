@@ -5,3 +5,4 @@ dist/
 nbdist/
 .nb-gradle/
 *.jar
+/Donation Tracker/nbproject/private/
