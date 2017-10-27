@@ -4,11 +4,33 @@
  * and open the template in the editor.
  */
 package core;
-
 /**
  *
- * @author legen
+ * @author legen, Max Duhan
  */
-public class Fund {
+public class Instructor {
+    private String _name;
+    private String _qb_act;
     
+    public Instructor(){
+        _name = "";
+        _qb_act = "";
+    }
+    
+    public Instructor(String name, String act){
+        _name = name;
+        _qb_act = act;
+    }
+    public String getName(){
+        return _name;  
+    }
+    public void setName(String name){
+        this._name = name;
+    }
+    public String getQBact(){
+        return _qb_act;
+    }
+    public void setQBact(String act){
+        this._qb_act = act;
+    }
 }
