@@ -1,4 +1,4 @@
-/*
+*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -20,7 +20,7 @@ public class Donor {
     private String _mail_pref;
     
     public Donor(){
-        _env_num = "";
+        _env_num = -1;
         _f_name = "";
         _l_name = "";
         _street = "";
@@ -60,40 +60,40 @@ public class Donor {
     public void setL_name(String lname){
         this._l_name = lname;
     }
-    public double getStreet(){
+    public String getStreet(){
         return _street;
     }
     public void setStreet(String street){
         this._street = street;
     }
-    public double getCity(){
+    public String getCity(){
         return _city;
     }
     public void setCity(String city){
         this._city = city;
     }
-    public double getState(){
+    public String getState(){
         return _state;
     }
     public void setState(String state){
         this._state = state;
     }
-    public double getZip(){
+    public String getZip(){
         return _zip;
     }
     public void setZip(String zip){
         this._zip = zip;
     }
-    public double getEmail(){
+    public String getEmail(){
         return _email;
     }
     public void setEmail(String email){
-        this._email = eMail;
+        this._email = email;
     }
-    public double getMail_pref(){
+    public String getMail_pref(){
         return _mail_pref;
     }
-    public void setMail_pref(String email){
+    public void setMail_pref(String mpref){
         this._mail_pref = mpref;
     }
 }
