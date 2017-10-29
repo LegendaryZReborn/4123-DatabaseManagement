@@ -8,16 +8,16 @@ package core;
  *
  * @author legen, Max Duhan
  */
-public class Instructor {
+public class Fund {
     private String _name;
     private String _qb_act;
     
-    public Instructor(){
+    public Fund(){
         _name = "";
         _qb_act = "";
     }
     
-    public Instructor(String name, String act){
+    public Fund(String name, String act){
         _name = name;
         _qb_act = act;
     }
