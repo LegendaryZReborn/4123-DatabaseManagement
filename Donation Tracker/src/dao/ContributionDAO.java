@@ -35,12 +35,12 @@ public class ContributionDAO {
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement("insert into contribution values (null, ?, ?, ?, ?, ?, ?)");
-            stmt.setDouble(1, contribution.amt);
-            stmt.setDate(2, contribution.date);
-            stmt.setString(3, contribution.note);
-            stmt.setString(4, contribution.c_type);
-            stmt.setString(5, contribution.fund);
-            stmt.setInt(6, contribution.env_num);
+            stmt.setString(1, contribution.getAmt());
+            stmt.setString(2, contribution.getC_date());
+            stmt.setString(3, contribution.getNote());
+            stmt.setString(4, contribution.getC_type());
+            stmt.setString(5, contribution.getFund_name());
+            stmt.setInt(6, contribution.getEnv_num());
             stmt.execute();
         } finally {
             conn.close(stmt, null);
@@ -51,7 +51,7 @@ public class ContributionDAO {
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement("delete from contribution where ID = ?");
-            stmt.setInt(1, contribution.ID);
+            stmt.setInt(1, contribution.getID());
             stmt.execute();
         } finally {
             conn.close(stmt, null);
@@ -70,13 +70,13 @@ public class ContributionDAO {
                 + "where ID = ?";
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setDouble(1, contribution.amt);
-            stmt.setDate(2, contribution.date);
-            stmt.setString(3, contribution.note);
-            stmt.setString(4, contribution.c_type);
-            stmt.setString(5, contribution.fund);
-            stmt.setInt(6, contribution.env_num);
-            stmt.setInt(7, contribution.ID);
+            stmt.setString(1, contribution.getAmt());
+            stmt.setString(2, contribution.getC_date());
+            stmt.setString(3, contribution.getNote());
+            stmt.setString(4, contribution.getC_type());
+            stmt.setString(5, contribution.getFund_name());
+            stmt.setInt(6, contribution.getEnv_num());
+            stmt.setInt(7, contribution.getID());
             stmt.execute();
         } finally {
             conn.close(stmt, null);
@@ -85,8 +85,8 @@ public class ContributionDAO {
 
     private Contribution convertRowToContribution(ResultSet rs) throws Exception {
         int ID = rs.getInt("ID");
-        double amt = rs.getDouble("amt");
-        Date date = rs.getDate("date");
+        String amt = rs.getString("amt");
+        String date = rs.getString("date");
         String note = rs.getString("note");
         String c_type = rs.getString("c_type");
         String fund = rs.getString("fund");
