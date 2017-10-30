@@ -35,8 +35,8 @@ public class FundDAO {
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement("insert into fund values (?, ?)");
-            stmt.setString(1, fund.name);
-            stmt.setInt(2, fund.qb_acc);
+            stmt.setString(1, fund.getName());
+            stmt.setString(2, fund.getQBact());
             stmt.execute();
         } finally {
             conn.close(stmt, null);
@@ -47,7 +47,7 @@ public class FundDAO {
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement("delete from fund where name = ?");
-            stmt.setString(1, fund.name);
+            stmt.setString(1, fund.getName());
             stmt.execute();
         } finally {
             conn.close(stmt, null);
@@ -58,8 +58,8 @@ public class FundDAO {
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement("update fund set qb_acc = ? where name = ?");
-            stmt.setInt(1, fund.qb_acc);
-            stmt.setString(2, fund.name);
+            stmt.setString(1, fund.getQBact());
+            stmt.setString(2, fund.getName());
             stmt.execute();
         } finally {
             conn.close(stmt, null);
