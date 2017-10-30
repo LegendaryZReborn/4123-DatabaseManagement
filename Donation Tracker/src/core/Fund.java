@@ -8,7 +8,7 @@ package core;
  *
  * @author legen, Max Duhan
  */
-public class Fund {
+public class Fund { 
     private String _name;
     private String _qb_act;
     

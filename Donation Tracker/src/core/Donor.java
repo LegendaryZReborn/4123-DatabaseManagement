@@ -1,4 +1,4 @@
-*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -20,7 +20,7 @@ public class Donor {
     private String _mail_pref;
     
     public Donor(){
-        _env_num = -1;
+        _env_num = -1; /* init as -1 so as to not overwrite any existing donors */
         _f_name = "";
         _l_name = "";
         _street = "";
