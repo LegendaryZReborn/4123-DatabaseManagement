@@ -4,14 +4,15 @@
  * and open the template in the editor.
  */
 package core;
+import java.util.Date;
 /**
  *
  * @author legen, Kevin Ellis , Tyler Coleman, Danny Tomei
  */
 public class Contribution {
     private int _ID;
-    private String _amt;
-    private String _c_date;
+    private double _amt;
+    private Date _c_date;
     private String _note;
     private String _c_type;
     private String _fund_name;
@@ -24,10 +25,10 @@ public class Contribution {
 	_note = "";
 	_c_type = "";
 	_fund_name = "";
-	_env_num = -1;
+	_env_num = 0;
     }
     
-    public Contribution(int ID, String amt, String cdate, String note, String ctype, String fundname, int envnum){
+    public Contribution(int ID, double amt, Date cdate, String note, String ctype, String fundname, int envnum){
 	_ID = ID;
 	_amt = amt;
 	_c_date = cdate;
@@ -39,16 +40,16 @@ public class Contribution {
     public int getID(){
         return _ID;
     }
-    public String getAmt(){
+    public double getAmt(){
         return _amt;
     }
-    public void setAmt(String amt){
+    public void setAmt(double amt){
         this._amt = amt;
     }
-    public String getC_date(){
+    public Date getC_date(){
         return _c_date;
     }
-    public void setC_date(String cdate){
+    public void setC_date(Date cdate){
         this._c_date = cdate;
     }
     public String getNote(){
