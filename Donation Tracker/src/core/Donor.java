@@ -15,7 +15,7 @@ public class Donor {
     private String _street;
     private String _city;
     private String _state;
-    private String _zip;
+    private int _zip;
     private String _email;
     private String _mail_pref;
     
@@ -78,7 +78,7 @@ public class Donor {
     public void setState(String state){
         this._state = state;
     }
-    public String getZip(){
+    public int getZip(){
         return _zip;
     }
     public void setZip(String zip){
