@@ -35,8 +35,8 @@ public class ContributionDAO {
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement("insert into contribution values (null, ?, ?, ?, ?, ?, ?)");
-            stmt.setString(1, contribution.getAmt());
-            stmt.setString(2, contribution.getC_date());
+            stmt.setDouble(1, contribution.getAmt());
+            stmt.setDate(2, contribution.getC_date());
             stmt.setString(3, contribution.getNote());
             stmt.setString(4, contribution.getC_type());
             stmt.setString(5, contribution.getFund_name());
@@ -70,8 +70,8 @@ public class ContributionDAO {
                 + "where ID = ?";
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, contribution.getAmt());
-            stmt.setString(2, contribution.getC_date());
+            stmt.setDouble(1, contribution.getAmt());
+            stmt.setDate(2, contribution.getC_date());
             stmt.setString(3, contribution.getNote());
             stmt.setString(4, contribution.getC_type());
             stmt.setString(5, contribution.getFund_name());
@@ -85,8 +85,8 @@ public class ContributionDAO {
 
     private Contribution convertRowToContribution(ResultSet rs) throws Exception {
         int ID = rs.getInt("ID");
-        String amt = rs.getString("amt");
-        String date = rs.getString("date");
+        double amt = rs.getDouble("amt");
+        Date date = rs.getDate("date");
         String note = rs.getString("note");
         String c_type = rs.getString("c_type");
         String fund = rs.getString("fund");

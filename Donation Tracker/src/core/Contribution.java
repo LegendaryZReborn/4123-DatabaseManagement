@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package core;
-import java.util.Date;
+import java.sql.Date;
 /**
  *
  * @author legen, Kevin Ellis , Tyler Coleman, Danny Tomei
