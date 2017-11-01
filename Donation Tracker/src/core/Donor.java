@@ -26,12 +26,12 @@ public class Donor {
         _street = "";
         _city = "";
         _state = "";
-        _zip = "";
+        _zip = 0;
         _email = "";
         _mail_pref = "";
     }
     
-    public Donor(int eNum, String fname, String lname, String street, String city, String state, String zip, String email, String mpref){
+    public Donor(int eNum, String fname, String lname, String street, String city, String state, int zip, String email, String mpref){
         _env_num = eNum;
         _f_name = fname;
         _l_name = lname;
@@ -81,7 +81,7 @@ public class Donor {
     public int getZip(){
         return _zip;
     }
-    public void setZip(String zip){
+    public void setZip(int zip){
         this._zip = zip;
     }
     public String getEmail(){

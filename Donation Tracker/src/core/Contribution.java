@@ -20,8 +20,8 @@ public class Contribution {
     
     public Contribution(){
 	_ID = -1;    
-	_amt = "";
-	_c_date = "";
+	_amt = 0.0;
+	_c_date = new Date(0);
 	_note = "";
 	_c_type = "";
 	_fund_name = "";

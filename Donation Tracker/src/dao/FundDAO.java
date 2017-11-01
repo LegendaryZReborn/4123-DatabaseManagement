@@ -68,7 +68,7 @@ public class FundDAO {
 
     private Fund convertRowToFund(ResultSet rs) throws Exception {
         String name = rs.getString("name");
-        int qb_acc = rs.getInt("qb_acc");
+        String qb_acc = rs.getString("qb_acc");
         return new Fund(name, qb_acc);
     }
 

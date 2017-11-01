@@ -54,7 +54,7 @@ public class DonorDAO {
         try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select env_num from donor");
-            int curr, last = 0;
+            int curr = 0, last = 0;
             while (rs.next()) {
                 curr = rs.getInt("env_num");
                 if (curr > last + 1) {
