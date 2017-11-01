@@ -4,18 +4,32 @@
  * and open the template in the editor.
  */
 package gui;
-
+import java.sql.*;
 /**
  *
  * @author legen
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    //Get a connection
+    String dbUrl = "jdbc:mysql://10.0.60.55:3306/cxbrowne1207";
+    String user = "cxbrowne1207";
+    String pass = "";
+    
+   
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        try
+        {
+            Connection myConn = DriverManager.getConnection(dbUrl, user, pass);
+        }
+        catch(Exception e)
+        {
+            System.out.println("Problem " + e);
+        }
     }
 
     /**
