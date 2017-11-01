@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package core;
-import java.util.Date;
+import java.sql.Date;
 /**
  *
  * @author legen, Kevin Ellis , Tyler Coleman, Danny Tomei
@@ -20,8 +20,8 @@ public class Contribution {
     
     public Contribution(){
 	_ID = -1;    
-	_amt = "";
-	_c_date = "";
+	_amt = 0.0;
+	_c_date = new Date(0);
 	_note = "";
 	_c_type = "";
 	_fund_name = "";

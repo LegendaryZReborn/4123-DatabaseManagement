@@ -54,7 +54,7 @@ public class DonorDAO {
         try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select env_num from donor");
-            int curr, last = 0;
+            int curr = 0, last = 0;
             while (rs.next()) {
                 curr = rs.getInt("env_num");
                 if (curr > last + 1) {
@@ -78,7 +78,7 @@ public class DonorDAO {
             stmt.setString(4, donor.getStreet());
             stmt.setString(5, donor.getCity());
             stmt.setString(6, donor.getState());
-            stmt.setString(7, donor.getZip());
+            stmt.setInt(7, donor.getZip());
             stmt.setString(8, donor.getEmail());
             stmt.setString(9, donor.getMail_pref());
             stmt.execute();
@@ -117,7 +117,7 @@ public class DonorDAO {
             stmt.setString(3, donor.getStreet());
             stmt.setString(4, donor.getCity());
             stmt.setString(5, donor.getState());
-            stmt.setString(6, donor.getZip());
+            stmt.setInt(6, donor.getZip());
             stmt.setString(7, donor.getEmail());
             stmt.setString(8, donor.getMail_pref());
             stmt.setInt(9, donor.getEnv_num());
