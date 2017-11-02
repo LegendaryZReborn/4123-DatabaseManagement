@@ -11,7 +11,7 @@ public class DBConnection {
     public DBConnection(String user, String pass, String address, String Database) {
         username = user;
         password = pass;
-        dbURL = "jdbc:mysql://" + address + "/" + Database + "?verifyServerCertificate=false&useSSL=true&requireSSL=true";
+        dbURL = "jdbc:mysql://" + address + "/" + Database;
     }
 
     public void Open() throws Exception {
