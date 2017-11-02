@@ -12,8 +12,8 @@ import java.sql.*;
 public class MainFrame extends javax.swing.JFrame {
 
     //Get a connection
-    String dbUrl = "jdbc:mysql://10.0.60.55:3306/cxbrowne1207";
-    String user = "cxbrowne1207";
+    String dbUrl = "jdbc:mysql://10.0.60.55:3306/money";
+    String user = "";
     String pass = "";
     
    
