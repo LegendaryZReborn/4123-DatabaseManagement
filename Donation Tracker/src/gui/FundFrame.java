@@ -1,4 +1,9 @@
 /*
+* Author(s): Tellon Smith, Johann Readhead
+*/
+
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -16,6 +21,8 @@ public class FundFrame extends javax.swing.JFrame {
      */
     public FundFrame() {
         initComponents();
+        // enable column sorting in the table
+        fund_table.setAutoCreateRowSorter(true);
     }
 
     /**
@@ -27,17 +34,60 @@ public class FundFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        add_button = new javax.swing.JButton();
+        edit_button = new javax.swing.JButton();
+        delete_button = new javax.swing.JButton();
+        search_button = new javax.swing.JButton();
+        fundTable_ScrollPane = new javax.swing.JScrollPane();
+        fund_table = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        add_button.setText("Add");
+
+        edit_button.setText("Edit");
+
+        delete_button.setText("Delete");
+
+        search_button.setText("Search");
+
+        fund_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"Place Holder 1", "10003"},
+                {"Place Holder 2", "10002"},
+                {"Place Holder 3", "10001"}
+            },
+            new String [] {
+                "Name", "QuickBooks Account No."
+            }
+        ));
+        fundTable_ScrollPane.setViewportView(fund_table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(add_button)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(edit_button)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(delete_button)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(search_button)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(fundTable_ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(add_button)
+                    .addComponent(edit_button)
+                    .addComponent(delete_button)
+                    .addComponent(search_button))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fundTable_ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE))
         );
 
         pack();
@@ -79,5 +129,11 @@ public class FundFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add_button;
+    private javax.swing.JButton delete_button;
+    private javax.swing.JButton edit_button;
+    private javax.swing.JScrollPane fundTable_ScrollPane;
+    private javax.swing.JTable fund_table;
+    private javax.swing.JButton search_button;
     // End of variables declaration//GEN-END:variables
 }
