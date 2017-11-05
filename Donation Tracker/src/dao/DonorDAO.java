@@ -129,8 +129,8 @@ public class DonorDAO {
 
     private Donor convertRowToDonor(ResultSet rs) throws Exception {
         int env_num = rs.getInt("env_num");
-        String first = rs.getString("first");
-        String last = rs.getString("last");
+        String first = rs.getString("f_name");
+        String last = rs.getString("l_name");
         String street = rs.getString("street");
         String city = rs.getString("city");
         String state = rs.getString("state");
