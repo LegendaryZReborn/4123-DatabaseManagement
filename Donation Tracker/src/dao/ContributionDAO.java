@@ -86,10 +86,10 @@ public class ContributionDAO {
     private Contribution convertRowToContribution(ResultSet rs) throws Exception {
         int ID = rs.getInt("ID");
         double amt = rs.getDouble("amt");
-        Date date = rs.getDate("date");
+        Date date = rs.getDate("c_date");
         String note = rs.getString("note");
         String c_type = rs.getString("c_type");
-        String fund = rs.getString("fund");
+        String fund = rs.getString("fund_name");
         int env_num = rs.getInt("env_num");
         return new Contribution(ID, amt, date, note, c_type, fund, env_num);
     }
