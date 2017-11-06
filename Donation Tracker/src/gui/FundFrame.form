@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -23,56 +23,66 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <Component id="add_button" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="edit_button" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="delete_button" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="search_button" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="fundTable_scrollPane" pref="1144" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="contributions_button" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="donors_button" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="funds_button" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="reports_button" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="addUpdateDelete_panel" alignment="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
           </Group>
-          <Component id="fundTable_ScrollPane" alignment="0" pref="800" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="add_button" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="edit_button" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="delete_button" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="search_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="contributions_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="donors_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="funds_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="reports_button" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="fundTable_ScrollPane" pref="562" max="32767" attributes="0"/>
+              <Component id="fundTable_scrollPane" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="addUpdateDelete_panel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="add_button">
+    <Component class="javax.swing.JButton" name="contributions_button">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Add"/>
+        <Property name="text" type="java.lang.String" value="Contributions"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="edit_button">
+    <Component class="javax.swing.JButton" name="donors_button">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Edit"/>
+        <Property name="text" type="java.lang.String" value="Donors"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="delete_button">
+    <Component class="javax.swing.JButton" name="funds_button">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Delete"/>
+        <Property name="text" type="java.lang.String" value="Funds"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="search_button">
+    <Component class="javax.swing.JButton" name="reports_button">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Search"/>
+        <Property name="text" type="java.lang.String" value="Reports"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="fundTable_ScrollPane">
+    <Container class="javax.swing.JScrollPane" name="fundTable_scrollPane">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
@@ -109,6 +119,113 @@
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="addUpdateDelete_panel">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Add/Update/Delete Fund"/>
+          </Border>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="quickbooksAccNo_label" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="fundName_label" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="quickbooksAccNo_textfield" pref="120" max="32767" attributes="0"/>
+                              <Component id="fundName_textField" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="add_button" min="-2" pref="93" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="update_button" min="-2" pref="93" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="Reset" min="-2" pref="93" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="delete_button" min="-2" pref="93" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="fundName_label" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="fundName_textField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="quickbooksAccNo_label" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="quickbooksAccNo_textfield" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="add_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="update_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="Reset" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="delete_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="fundName_label">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Name:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="quickbooksAccNo_label">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="QuickBooks Account No.:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="fundName_textField">
+        </Component>
+        <Component class="javax.swing.JTextField" name="quickbooksAccNo_textfield">
+        </Component>
+        <Component class="javax.swing.JButton" name="add_button">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Add"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="update_button">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Update"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="Reset">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reset"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="delete_button">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Delete"/>
           </Properties>
         </Component>
       </SubComponents>
