@@ -60,6 +60,8 @@ public class FundFrame extends javax.swing.JFrame {
         update_button = new javax.swing.JButton();
         Reset = new javax.swing.JButton();
         delete_button = new javax.swing.JButton();
+        search_textField = new javax.swing.JTextField();
+        search_label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,6 +147,8 @@ public class FundFrame extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        search_label.setText("Search");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,7 +164,11 @@ public class FundFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(funds_button)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(reports_button))
+                        .addComponent(reports_button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(search_label)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(search_textField, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(addUpdateDelete_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 27, Short.MAX_VALUE))
         );
@@ -172,7 +180,9 @@ public class FundFrame extends javax.swing.JFrame {
                     .addComponent(contributions_button)
                     .addComponent(donors_button)
                     .addComponent(funds_button)
-                    .addComponent(reports_button))
+                    .addComponent(reports_button)
+                    .addComponent(search_textField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(search_label))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fundTable_scrollPane)
                 .addGap(18, 18, 18)
@@ -233,6 +243,8 @@ public class FundFrame extends javax.swing.JFrame {
     private javax.swing.JLabel quickbooksAccNo_label;
     private javax.swing.JTextField quickbooksAccNo_textfield;
     private javax.swing.JButton reports_button;
+    private javax.swing.JLabel search_label;
+    private javax.swing.JTextField search_textField;
     private javax.swing.JButton update_button;
     // End of variables declaration//GEN-END:variables
 }
