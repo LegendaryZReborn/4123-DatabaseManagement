@@ -7,6 +7,7 @@ package gui;
 
 import core.Login;
 import dao.DBConnection;
+import gui.ContributionFrame;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -15,6 +16,8 @@ import javax.swing.JOptionPane;
  * @author cotyhamilton
  */
 public class LoginFrame extends javax.swing.JFrame {
+    
+//    private DBConnection conn;
 
     /**
      * Creates new form LoginFrame
@@ -111,16 +114,27 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void jLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoginButtonActionPerformed
         String user = jLoginUsername.getText();
+        
         String pass = new String(jLoginPassword.getPassword());
     
         Login lg = new Login(user,pass);
         
-        if (lg.getUsername().equals("money") && lg.getPassword().equals("steakfingers")) {
-            JOptionPane.showMessageDialog(this, "good");
+        try{
+            
+            DBConnection conn = new DBConnection(lg.getUsername(), lg.getPassword(), "griffincomplaints.xyz", "money");
+            
+            conn.Open();
+            
+            ContributionFrame cf = new ContributionFrame();
+            
+            cf.setVisible(true);
+            
+        }catch(Exception exc) {
+                
+            JOptionPane.showMessageDialog(this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
+            
         }
-        else {
-            JOptionPane.showMessageDialog(this, "bad");
-        }
+        
     }//GEN-LAST:event_jLoginButtonActionPerformed
 
     /**
