@@ -5,17 +5,45 @@
  */
 package gui;
 
+import dao.DBConnection;
+import dao.DonorDAO;
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+
 /**
  *
  * @author legen
  */
 public class ContributionFrame extends javax.swing.JFrame {
 
+    private DBConnection conn;
+    private List<Integer> intList;
+    DonorDAO tempDonorDAO = new DonorDAO(conn);
     /**
      * Creates new form ContributionFrame
      */
     public ContributionFrame() {
         initComponents();
+        conButton.setBackground(Color.white);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        envComboBox.requestFocus();
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        Date date = new Date();
+        dateTextField.setText(sdf.format(date));
+        /*try {
+            intList = tempDonorDAO.getAllEnvNums();
+        } catch (Exception ex) {
+            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        intList.toArray();
+        for(int i = 0; i < intList.size(); i++)
+            envComboBox.setSelectedIndex(intList.get(i));*/
     }
 
     /**
@@ -27,21 +55,274 @@ public class ContributionFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        addPanel = new javax.swing.JPanel();
+        envIDLabel = new javax.swing.JLabel();
+        nameLabel = new javax.swing.JLabel();
+        nameTextField = new javax.swing.JTextField();
+        envComboBox = new javax.swing.JComboBox<>();
+        dateLabel = new javax.swing.JLabel();
+        dateTextField = new javax.swing.JTextField();
+        amountLabel = new javax.swing.JLabel();
+        amountTextField = new javax.swing.JTextField();
+        typeComboBox = new javax.swing.JComboBox<>();
+        fundLabel = new javax.swing.JLabel();
+        fundComboBox = new javax.swing.JComboBox<>();
+        noteLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        noteTextPane = new javax.swing.JTextPane();
+        addButton = new javax.swing.JButton();
+        resetButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        menuButton = new javax.swing.JButton();
+        donor = new javax.swing.JButton();
+        report = new javax.swing.JButton();
+        fund = new javax.swing.JButton();
+        conButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Con. ID", "Env. ID", "Date", "Amount", "Type", "Fund", "Note"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        addPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Add/Update/Delete Contribution"));
+
+        envIDLabel.setText("Envelope ID:");
+
+        nameLabel.setText("Name:");
+
+        nameTextField.setEditable(false);
+
+        envComboBox.setEditable(true);
+        envComboBox.setMaximumRowCount(299);
+        envComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
+        envComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                envComboBoxItemStateChanged(evt);
+            }
+        });
+        envComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                envComboBoxActionPerformed(evt);
+            }
+        });
+
+        dateLabel.setText("Date:");
+
+        amountLabel.setText("Amount:");
+
+        typeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Check", "Cash", "Direct", " " }));
+
+        fundLabel.setText("Fund:");
+
+        fundComboBox.setEditable(true);
+        fundComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General Fund", " " }));
+
+        noteLabel.setText("Note:");
+
+        jScrollPane2.setViewportView(noteTextPane);
+
+        addButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        addButton.setText("Add");
+
+        resetButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        resetButton.setText("Reset");
+
+        updateButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
+        deleteButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        deleteButton.setText("Delete");
+
+        javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
+        addPanel.setLayout(addPanelLayout);
+        addPanelLayout.setHorizontalGroup(
+            addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(amountLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(amountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(nameLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(dateLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(fundLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fundComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(envIDLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(envComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(noteLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPanelLayout.createSequentialGroup()
+                                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                                    .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                                    .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        addPanelLayout.setVerticalGroup(
+            addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(envIDLabel)
+                    .addComponent(envComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(nameLabel)
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dateLabel)
+                    .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(amountLabel)
+                        .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(amountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fundLabel)
+                    .addComponent(fundComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(noteLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addButton)
+                    .addComponent(updateButton))
+                .addGap(31, 31, 31)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resetButton)
+                    .addComponent(deleteButton)))
+        );
+
+        menuButton.setText("Main Menu");
+        menuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuButtonActionPerformed(evt);
+            }
+        });
+
+        donor.setText("Donors");
+        donor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                donorActionPerformed(evt);
+            }
+        });
+
+        report.setText("Reports");
+
+        fund.setText("Funds");
+
+        conButton.setText("Contributions");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(menuButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(conButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(donor, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fund, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(report, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 301, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(menuButton)
+                    .addComponent(donor)
+                    .addComponent(report)
+                    .addComponent(conButton)
+                    .addComponent(fund))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
         );
+
+        addPanel.getAccessibleContext().setAccessibleName("Edit Contribution");
+        addPanel.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
+        MainFrame mf = new MainFrame();
+        mf.setVisible(true);
+        mf.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }//GEN-LAST:event_menuButtonActionPerformed
+
+    private void donorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_donorActionPerformed
+
+    private void envComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_envComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_envComboBoxActionPerformed
+
+    private void envComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_envComboBoxItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_envComboBoxItemStateChanged
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +360,31 @@ public class ContributionFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JPanel addPanel;
+    private javax.swing.JLabel amountLabel;
+    private javax.swing.JTextField amountTextField;
+    private javax.swing.JButton conButton;
+    private javax.swing.JLabel dateLabel;
+    private javax.swing.JTextField dateTextField;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton donor;
+    private javax.swing.JComboBox<String> envComboBox;
+    private javax.swing.JLabel envIDLabel;
+    private javax.swing.JButton fund;
+    private javax.swing.JComboBox<String> fundComboBox;
+    private javax.swing.JLabel fundLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton menuButton;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JTextField nameTextField;
+    private javax.swing.JLabel noteLabel;
+    private javax.swing.JTextPane noteTextPane;
+    private javax.swing.JButton report;
+    private javax.swing.JButton resetButton;
+    private javax.swing.JComboBox<String> typeComboBox;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

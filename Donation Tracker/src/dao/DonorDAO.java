@@ -53,13 +53,16 @@ public class DonorDAO {
         ResultSet rs = null;
         try {
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select * from donor");
-            // TODO: check if this is needed or if I can just return rs.getInt("env_num")
-            if (rs.next()) {
-                return rs.getInt("env_num");
-            } else {
-                return -1;
+            rs = stmt.executeQuery("select env_num from donor");
+            int curr = 0, last = 0;
+            while (rs.next()) {
+                curr = rs.getInt("env_num");
+                if (curr > last + 1) {
+                    return last + 1;
+                }
+                last = curr;
             }
+            return curr + 1;
         } finally {
             conn.close(stmt, rs);
         }
@@ -69,15 +72,15 @@ public class DonorDAO {
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement("insert into donor values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            stmt.setInt(1, donor.env_num);
-            stmt.setString(2, donor.first);
-            stmt.setString(3, donor.last);
-            stmt.setString(4, donor.street);
-            stmt.setString(5, donor.city);
-            stmt.setString(6, donor.state);
-            stmt.setInt(7, donor.zip);
-            stmt.setString(8, donor.email);
-            stmt.setString(9, donor.mail_pref);
+            stmt.setInt(1, donor.getEnv_num());
+            stmt.setString(2, donor.getF_name());
+            stmt.setString(3, donor.getL_name());
+            stmt.setString(4, donor.getStreet());
+            stmt.setString(5, donor.getCity());
+            stmt.setString(6, donor.getState());
+            stmt.setInt(7, donor.getZip());
+            stmt.setString(8, donor.getEmail());
+            stmt.setString(9, donor.getMail_pref());
             stmt.execute();
         } finally {
             conn.close(stmt, null);
@@ -88,7 +91,7 @@ public class DonorDAO {
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement("delete from donor where env_num = ?");
-            stmt.setInt(1, donor.env_num);
+            stmt.setInt(1, donor.getEnv_num());
             stmt.execute();
         } finally {
             conn.close(stmt, null);
@@ -109,15 +112,15 @@ public class DonorDAO {
                 + "where env_num = ?";
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, donor.first);
-            stmt.setString(2, donor.last);
-            stmt.setString(3, donor.street);
-            stmt.setString(4, donor.city);
-            stmt.setString(5, donor.state);
-            stmt.setInt(6, donor.zip);
-            stmt.setString(7, donor.email);
-            stmt.setString(8, donor.mail_pref);
-            stmt.setInt(9, donor.env_num);
+            stmt.setString(1, donor.getF_name());
+            stmt.setString(2, donor.getL_name());
+            stmt.setString(3, donor.getStreet());
+            stmt.setString(4, donor.getCity());
+            stmt.setString(5, donor.getState());
+            stmt.setInt(6, donor.getZip());
+            stmt.setString(7, donor.getEmail());
+            stmt.setString(8, donor.getMail_pref());
+            stmt.setInt(9, donor.getEnv_num());
             stmt.execute();
         } finally {
             conn.close(stmt, null);
@@ -126,8 +129,8 @@ public class DonorDAO {
 
     private Donor convertRowToDonor(ResultSet rs) throws Exception {
         int env_num = rs.getInt("env_num");
-        String first = rs.getString("first");
-        String last = rs.getString("last");
+        String first = rs.getString("f_name");
+        String last = rs.getString("l_name");
         String street = rs.getString("street");
         String city = rs.getString("city");
         String state = rs.getString("state");
