@@ -15,12 +15,12 @@ import javax.swing.table.AbstractTableModel;
 public class ContributionTableModel extends AbstractTableModel {
 
     private static final int ID_COL = 0;
-    private static final int AMT_COL = 1;
-    private static final int C_DATE_COL = 2;
-    private static final int NOTE_COL = 3;
-    private static final int C_TYPE_COL = 4;
-    private static final int FUND_NAME_COL = 5;
-    private static final int ENV_NUM_COL = 6;
+	private static final int C_DATE_COL = 1;
+	private static final int ENV_NUM_COL = 2;
+    private static final int AMT_COL = 3;
+	private static final int FUND_NAME_COL = 4;
+	private static final int C_TYPE_COL = 5;
+    private static final int NOTE_COL = 6;
     private String[] columnNames = {"ID", "amt", "c_date", "note","c_type","fund_name","env_num"};
     private List<Contribution> contributions;
 
