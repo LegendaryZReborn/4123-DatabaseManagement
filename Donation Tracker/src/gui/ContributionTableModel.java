@@ -6,6 +6,7 @@
 package gui;
 
 import java.util.List;
+import java.sql.Date;
 import core.Contribution;
 import javax.swing.table.AbstractTableModel;
 /**
@@ -21,7 +22,7 @@ public class ContributionTableModel extends AbstractTableModel {
 	private static final int FUND_NAME_COL = 4;
 	private static final int C_TYPE_COL = 5;
     private static final int NOTE_COL = 6;
-    private String[] columnNames = {"ID", "amt", "c_date", "note","c_type","fund_name","env_num"};
+    private String[] columnNames = {"ID", "Date", "Envelope Number", "Amount","Fund","Type","Note"};
     private List<Contribution> contributions;
 
     public ContributionTableModel(List<Contribution> theContributions) {
@@ -59,6 +60,28 @@ public class ContributionTableModel extends AbstractTableModel {
                 return tempContribution.getEnv_num();
             default:
                 return tempContribution.getID();
+        }
+    }
+	public boolean isCellEditable(int row, int col)
+    {
+        return true;
+    }
+	    public void setValueAt(Object aValue, int row, int col)
+    {
+		Contribution tempContribution = contributions.get(row);
+		switch (col) {
+            case AMT_COL:
+                return tempContribution.setAmt((double) aValue);
+            case C_DATE_COL:
+                return tempContribution.setC_date((Date) aValue);
+            case NOTE_COL:
+                return tempContribution.setNote((String) aValue);
+            case C_TYPE_COL:
+                return tempContribution.setC_type((String) aValue);
+            case FUND_NAME_COL:
+                return tempContribution.setFund_name((String) aValue);
+            case ENV_NUM_COL:
+                return tempContribution.setEnv_num((int) aValue);
         }
     }
 
