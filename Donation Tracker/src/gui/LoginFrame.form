@@ -56,9 +56,19 @@
                               <Component id="jLoginPassword" min="-2" pref="151" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jUsernameLabel" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jUsernameLabel" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Component id="jDatabaseLabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jAddressLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLoginUsername" min="-2" pref="151" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLoginAddress" max="32767" attributes="0"/>
+                                  <Component id="jLoginDatabase" max="32767" attributes="0"/>
+                                  <Component id="jLoginUsername" pref="151" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
@@ -73,7 +83,17 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="102" max="32767" attributes="0"/>
+                  <EmptySpace pref="45" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLoginAddress" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jAddressLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLoginDatabase" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jDatabaseLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLoginUsername" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jUsernameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -111,6 +131,26 @@
         <Component class="javax.swing.JLabel" name="jPasswordLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Password"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="jLoginDatabase">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="money"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jDatabaseLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Database"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="jLoginAddress">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="griffincomplaints.xyz"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jAddressLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Address"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -24,6 +24,7 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
+        this.getRootPane().setDefaultButton(jLoginButton);
     }
 
     /**
@@ -41,6 +42,10 @@ public class LoginFrame extends javax.swing.JFrame {
         jLoginButton = new javax.swing.JButton();
         jUsernameLabel = new javax.swing.JLabel();
         jPasswordLabel = new javax.swing.JLabel();
+        jLoginDatabase = new javax.swing.JTextField();
+        jDatabaseLabel = new javax.swing.JLabel();
+        jLoginAddress = new javax.swing.JTextField();
+        jAddressLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +60,14 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jPasswordLabel.setText("Password");
 
+        jLoginDatabase.setText("money");
+
+        jDatabaseLabel.setText("Database");
+
+        jLoginAddress.setText("griffincomplaints.xyz");
+
+        jAddressLabel.setText("Address");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -68,9 +81,16 @@ public class LoginFrame extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLoginPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jUsernameLabel)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jUsernameLabel)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jDatabaseLabel)
+                                    .addComponent(jAddressLabel)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLoginUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLoginAddress)
+                                .addComponent(jLoginDatabase)
+                                .addComponent(jLoginUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jLoginButton)))
@@ -79,7 +99,15 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(102, Short.MAX_VALUE)
+                .addContainerGap(45, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLoginAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jAddressLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLoginDatabase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDatabaseLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLoginUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jUsernameLabel))
@@ -116,12 +144,16 @@ public class LoginFrame extends javax.swing.JFrame {
         String user = jLoginUsername.getText();
         
         String pass = new String(jLoginPassword.getPassword());
+        
+        String address = jLoginAddress.getText();
+        
+        String database = jLoginDatabase.getText();
     
-        Login lg = new Login(user,pass);
+        Login lg = new Login(user, pass, address, database);
         
         try{
             
-            DBConnection conn = new DBConnection(lg.getUsername(), lg.getPassword(), "griffincomplaints.xyz", "money");
+            DBConnection conn = new DBConnection(lg.getUsername(), lg.getPassword(), lg.getAddress(), lg.getDatabase());
             
             conn.Open();
             
@@ -173,7 +205,11 @@ public class LoginFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jAddressLabel;
+    private javax.swing.JLabel jDatabaseLabel;
+    private javax.swing.JTextField jLoginAddress;
     private javax.swing.JButton jLoginButton;
+    private javax.swing.JTextField jLoginDatabase;
     private javax.swing.JPasswordField jLoginPassword;
     private javax.swing.JTextField jLoginUsername;
     private javax.swing.JPanel jPanel1;
