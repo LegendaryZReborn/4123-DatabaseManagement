@@ -40,9 +40,6 @@ public class Contribution {
     public int getID(){
         return _ID;
     }
-	//public void setID(int ID){       //Not sure what to do for ID
-        //this._ID = ID;
-    //}
     public double getAmt(){
         return _amt;
     }
