@@ -68,6 +68,29 @@ public class DonorTableModel extends AbstractTableModel{
         }
     }
     
+    public void setValueAt(Object val, int row, int col) {
+        Donor tempDonor = donors.get(row);
+        switch (col) {
+            case ENV_NUM_COL:
+                tempDonor.setEnv_num((int) val);
+            case F_NAME_COL:
+                tempDonor.setF_name((String) val);
+            case L_NAME_COL:
+                tempDonor.setL_name((String) val);
+            case STREET_COL:
+                tempDonor.setStreet((String) val);
+            case CITY_COL:
+                tempDonor.setCity((String) val);
+            case STATE_COL:
+                tempDonor.setState((String) val);
+            case ZIP_COL:
+                tempDonor.setZip((int) val);
+            case EMAIL_COL:
+                tempDonor.setEmail((String) val);
+            case MAIL_PREF_COL:
+                tempDonor.setMail_pref((String) val);
+        }
+    }
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
     }

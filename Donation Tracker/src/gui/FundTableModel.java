@@ -46,6 +46,16 @@ public class FundTableModel extends AbstractTableModel{
         }
     }
     
+    public void setValueAt(Object val, int row, int col) {
+        Fund tempFund = funds.get(row);
+        switch (col) {
+            case NAME_COL:
+                tempFund.setName((String) val);
+            case QB_ACT_COL:
+                tempFund.setQBact((String) val);
+        }
+    }
+    
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
     }
