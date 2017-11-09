@@ -46,33 +46,36 @@ public class ContributionTableModel extends AbstractTableModel {
         switch (col) {
             case ID_COL:
                 return tempContribution.getID();
+			case C_DATE_COL:
+                return tempContribution.getC_date();
+			case ENV_NUM_COL:
+                return tempContribution.getEnv_num();
             case AMT_COL:
                 return tempContribution.getAmt();
-            case C_DATE_COL:
-                return tempContribution.getC_date();
+			case FUND_NAME_COL:
+                return tempContribution.getFund_name();
+			case C_TYPE_COL:
+                return tempContribution.getC_type();
             case NOTE_COL:
                 return tempContribution.getNote();
-            case C_TYPE_COL:
-                return tempContribution.getC_type();
-            case FUND_NAME_COL:
-                return tempContribution.getFund_name();
-            case ENV_NUM_COL:
-                return tempContribution.getEnv_num();
             default:
                 return tempContribution.getID();
         }
     }
 	public boolean isCellEditable(int row, int col)
     {
-        return true;
+		if(col == ID_COL)     //Cant edit ID
+			return false;
+		else
+			return true; //Can edit everything else
     }
 	
 	public void setValueAt(Object aValue, int row, int col)
     {
 		Contribution tempContribution = contributions.get(row);
 		switch (col) {
-			case ID_COL:
-                tempContribution.setID((int) aValue); //Not sure what to do for ID
+			//case ID_COL:
+                //tempContribution.setID((int) aValue); //Not sure what to do for ID
             case AMT_COL:
                 tempContribution.setAmt((double) aValue);
             case C_DATE_COL:
