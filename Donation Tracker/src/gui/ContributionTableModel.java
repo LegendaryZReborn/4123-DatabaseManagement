@@ -22,69 +22,78 @@ public class ContributionTableModel extends AbstractTableModel {
 	private static final int FUND_NAME_COL = 4;
 	private static final int C_TYPE_COL = 5;
     private static final int NOTE_COL = 6;
-    private String[] columnNames = {"ID", "Date", "Envelope Number", "Amount","Fund","Type","Note"};
-    private List<Contribution> contributions;
+    private final String[] columnNames = {"ID", "Date", "Envelope Number", "Amount","Fund","Type","Note"};
+    private final List<Contribution> contributions;
 
     public ContributionTableModel(List<Contribution> theContributions) {
     	contributions = theContributions;
     }
 
+    @Override
     public int getColumnCount() {
         return columnNames.length;
     }
 
+    @Override
     public int getRowCount() {
         return contributions.size();
     }
 
+    @Override
     public String getColumnName(int col) {
         return columnNames[col];
     }
 
+    @Override
     public Object getValueAt(int row, int col) {
         Contribution tempContribution = contributions.get(row);
         switch (col) {
             case ID_COL:
                 return tempContribution.getID();
+			case C_DATE_COL:
+                return tempContribution.getC_date();
+			case ENV_NUM_COL:
+                return tempContribution.getEnv_num();
             case AMT_COL:
                 return tempContribution.getAmt();
-            case C_DATE_COL:
-                return tempContribution.getC_date();
+			case FUND_NAME_COL:
+                return tempContribution.getFund_name();
+			case C_TYPE_COL:
+                return tempContribution.getC_type();
             case NOTE_COL:
                 return tempContribution.getNote();
-            case C_TYPE_COL:
-                return tempContribution.getC_type();
-            case FUND_NAME_COL:
-                return tempContribution.getFund_name();
-            case ENV_NUM_COL:
-                return tempContribution.getEnv_num();
             default:
                 return tempContribution.getID();
         }
     }
+    @Override
 	public boolean isCellEditable(int row, int col)
     {
-        return true;
+        return col != ID_COL; //Cant edit ID
+        //Can edit everything else
     }
-	    public void setValueAt(Object aValue, int row, int col)
+	
+    @Override
+	public void setValueAt(Object aValue, int row, int col)
     {
 		Contribution tempContribution = contributions.get(row);
 		switch (col) {
-            case AMT_COL:
-                return tempContribution.setAmt((double) aValue);
             case C_DATE_COL:
-                return tempContribution.setC_date((Date) aValue);
-            case NOTE_COL:
-                return tempContribution.setNote((String) aValue);
-            case C_TYPE_COL:
-                return tempContribution.setC_type((String) aValue);
-            case FUND_NAME_COL:
-                return tempContribution.setFund_name((String) aValue);
+                tempContribution.setC_date((Date) aValue);
             case ENV_NUM_COL:
-                return tempContribution.setEnv_num((int) aValue);
+                tempContribution.setEnv_num((int) aValue);
+            case AMT_COL:
+                tempContribution.setAmt((double) aValue);
+            case FUND_NAME_COL:
+                tempContribution.setFund_name((String) aValue);
+            case C_TYPE_COL:
+                tempContribution.setC_type((String) aValue);
+            case NOTE_COL:
+                tempContribution.setNote((String) aValue);
         }
     }
 
+    @Override
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
     }
