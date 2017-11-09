@@ -19,7 +19,7 @@ public class Contribution {
     private int _env_num;
     
     public Contribution(){
-	_ID = -1;    
+	_ID = -1;          //Not sure what to init ID to
 	_amt = 0.0;
 	_c_date = new Date(0);
 	_note = "";
@@ -40,6 +40,9 @@ public class Contribution {
     public int getID(){
         return _ID;
     }
+	//public void setID(int ID){       //Not sure what to do for ID
+        //this._ID = ID;
+    //}
     public double getAmt(){
         return _amt;
     }
