@@ -66,22 +66,25 @@ public class ContributionTableModel extends AbstractTableModel {
     {
         return true;
     }
-	    public void setValueAt(Object aValue, int row, int col)
+	
+	public void setValueAt(Object aValue, int row, int col)
     {
 		Contribution tempContribution = contributions.get(row);
 		switch (col) {
+			case ID_COL:
+                tempContribution.setID((int) aValue); //Not sure what to do for ID
             case AMT_COL:
-                return tempContribution.setAmt((double) aValue);
+                tempContribution.setAmt((double) aValue);
             case C_DATE_COL:
-                return tempContribution.setC_date((Date) aValue);
+                tempContribution.setC_date((Date) aValue);
             case NOTE_COL:
-                return tempContribution.setNote((String) aValue);
+                tempContribution.setNote((String) aValue);
             case C_TYPE_COL:
-                return tempContribution.setC_type((String) aValue);
+                tempContribution.setC_type((String) aValue);
             case FUND_NAME_COL:
-                return tempContribution.setFund_name((String) aValue);
+                tempContribution.setFund_name((String) aValue);
             case ENV_NUM_COL:
-                return tempContribution.setEnv_num((int) aValue);
+                tempContribution.setEnv_num((int) aValue);
         }
     }
 
