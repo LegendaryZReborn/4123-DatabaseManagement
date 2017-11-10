@@ -158,9 +158,9 @@ public class LoginFrame extends javax.swing.JFrame {
             
             conn.Open();
             
-            ContributionFrame cf = new ContributionFrame(conn);
+            MainFrame mf = new MainFrame(conn);
             
-            cf.setVisible(true);
+            mf.setVisible(true);
             
         }catch(Exception exc) {
                 
