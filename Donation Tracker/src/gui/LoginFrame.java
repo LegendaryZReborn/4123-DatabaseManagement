@@ -25,6 +25,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
         initComponents();
         this.getRootPane().setDefaultButton(jLoginButton);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -157,9 +158,9 @@ public class LoginFrame extends javax.swing.JFrame {
             
             conn.Open();
             
-            ContributionFrame cf = new ContributionFrame();
+            MainFrame mf = new MainFrame(conn);
             
-            cf.setVisible(true);
+            mf.setVisible(true);
             
         }catch(Exception exc) {
                 

@@ -4,45 +4,33 @@
  * and open the template in the editor.
  */
 package gui;
-import java.sql.*;
-import javax.swing.JButton;
+
+import dao.DBConnection;
 import javax.swing.JFrame;
+
 /**
  *
  * @author legen
  */
 public class MainFrame extends javax.swing.JFrame {
-
-    //Get a connection
-    String dbUrl = "jdbc:mysql://10.0.60.55:3306/money";
-    String user = "";
-    String pass = "";
-    
-   
-    
-   
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
+    public MainFrame(DBConnection myConn) {
         initComponents();
-        this.setVisible(true);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        dummyLabel.requestFocus();
-        conButton.setHorizontalAlignment(JButton.CENTER);
-        donorButton.setHorizontalAlignment(JButton.CENTER);
-        fundButton.setHorizontalAlignment(JButton.CENTER);
-        reportButton.setHorizontalAlignment(JButton.CENTER);
-        try
-        {
-            Connection myConn = DriverManager.getConnection(dbUrl, user, pass);
-        }
-        catch(Exception e)
-        {
-            System.out.println("Problem " + e);
-        }
+         
+        ContributionFrame c = new ContributionFrame(myConn);
+        DonorFrame d = new DonorFrame();
+        FundFrame f = new FundFrame();
+        ReportFrame r = new ReportFrame();
         
-        
+        //adds the contents of each frame to their appropriate tabs
+        contributions_tab.add(c.getContentPane());
+        donors_tab.add(d.getContentPane());
+        funds_tab.add(f.getContentPane());
+        reports_tab.add(r.getContentPane());
+
     }
 
     /**
@@ -54,72 +42,86 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        conButton = new javax.swing.JButton();
-        donorButton = new javax.swing.JButton();
-        fundButton = new javax.swing.JButton();
-        reportButton = new javax.swing.JButton();
-        dummyLabel = new javax.swing.JLabel();
+        tab_menu = new javax.swing.JTabbedPane();
+        contributions_tab = new javax.swing.JPanel();
+        donors_tab = new javax.swing.JPanel();
+        funds_tab = new javax.swing.JPanel();
+        reports_tab = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Main Window");
+        setTitle("Donation Tracker");
 
-        conButton.setText("Contributions");
-        conButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                conButtonActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout contributions_tabLayout = new javax.swing.GroupLayout(contributions_tab);
+        contributions_tab.setLayout(contributions_tabLayout);
+        contributions_tabLayout.setHorizontalGroup(
+            contributions_tabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 816, Short.MAX_VALUE)
+        );
+        contributions_tabLayout.setVerticalGroup(
+            contributions_tabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 244, Short.MAX_VALUE)
+        );
 
-        donorButton.setText("Donors");
+        tab_menu.addTab("Contributions", contributions_tab);
 
-        fundButton.setText("Funds");
+        javax.swing.GroupLayout donors_tabLayout = new javax.swing.GroupLayout(donors_tab);
+        donors_tab.setLayout(donors_tabLayout);
+        donors_tabLayout.setHorizontalGroup(
+            donors_tabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 816, Short.MAX_VALUE)
+        );
+        donors_tabLayout.setVerticalGroup(
+            donors_tabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 244, Short.MAX_VALUE)
+        );
 
-        reportButton.setText("Reports");
+        tab_menu.addTab("Donors", donors_tab);
+
+        javax.swing.GroupLayout funds_tabLayout = new javax.swing.GroupLayout(funds_tab);
+        funds_tab.setLayout(funds_tabLayout);
+        funds_tabLayout.setHorizontalGroup(
+            funds_tabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 816, Short.MAX_VALUE)
+        );
+        funds_tabLayout.setVerticalGroup(
+            funds_tabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 244, Short.MAX_VALUE)
+        );
+
+        tab_menu.addTab("Funds", funds_tab);
+
+        javax.swing.GroupLayout reports_tabLayout = new javax.swing.GroupLayout(reports_tab);
+        reports_tab.setLayout(reports_tabLayout);
+        reports_tabLayout.setHorizontalGroup(
+            reports_tabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 816, Short.MAX_VALUE)
+        );
+        reports_tabLayout.setVerticalGroup(
+            reports_tabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 244, Short.MAX_VALUE)
+        );
+
+        tab_menu.addTab("Reports", reports_tab);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(conButton, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(donorButton, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
-                        .addComponent(reportButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(fundButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(452, 452, 452)
-                .addComponent(dummyLabel)
-                .addGap(226, 226, 226))
+                .addContainerGap()
+                .addComponent(tab_menu)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(dummyLabel)
+                .addContainerGap()
+                .addComponent(tab_menu)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(conButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(donorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(fundButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(reportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void conButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conButtonActionPerformed
-        // TODO add your handling code here:
-        ContributionFrame cf = new ContributionFrame();
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(null);
-        this.setVisible(false);
-    }//GEN-LAST:event_conButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,16 +153,16 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                new MainFrame(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton conButton;
-    private javax.swing.JButton donorButton;
-    private javax.swing.JLabel dummyLabel;
-    private javax.swing.JButton fundButton;
-    private javax.swing.JButton reportButton;
+    private javax.swing.JPanel contributions_tab;
+    private javax.swing.JPanel donors_tab;
+    private javax.swing.JPanel funds_tab;
+    private javax.swing.JPanel reports_tab;
+    private javax.swing.JTabbedPane tab_menu;
     // End of variables declaration//GEN-END:variables
 }
