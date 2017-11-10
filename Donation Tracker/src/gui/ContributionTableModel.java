@@ -76,8 +76,8 @@ public class ContributionTableModel extends AbstractTableModel {
     @Override
 	public void setValueAt(Object aValue, int row, int col)
     {
-		Contribution tempContribution = contributions.get(row);
-		switch (col) {
+            Contribution tempContribution = contributions.get(row);
+            switch (col) {
             case C_DATE_COL:
                 tempContribution.setC_date((Date) aValue);
             case ENV_NUM_COL:
