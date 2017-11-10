@@ -29,15 +29,14 @@
                   <Component id="addPanel" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="menuButton" min="-2" pref="95" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
                       <Component id="conButton" min="-2" pref="106" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="donor" min="-2" pref="87" max="-2" attributes="0"/>
+                      <Component id="donorButton" min="-2" pref="87" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fund" min="-2" pref="101" max="-2" attributes="0"/>
+                      <Component id="fundButton" min="-2" pref="101" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="report" min="-2" pref="95" max="-2" attributes="0"/>
+                      <Component id="reportButton" min="-2" pref="95" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -50,11 +49,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="menuButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="donor" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="report" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="donorButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="reportButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="conButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="fund" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="fundButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="448" max="32767" attributes="0"/>
@@ -173,7 +171,7 @@
                           <Component id="fundLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="fundComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="amountLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="amountTextField" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                          <Component id="amountTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="typeComboBox" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                           <Component id="noteLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -199,15 +197,24 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="amountTextField">
+          <Properties>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[6, 25]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="amountTextFieldFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="typeComboBox">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
+              <StringArray count="5">
                 <StringItem index="0" value="Check"/>
-                <StringItem index="1" value="Cash"/>
-                <StringItem index="2" value="Direct"/>
-                <StringItem index="3" value=" "/>
+                <StringItem index="1" value="Currency"/>
+                <StringItem index="2" value="Coin"/>
+                <StringItem index="3" value="ACH"/>
+                <StringItem index="4" value=" "/>
               </StringArray>
             </Property>
           </Properties>
@@ -230,9 +237,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Update"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateButtonActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="resetButton">
           <Properties>
@@ -241,6 +245,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Reset"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="deleteButton">
           <Properties>
@@ -270,6 +277,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fundComboBoxFocusLost"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -289,7 +299,6 @@
         <Component class="javax.swing.JComboBox" name="envComboBox">
           <Properties>
             <Property name="editable" type="boolean" value="true"/>
-            <Property name="maximumRowCount" type="int" value="299"/>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="5">
                 <StringItem index="0" value="1"/>
@@ -302,7 +311,7 @@
           </Properties>
           <Events>
             <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="envComboBoxItemStateChanged"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="envComboBoxActionPerformed"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="envComboBoxFocusLost"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -333,8 +342,9 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="contributionTable">
           <Properties>
+            <Property name="autoCreateRowSorter" type="boolean" value="true"/>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="7" rowCount="4">
                 <Column editable="true" title="Con. ID" type="java.lang.Object"/>
@@ -347,34 +357,32 @@
               </Table>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contributionTableMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="menuButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Main Menu"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuButtonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="donor">
+    <Component class="javax.swing.JButton" name="donorButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Donors"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="donorActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="donorButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="report">
+    <Component class="javax.swing.JButton" name="reportButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Reports"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="fund">
+    <Component class="javax.swing.JButton" name="fundButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Funds"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fundButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="conButton">
       <Properties>
