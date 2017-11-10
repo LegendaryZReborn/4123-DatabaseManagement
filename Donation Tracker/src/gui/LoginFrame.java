@@ -157,7 +157,7 @@ public class LoginFrame extends javax.swing.JFrame {
             
             conn.Open();
             
-            ContributionFrame cf = new ContributionFrame();
+            ContributionFrame cf = new ContributionFrame(conn);
             
             cf.setVisible(true);
             
