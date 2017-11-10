@@ -19,7 +19,7 @@ public class Contribution {
     private int _env_num;
     
     public Contribution(){
-	_ID = -1;    
+	_ID = -1;          //Not sure what to init ID to
 	_amt = 0.0;
 	_c_date = new Date(0);
 	_note = "";
