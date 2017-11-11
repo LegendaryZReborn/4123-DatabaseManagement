@@ -26,6 +26,7 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         this.getRootPane().setDefaultButton(jLoginButton);
         this.setLocationRelativeTo(null);
+        jLoginUsername.requestFocusInWindow();
     }
 
     /**
@@ -50,7 +51,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLoginButton.setText("submit");
+        jLoginButton.setText("Submit");
         jLoginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jLoginButtonActionPerformed(evt);
@@ -161,6 +162,8 @@ public class LoginFrame extends javax.swing.JFrame {
             MainFrame mf = new MainFrame(conn);
             
             mf.setVisible(true);
+            
+            this.setVisible(false);
             
         }catch(Exception exc) {
                 
