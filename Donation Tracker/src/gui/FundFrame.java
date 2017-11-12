@@ -10,31 +10,59 @@
  */
 package gui;
 
-import java.awt.Color;
-import javax.swing.JFrame;
+import core.Fund;
+import dao.DBConnection;
+import dao.FundDAO;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author legen
  */
 public class FundFrame extends javax.swing.JFrame {
-
+    private DBConnection conn;
+    private FundDAO fundDAO;
+    private List<Fund> fundList;
+    FundTableModel model;
     /**
      * Creates new form FundFrame
      */
-    public FundFrame() {
+    public FundFrame(DBConnection myConn) {
         initComponents();
-        // set title frame title
-        this.setTitle("Funds");
         // enable column sorting in the table
         fund_table.setAutoCreateRowSorter(true);
-        // set funds button background color 
-        funds_button.setBackground(Color.white);
-        // launch frame maximized
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //set the focus on the funds button
-        funds_button.requestFocus();
+       
+        this.conn = myConn;
+        fundDAO = new FundDAO(this.conn);
+        
+        try
+        {
+            fundList = fundDAO.getAllFunds();
+            model = new FundTableModel(fundList);
+            fund_table.setModel(model);            
+        } 
+        catch(Exception ex)
+        {
+            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
+    
+    //Searches table by filtering out string or parts of things that don't match
+    private void searchFundTable(String query)
+    {
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        fund_table.setRowSorter(sorter);        
+        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query));
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -45,10 +73,6 @@ public class FundFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        contributions_button = new javax.swing.JButton();
-        donors_button = new javax.swing.JButton();
-        funds_button = new javax.swing.JButton();
-        reports_button = new javax.swing.JButton();
         fundTable_scrollPane = new javax.swing.JScrollPane();
         fund_table = new javax.swing.JTable();
         addUpdateDelete_panel = new javax.swing.JPanel();
@@ -65,30 +89,26 @@ public class FundFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        contributions_button.setText("Contributions");
-
-        donors_button.setText("Donors");
-
-        funds_button.setText("Funds");
-
-        reports_button.setText("Reports");
-
         fund_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Place Holder 1", "10003"},
-                {"Place Holder 2", "10002"},
-                {"Place Holder 3", "10001"}
+                {"", ""},
+                {"", ""},
+                {"", ""}
             },
             new String [] {
-                "Name", "QuickBooks Account No."
+                "Fund Name", "QuickBooks Account No."
             }
         ));
+        fund_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fund_tableMouseClicked(evt);
+            }
+        });
         fundTable_scrollPane.setViewportView(fund_table);
 
         addUpdateDelete_panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Add/Update/Delete Fund"));
-        addUpdateDelete_panel.setToolTipText("");
 
-        fundName_label.setText("Name:");
+        fundName_label.setText("Fund Name:");
 
         quickbooksAccNo_label.setText("QuickBooks Account No.:");
 
@@ -97,6 +117,11 @@ public class FundFrame extends javax.swing.JFrame {
         update_button.setText("Update");
 
         Reset.setText("Reset");
+        Reset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ResetActionPerformed(evt);
+            }
+        });
 
         delete_button.setText("Delete");
 
@@ -113,8 +138,8 @@ public class FundFrame extends javax.swing.JFrame {
                             .addComponent(fundName_label))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(addUpdateDelete_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(quickbooksAccNo_textfield, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(fundName_textField)))
+                            .addComponent(fundName_textField, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(quickbooksAccNo_textfield)))
                     .addGroup(addUpdateDelete_panelLayout.createSequentialGroup()
                         .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -147,6 +172,12 @@ public class FundFrame extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        search_textField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                search_textFieldKeyReleased(evt);
+            }
+        });
+
         search_label.setText("Search");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -154,33 +185,21 @@ public class FundFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(fundTable_scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1144, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(contributions_button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(donors_button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(funds_button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(reports_button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(search_label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(search_textField, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(addUpdateDelete_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 27, Short.MAX_VALUE))
+                    .addComponent(fundTable_scrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1144, Short.MAX_VALUE)
+                    .addComponent(addUpdateDelete_panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(contributions_button)
-                    .addComponent(donors_button)
-                    .addComponent(funds_button)
-                    .addComponent(reports_button)
                     .addComponent(search_textField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(search_label))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -192,6 +211,31 @@ public class FundFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void search_textFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_search_textFieldKeyReleased
+        String query = search_textField.getText();
+        searchFundTable(query);
+    }//GEN-LAST:event_search_textFieldKeyReleased
+
+    private void fund_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fund_tableMouseClicked
+       int selectedRowIndex = fund_table.getSelectedRow();
+       fundName_textField.setText(model.getValueAt(selectedRowIndex, 0).toString());
+       quickbooksAccNo_textfield.setText(model.getValueAt(selectedRowIndex, 1).toString());
+       
+       //disable add button
+       add_button.setEnabled(false);
+       
+       //set focus to fund name
+       fundName_textField.requestFocus();
+    }//GEN-LAST:event_fund_tableMouseClicked
+
+    private void ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetActionPerformed
+        fundName_textField.setText("");
+        quickbooksAccNo_textfield.setText("");
+        
+        //enable add button
+        add_button.setEnabled(true);
+    }//GEN-LAST:event_ResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,7 +267,7 @@ public class FundFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FundFrame().setVisible(true);
+                new FundFrame(null).setVisible(true);
             }
         });
     }
@@ -232,17 +276,13 @@ public class FundFrame extends javax.swing.JFrame {
     private javax.swing.JButton Reset;
     private javax.swing.JPanel addUpdateDelete_panel;
     private javax.swing.JButton add_button;
-    private javax.swing.JButton contributions_button;
     private javax.swing.JButton delete_button;
-    private javax.swing.JButton donors_button;
     private javax.swing.JLabel fundName_label;
     private javax.swing.JTextField fundName_textField;
     private javax.swing.JScrollPane fundTable_scrollPane;
     private javax.swing.JTable fund_table;
-    private javax.swing.JButton funds_button;
     private javax.swing.JLabel quickbooksAccNo_label;
     private javax.swing.JTextField quickbooksAccNo_textfield;
-    private javax.swing.JButton reports_button;
     private javax.swing.JLabel search_label;
     private javax.swing.JTextField search_textField;
     private javax.swing.JButton update_button;

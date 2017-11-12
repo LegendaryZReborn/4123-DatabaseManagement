@@ -24,25 +24,17 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="fundTable_scrollPane" pref="1144" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="contributions_button" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="donors_button" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="funds_button" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="reports_button" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="search_label" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="search_textField" min="-2" pref="317" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="fundTable_scrollPane" alignment="0" pref="1144" max="32767" attributes="0"/>
                   <Component id="addUpdateDelete_panel" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
+              <EmptySpace pref="41" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -51,10 +43,6 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="contributions_button" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="donors_button" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="funds_button" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="reports_button" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="search_textField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="search_label" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -68,26 +56,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="contributions_button">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Contributions"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="donors_button">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Donors"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="funds_button">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Funds"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="reports_button">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Reports"/>
-      </Properties>
-    </Component>
     <Container class="javax.swing.JScrollPane" name="fundTable_scrollPane">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
@@ -96,15 +64,15 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="2" rowCount="3">
-                <Column editable="true" title="Name" type="java.lang.Object">
-                  <Data value="Place Holder 1"/>
-                  <Data value="Place Holder 2"/>
-                  <Data value="Place Holder 3"/>
+                <Column editable="true" title="Fund Name" type="java.lang.Object">
+                  <Data value=""/>
+                  <Data value=""/>
+                  <Data value=""/>
                 </Column>
                 <Column editable="true" title="QuickBooks Account No." type="java.lang.Object">
-                  <Data value="10003"/>
-                  <Data value="10002"/>
-                  <Data value="10001"/>
+                  <Data value=""/>
+                  <Data value=""/>
+                  <Data value=""/>
                 </Column>
               </Table>
             </Property>
@@ -126,6 +94,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="fund_tableMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -136,7 +107,6 @@
             <TitledBorder title="Add/Update/Delete Fund"/>
           </Border>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
 
       <Layout>
@@ -152,8 +122,8 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="quickbooksAccNo_textfield" pref="120" max="32767" attributes="0"/>
-                              <Component id="fundName_textField" max="32767" attributes="0"/>
+                              <Component id="fundName_textField" pref="300" max="32767" attributes="0"/>
+                              <Component id="quickbooksAccNo_textfield" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -202,7 +172,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="fundName_label">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Name:"/>
+            <Property name="text" type="java.lang.String" value="Fund Name:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="quickbooksAccNo_label">
@@ -228,6 +198,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Reset"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ResetActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="delete_button">
           <Properties>
@@ -237,6 +210,9 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="search_textField">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="search_textFieldKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="search_label">
       <Properties>

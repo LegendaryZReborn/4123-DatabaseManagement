@@ -22,7 +22,7 @@ public class MainFrame extends javax.swing.JFrame {
          
         ContributionFrame c = new ContributionFrame(myConn);
         DonorFrame d = new DonorFrame();
-        FundFrame f = new FundFrame();
+        FundFrame f = new FundFrame(myConn);
         ReportFrame r = new ReportFrame();
         
         //adds the contents of each frame to their appropriate tabs
