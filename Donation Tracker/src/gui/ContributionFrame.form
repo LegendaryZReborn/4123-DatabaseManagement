@@ -28,17 +28,6 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="addPanel" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
-                      <Component id="conButton" min="-2" pref="106" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="donorButton" min="-2" pref="87" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fundButton" min="-2" pref="101" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="reportButton" min="-2" pref="95" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -47,15 +36,8 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="donorButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="reportButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="conButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="fundButton" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="448" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="477" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="addPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
@@ -366,31 +348,5 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="donorButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Donors"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="donorButtonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="reportButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Reports"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="fundButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Funds"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fundButtonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="conButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Contributions"/>
-      </Properties>
-    </Component>
   </SubComponents>
 </Form>
