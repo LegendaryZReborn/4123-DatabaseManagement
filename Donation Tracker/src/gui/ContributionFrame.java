@@ -138,6 +138,11 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         addButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         updateButton.setText("Update");
@@ -351,7 +356,7 @@ public class ContributionFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void donorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donorButtonActionPerformed
-        DonorFrame df = new DonorFrame();
+        DonorFrame df = new DonorFrame(conn);
         //DonorFrame df = new DonorFrame(conn);
         df.setVisible(true);
         this.setVisible(false);
@@ -449,6 +454,32 @@ public class ContributionFrame extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_contributionTableMouseClicked
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+         try {
+            String sDate = dateTextField.getText();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date date = sdf.parse(sDate);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            String fund = fundComboBox.getSelectedItem().toString();
+            Contribution contribution =   new Contribution(Double.parseDouble
+                (amountTextField.getText()),sqlDate,noteTextPane.getText(),
+                    typeComboBox.getSelectedItem().toString(),fundComboBox.
+                            getSelectedItem().toString(),Integer.parseInt
+                                (envComboBox.getSelectedItem().toString()));
+            conDAO.addContribution(contribution);
+            
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset(donorList);
+         }
+         
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private void reset(List<Donor> a)
     {
