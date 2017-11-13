@@ -357,7 +357,7 @@ public class ContributionFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void donorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donorButtonActionPerformed
-        DonorFrame df = new DonorFrame();
+        DonorFrame df = new DonorFrame(conn);
         //DonorFrame df = new DonorFrame(conn);
         df.setVisible(true);
         this.setVisible(false);
@@ -458,27 +458,31 @@ public class ContributionFrame extends javax.swing.JFrame {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
          try {
-            String name = nameTextField.getText();
-            int envNum = Integer.parseInt(envComboBox.getSelectedItem().toString());
-            String note = noteTextPane.getText();
-            String payType = typeComboBox.getSelectedItem().toString();
-            double amt = Double.parseDouble(amountTextField.getText());
             String sDate = dateTextField.getText();
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             java.util.Date date = sdf.parse(sDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             String fund = fundComboBox.getSelectedItem().toString();
-            //int ID, double amt, java.sql.Date cdate, String note, String ctype, String fundname, int envnum
-            Contribution contribution =   new Contribution(amt,sqlDate,note,payType,fund,envNum);
+            Contribution contribution =   new Contribution(Double.parseDouble
+                (amountTextField.getText()),sqlDate,noteTextPane.getText(),
+                    typeComboBox.getSelectedItem().toString(),fundComboBox.
+                            getSelectedItem().toString(),Integer.parseInt
+                                (envComboBox.getSelectedItem().toString()));
             conDAO.addContribution(contribution);
-        } catch (ParseException ex) {
-            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
+            
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
         } catch (Exception ex) {
-            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
+         finally{
+             reset(donorList);
+         }
+         
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void reset(List<Donor> a)
+    private void reset(List <Donor> a)
     {
         
         envComboBox.setSelectedIndex(0);
