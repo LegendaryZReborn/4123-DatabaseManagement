@@ -369,7 +369,7 @@ public class ContributionFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_envComboBoxItemStateChanged
 
     private void fundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fundButtonActionPerformed
-        FundFrame ff = new FundFrame();
+        FundFrame ff = new FundFrame(conn);
         //FundFrame ff = new FundFrame(conn);
         ff.setVisible(true);
         this.setVisible(false);

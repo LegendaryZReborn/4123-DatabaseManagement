@@ -15,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
 public class FundTableModel extends AbstractTableModel{
 	private static final int NAME_COL = 0;
     private static final int QB_ACT_COL = 1;
-    private String[] columnNames = {"name", "qb_act"};
+    private String[] columnNames = {"Fund Name", "QuickBooks Account No."};
     private List<Fund> funds;
     
     public FundTableModel(List<Fund> f) {
