@@ -151,6 +151,11 @@ public class DonorFrame extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Printed", "Electronic" }));
 
         addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setText("Update");
 
@@ -299,7 +304,40 @@ public class DonorFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+//(int eNum, String fname, String lname, String street, String city, String state, int zip, String email, String mpref)
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+         try {
+             
+            Donor donor = new Donor(Integer.parseInt
+                (envNumTextField.getText()),firstNameTextField.getText(),
+                    firstNameTextField.getText(),streetTextField.getText(),
+                    cityTextField.getText(),stateTextField.getText(),
+                    Integer.parseInt(zipTextField.getText()),
+                    emailTextField.getText(),jComboBox1
+                            .getSelectedItem().toString());
+            donorDAO.addDonor(donor);
+            
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset();
+         }
+                 // TODO add your handling code here:
+    }//GEN-LAST:event_addButtonActionPerformed
+    private void reset(){   
+    try{
+            donors = this.donorDAO.getAllDonors();
+            DonorTableModel model = new DonorTableModel(donors);
+            TableDonor.setModel(model);
+        } catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, "Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * @param args the command line arguments
      */

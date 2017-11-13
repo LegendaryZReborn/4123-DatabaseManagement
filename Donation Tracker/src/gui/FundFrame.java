@@ -113,6 +113,11 @@ public class FundFrame extends javax.swing.JFrame {
         quickbooksAccNo_label.setText("QuickBooks Account No.:");
 
         add_button.setText("Add");
+        add_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_buttonActionPerformed(evt);
+            }
+        });
 
         update_button.setText("Update");
 
@@ -237,6 +242,32 @@ public class FundFrame extends javax.swing.JFrame {
         add_button.setEnabled(true);
     }//GEN-LAST:event_ResetActionPerformed
 
+    private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
+        try{
+        Fund fund = new Fund(fundName_textField.getText(),quickbooksAccNo_textfield.getText());
+        fundDAO.addFund(fund);
+        
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        finally{
+                    reset();
+        }
+    }//GEN-LAST:event_add_buttonActionPerformed
+
+        private void reset(){   
+    try{
+            fundList = fundDAO.getAllFunds();
+            model = new FundTableModel(fundList);
+            fund_table.setModel(model);            
+        } catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, "Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -271,6 +302,7 @@ public class FundFrame extends javax.swing.JFrame {
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Reset;
