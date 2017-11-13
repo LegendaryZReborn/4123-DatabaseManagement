@@ -461,7 +461,6 @@ public class ContributionFrame extends javax.swing.JFrame {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date date = sdf.parse(sDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            String fund = fundComboBox.getSelectedItem().toString();
             Contribution contribution =   new Contribution(Double.parseDouble
                 (amountTextField.getText()),sqlDate,noteTextPane.getText(),
                     typeComboBox.getSelectedItem().toString(),fundComboBox.
