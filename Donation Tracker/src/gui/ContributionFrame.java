@@ -458,7 +458,7 @@ public class ContributionFrame extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
          try {
             String sDate = dateTextField.getText();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date date = sdf.parse(sDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             String fund = fundComboBox.getSelectedItem().toString();
