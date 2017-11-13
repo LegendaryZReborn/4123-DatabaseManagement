@@ -37,6 +37,10 @@ public class Contribution {
 	_fund_name = fundname;
 	_env_num = envnum;
     }
+
+    public Contribution(double amt, Date sqlDate, String note, String payType, String fund, int envNum) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     public int getID(){
         return _ID;
     }

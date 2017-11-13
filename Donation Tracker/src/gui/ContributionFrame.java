@@ -13,6 +13,7 @@ import dao.DBConnection;
 import dao.DonorDAO;
 import dao.FundDAO;
 import java.awt.Color;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -138,6 +139,11 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         addButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         updateButton.setText("Update");
@@ -449,6 +455,28 @@ public class ContributionFrame extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_contributionTableMouseClicked
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+         try {
+            String name = nameTextField.getText();
+            int envNum = Integer.parseInt(envComboBox.getSelectedItem().toString());
+            String note = noteTextPane.getText();
+            String payType = typeComboBox.getSelectedItem().toString();
+            double amt = Double.parseDouble(amountTextField.getText());
+            String sDate = dateTextField.getText();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date date = sdf.parse(sDate);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            String fund = fundComboBox.getSelectedItem().toString();
+            //int ID, double amt, java.sql.Date cdate, String note, String ctype, String fundname, int envnum
+            Contribution contribution =   new Contribution(amt,sqlDate,note,payType,fund,envNum);
+            conDAO.addContribution(contribution);
+        } catch (ParseException ex) {
+            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private void reset(List<Donor> a)
     {
