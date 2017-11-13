@@ -21,8 +21,8 @@ public class MainFrame extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
          
         ContributionFrame c = new ContributionFrame(myConn);
-        DonorFrame d = new DonorFrame();
-        FundFrame f = new FundFrame();
+        DonorFrame d = new DonorFrame(myConn);
+        FundFrame f = new FundFrame(myConn);
         ReportFrame r = new ReportFrame();
         
         //adds the contents of each frame to their appropriate tabs

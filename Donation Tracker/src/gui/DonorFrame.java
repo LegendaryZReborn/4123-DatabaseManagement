@@ -4,18 +4,60 @@
  * and open the template in the editor.
  */
 package gui;
+//package dao;
+
+import java.sql.*;
+import core.Donor;
+import core.Fund;
+import core.Contribution;
+import dao.DBConnection;
+import dao.DonorDAO;
+import dao.FundDAO;
+import dao.ContributionDAO;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author legen
  */
 public class DonorFrame extends javax.swing.JFrame {
-
+    private DonorDAO donorDAO;
+    private FundDAO fundDAO;
+    private ContributionDAO contributionDAO;
+    private List<Donor> donors;
+    private List<Fund> funds;
+    private List<Contribution> contributions;
+    private DBConnection conn;
+    private String temp;
     /**
      * Creates new form DonorFrame
      */
-    public DonorFrame() {
+    public DonorFrame(DBConnection myConn) {
         initComponents();
+        
+        try{
+            conn = myConn;
+            donorDAO = new DonorDAO(conn);
+            contributionDAO = new ContributionDAO(conn);
+            fundDAO = new FundDAO(conn);
+            donors = this.donorDAO.getAllDonors();
+            DonorTableModel model = new DonorTableModel(donors);
+            TableDonor.setModel(model);
+            
+            //Default data in TextFields
+            String temp = Integer.toString(donorDAO.getNextEnvNum());
+            envNumTextField.setText(temp);
+            cityTextField.setText("Wichita Falls");
+            stateTextField.setText("Texas");
+            
+        }
+        catch(Exception err){
+            JOptionPane.showMessageDialog(this, "Error: "+err,"Error",JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 
     /**
@@ -28,11 +70,12 @@ public class DonorFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        tableDonor = new javax.swing.JTable();
+        TableDonor = new javax.swing.JTable();
         conButton = new javax.swing.JButton();
         donorButton = new javax.swing.JButton();
         fundButton = new javax.swing.JButton();
         reportButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
         addPanel = new javax.swing.JPanel();
         env_numLabel = new javax.swing.JLabel();
         firstNameLabel = new javax.swing.JLabel();
@@ -60,7 +103,8 @@ public class DonorFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(848, 739));
 
-        tableDonor.setModel(new javax.swing.table.DefaultTableModel(
+        TableDonor.setAutoCreateRowSorter(true);
+        TableDonor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -71,8 +115,8 @@ public class DonorFrame extends javax.swing.JFrame {
                 "Env_num", "First Name", "Last Name", "Street", "City", "State", "Zip", "Email", "Mail_pref"
             }
         ));
-        tableDonor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane2.setViewportView(tableDonor);
+        TableDonor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane2.setViewportView(TableDonor);
 
         conButton.setText("Contributions");
 
@@ -83,6 +127,7 @@ public class DonorFrame extends javax.swing.JFrame {
         reportButton.setText("Reports");
 
         addPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Add/Update/Delete Donor"));
+        addPanel.setAutoscrolls(true);
         addPanel.setPreferredSize(new java.awt.Dimension(421, 456));
 
         env_numLabel.setText("Env_num:");
@@ -106,6 +151,11 @@ public class DonorFrame extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Printed", "Electronic" }));
 
         addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setText("Update");
 
@@ -164,7 +214,7 @@ public class DonorFrame extends javax.swing.JFrame {
                         .addComponent(streetLabel)
                         .addGap(24, 24, 24)
                         .addComponent(streetTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(352, Short.MAX_VALUE))
+                .addContainerGap(375, Short.MAX_VALUE))
         );
         addPanelLayout.setVerticalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,15 +259,20 @@ public class DonorFrame extends javax.swing.JFrame {
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mailPrefLabel)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(210, Short.MAX_VALUE))
         );
+
+        jScrollPane1.setViewportView(addPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(25, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 930, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(conButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,11 +283,7 @@ public class DonorFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(reportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(25, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(addPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -247,13 +298,46 @@ public class DonorFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(addPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+//(int eNum, String fname, String lname, String street, String city, String state, int zip, String email, String mpref)
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+         try {
+             
+            Donor donor = new Donor(Integer.parseInt
+                (envNumTextField.getText()),firstNameTextField.getText(),
+                    firstNameTextField.getText(),streetTextField.getText(),
+                    cityTextField.getText(),stateTextField.getText(),
+                    Integer.parseInt(zipTextField.getText()),
+                    emailTextField.getText(),jComboBox1
+                            .getSelectedItem().toString());
+            donorDAO.addDonor(donor);
+            
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset();
+         }
+                 // TODO add your handling code here:
+    }//GEN-LAST:event_addButtonActionPerformed
+    private void reset(){   
+    try{
+            donors = this.donorDAO.getAllDonors();
+            DonorTableModel model = new DonorTableModel(donors);
+            TableDonor.setModel(model);
+        } catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, "Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -284,12 +368,13 @@ public class DonorFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DonorFrame().setVisible(true);
+                new DonorFrame(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TableDonor;
     private javax.swing.JLabel ZipLabel;
     private javax.swing.JButton addButton;
     private javax.swing.JPanel addPanel;
@@ -306,6 +391,7 @@ public class DonorFrame extends javax.swing.JFrame {
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.JButton fundButton;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
@@ -316,7 +402,6 @@ public class DonorFrame extends javax.swing.JFrame {
     private javax.swing.JTextField stateTextField;
     private javax.swing.JLabel streetLabel;
     private javax.swing.JTextField streetTextField;
-    private javax.swing.JTable tableDonor;
     private javax.swing.JButton updateButton;
     private javax.swing.JTextField zipTextField;
     // End of variables declaration//GEN-END:variables

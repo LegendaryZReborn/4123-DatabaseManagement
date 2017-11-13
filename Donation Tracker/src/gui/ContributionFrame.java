@@ -50,7 +50,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         donDAO = new DonorDAO(this.conn);
         conDAO = new ContributionDAO(this.conn);
         fundDAO = new FundDAO(this.conn);
-        conButton.setBackground(Color.white);
+        
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         dateTextField.requestFocus();
         
@@ -114,10 +114,6 @@ public class ContributionFrame extends javax.swing.JFrame {
         noteLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         contributionTable = new javax.swing.JTable();
-        donorButton = new javax.swing.JButton();
-        reportButton = new javax.swing.JButton();
-        fundButton = new javax.swing.JButton();
-        conButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,6 +134,11 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         addButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         updateButton.setText("Update");
@@ -289,24 +290,6 @@ public class ContributionFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(contributionTable);
 
-        donorButton.setText("Donors");
-        donorButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                donorButtonActionPerformed(evt);
-            }
-        });
-
-        reportButton.setText("Reports");
-
-        fundButton.setText("Funds");
-        fundButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fundButtonActionPerformed(evt);
-            }
-        });
-
-        conButton.setText("Contributions");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -315,30 +298,14 @@ public class ContributionFrame extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addComponent(conButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(donorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fundButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(reportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(donorButton)
-                    .addComponent(reportButton)
-                    .addComponent(conButton)
-                    .addComponent(fundButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
@@ -350,13 +317,6 @@ public class ContributionFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void donorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donorButtonActionPerformed
-        DonorFrame df = new DonorFrame();
-        //DonorFrame df = new DonorFrame(conn);
-        df.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_donorButtonActionPerformed
-
     private void envComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_envComboBoxItemStateChanged
         try{
             donorList = donDAO.getAllDonors();
@@ -367,13 +327,6 @@ public class ContributionFrame extends javax.swing.JFrame {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_envComboBoxItemStateChanged
-
-    private void fundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fundButtonActionPerformed
-        FundFrame ff = new FundFrame();
-        //FundFrame ff = new FundFrame(conn);
-        ff.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_fundButtonActionPerformed
 
     private void envComboBoxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_envComboBoxFocusLost
         fundComboBox.requestFocus();
@@ -450,6 +403,32 @@ public class ContributionFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_contributionTableMouseClicked
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+         try {
+            String sDate = dateTextField.getText();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date date = sdf.parse(sDate);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            String fund = fundComboBox.getSelectedItem().toString();
+            Contribution contribution =   new Contribution(Double.parseDouble
+                (amountTextField.getText()),sqlDate,noteTextPane.getText(),
+                    typeComboBox.getSelectedItem().toString(),fundComboBox.
+                            getSelectedItem().toString(),Integer.parseInt
+                                (envComboBox.getSelectedItem().toString()));
+            conDAO.addContribution(contribution);
+            
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset(donorList);
+         }
+         
+    }//GEN-LAST:event_addButtonActionPerformed
+
     private void reset(List<Donor> a)
     {
         
@@ -510,15 +489,12 @@ public class ContributionFrame extends javax.swing.JFrame {
     private javax.swing.JPanel addPanel;
     private javax.swing.JLabel amountLabel;
     private javax.swing.JTextField amountTextField;
-    private javax.swing.JButton conButton;
     private javax.swing.JTable contributionTable;
     private javax.swing.JLabel dateLabel;
     private javax.swing.JTextField dateTextField;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JButton donorButton;
     private javax.swing.JComboBox<String> envComboBox;
     private javax.swing.JLabel envIDLabel;
-    private javax.swing.JButton fundButton;
     private javax.swing.JComboBox<String> fundComboBox;
     private javax.swing.JLabel fundLabel;
     private javax.swing.JScrollPane jScrollPane1;
@@ -527,7 +503,6 @@ public class ContributionFrame extends javax.swing.JFrame {
     private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel noteLabel;
     private javax.swing.JTextPane noteTextPane;
-    private javax.swing.JButton reportButton;
     private javax.swing.JButton resetButton;
     private javax.swing.JComboBox<String> typeComboBox;
     private javax.swing.JButton updateButton;
