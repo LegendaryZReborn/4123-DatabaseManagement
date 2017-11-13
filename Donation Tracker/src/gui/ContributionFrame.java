@@ -13,7 +13,6 @@ import dao.DBConnection;
 import dao.DonorDAO;
 import dao.FundDAO;
 import java.awt.Color;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -482,7 +481,7 @@ public class ContributionFrame extends javax.swing.JFrame {
          
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void reset(List <Donor> a)
+    private void reset(List<Donor> a)
     {
         
         envComboBox.setSelectedIndex(0);
