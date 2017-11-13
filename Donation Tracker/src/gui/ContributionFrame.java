@@ -440,6 +440,10 @@ public class ContributionFrame extends javax.swing.JFrame {
         noteTextPane.setText("");
         dateTextField.requestFocus();
         
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        Date date = new Date();
+        dateTextField.setText(sdf.format(date));
+        
         try{
             contributionList = conDAO.getAllContributions();
             ContributionTableModel model = new ContributionTableModel(contributionList);
