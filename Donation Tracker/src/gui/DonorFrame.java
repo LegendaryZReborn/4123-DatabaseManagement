@@ -134,6 +134,11 @@ public class DonorFrame extends javax.swing.JFrame {
         });
 
         deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setText("Update");
 
@@ -338,6 +343,29 @@ public class DonorFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: "+err,"Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+         try {
+             
+            Donor donor = new Donor(Integer.parseInt
+                (envNumTextField.getText()),firstNameTextField.getText(),
+                    firstNameTextField.getText(),streetTextField.getText(),
+                    cityTextField.getText(),stateComboBox.getSelectedItem().toString(),
+                    Integer.parseInt(zipTextField.getText()),
+                    emailTextField.getText(),mailPrefComboBox
+                            .getSelectedItem().toString());
+            donorDAO.deleteDonor(donor);
+            
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset();
+         }
+    }//GEN-LAST:event_deleteButtonActionPerformed
    
     private void clearTextBoxes()
     {
