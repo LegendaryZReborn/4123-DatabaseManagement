@@ -5,8 +5,11 @@
  */
 package gui;
 
+import dao.DBConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import net.sf.jasperreports.view.*;
+import net.sf.jasperreports.engine.*;
 
 /**
  *
@@ -17,8 +20,10 @@ public class ReportFrame extends javax.swing.JFrame {
     /**
      * Creates new form ReportFrame
      */
-    public ReportFrame() {
+    private DBConnection conn;
+    public ReportFrame(DBConnection myConn) {
         initComponents();
+        this.conn = myConn;
         
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         Date date = new Date();
@@ -79,28 +84,25 @@ public class ReportFrame extends javax.swing.JFrame {
             .addGroup(cReport_panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(generate_creport)
                     .addGroup(cReport_panelLayout.createSequentialGroup()
-                        .addComponent(generate_creport))
-                    .addGroup(cReport_panelLayout.createSequentialGroup()
-                        .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(cReport_panelLayout.createSequentialGroup()
-                                .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, cReport_panelLayout.createSequentialGroup()
-                                        .addComponent(donor_label)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(donors_list, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, cReport_panelLayout.createSequentialGroup()
-                                        .addComponent(cfrom_label)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(from_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cto_label)))
+                        .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, cReport_panelLayout.createSequentialGroup()
+                                .addComponent(donor_label)
                                 .addGap(18, 18, 18)
-                                .addComponent(to_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(cReport_panelLayout.createSequentialGroup()
-                                .addComponent(min_donation_label)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(min_donation, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(donors_list, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, cReport_panelLayout.createSequentialGroup()
+                                .addComponent(cfrom_label)
+                                .addGap(18, 18, 18)
+                                .addComponent(from_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cto_label)))
+                        .addGap(18, 18, 18)
+                        .addComponent(to_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(cReport_panelLayout.createSequentialGroup()
+                        .addComponent(min_donation_label)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(min_donation, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(195, Short.MAX_VALUE))
         );
         cReport_panelLayout.setVerticalGroup(
@@ -132,6 +134,11 @@ public class ReportFrame extends javax.swing.JFrame {
         fto_label.setText("To:");
 
         generate_freport.setText("Generate Report");
+        generate_freport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generate_freportActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout fReport_panelLayout = new javax.swing.GroupLayout(fReport_panel);
         fReport_panel.setLayout(fReport_panelLayout);
@@ -189,6 +196,20 @@ public class ReportFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void generate_freportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generate_freportActionPerformed
+        // TODO add your handling code here:
+        try{
+            String reportTemplate = "src\\funds_report.jrxml";
+            JasperReport jr = JasperCompileManager.compileReport(reportTemplate);
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, this.conn.getConnection());
+            JasperViewer.viewReport(jp);
+            
+        }catch(Exception e){
+            System.out.println("Something went wrong in generating the reports:"
+                    + e);
+        }
+    }//GEN-LAST:event_generate_freportActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -219,7 +240,7 @@ public class ReportFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReportFrame().setVisible(true);
+                new ReportFrame(null).setVisible(true);
             }
         });
     }
