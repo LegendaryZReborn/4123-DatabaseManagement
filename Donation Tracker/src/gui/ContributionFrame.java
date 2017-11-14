@@ -164,11 +164,6 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         deleteButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         deleteButton.setText("Delete");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
 
         dateLabel.setText("Date:");
 
@@ -450,30 +445,6 @@ public class ContributionFrame extends javax.swing.JFrame {
     private void updateButtonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_updateButtonFocusLost
         envComboBox.requestFocus();
     }//GEN-LAST:event_updateButtonFocusLost
-
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-         try {
-            String sDate = dateTextField.getText();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date date = sdf.parse(sDate);
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            Contribution contribution =   new Contribution(Double.parseDouble
-                (amountTextField.getText()),sqlDate,noteTextPane.getText(),
-                    typeComboBox.getSelectedItem().toString(),fundComboBox.
-                            getSelectedItem().toString(),Integer.parseInt
-                                (envComboBox.getSelectedItem().toString()));
-            conDAO.deleteContribution(contribution);
-            
-         }catch (NumberFormatException ex){
-            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
-        }
-         finally{
-             reset(donorList);
-         }
-    }//GEN-LAST:event_deleteButtonActionPerformed
 
     private int setGeneral(List<String> b)
     {
