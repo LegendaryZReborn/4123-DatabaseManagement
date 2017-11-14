@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
@@ -51,6 +52,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         donDAO = new DonorDAO(this.conn);
         conDAO = new ContributionDAO(this.conn);
         fundDAO = new FundDAO(this.conn);
+        
         
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         dateTextField.requestFocus();
@@ -87,6 +89,8 @@ public class ContributionFrame extends javax.swing.JFrame {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
+        AutoCompletion.enable(fundComboBox);
     }
 
     /**
