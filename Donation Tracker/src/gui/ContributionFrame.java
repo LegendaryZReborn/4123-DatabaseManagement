@@ -361,35 +361,40 @@ public class ContributionFrame extends javax.swing.JFrame {
     private void contributionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contributionTableMouseClicked
         int z;
         int i = contributionTable.getSelectedRow();
+        int a = contributionTable.convertRowIndexToModel(i);
+        
         
         TableModel model = contributionTable.getModel();
+        
         //String id = model.getValueAt(i, 0).toString();
         //int idParam = Integer.parseInt(id);
         
         //NOTE: There has to be a better way to set comboboxes then if/else statements
         //Look into this before finalizing form
-        if(model.getValueAt(i, 5).equals("check"))
+        if(model.getValueAt(a, 5).equals("check"))
             typeComboBox.setSelectedIndex(0);
-        else if(model.getValueAt(i, 5).equals("currency"))
+        else if(model.getValueAt(a, 5).equals("currency"))
             typeComboBox.setSelectedIndex(1);
-        else if(model.getValueAt(i, 5).equals("coin"))
+        else if(model.getValueAt(a, 5).equals("coin"))
             typeComboBox.setSelectedIndex(2);
         else
             typeComboBox.setSelectedIndex(3);
 
-        String temp = (String) model.getValueAt(i, 4);
+        String temp = (String) model.getValueAt(a, 4);
         z = getIndexOfFund(temp);
         fundComboBox.setSelectedIndex(z);
             
-        int k = Integer.parseInt(model.getValueAt(i,2).toString());
+        int k = Integer.parseInt(model.getValueAt(a,2).toString());
         envComboBox.setSelectedIndex(k);
-        amountTextField.setText(model.getValueAt(i, 3).toString());
-        dateTextField.setText(model.getValueAt(i, 1).toString());
+        amountTextField.setText(model.getValueAt(a, 3).toString());
+        dateTextField.setText(model.getValueAt(a, 1).toString());
         //fund combo box
-        if(model.getValueAt(i, 6) == null)
+        if(model.getValueAt(a, 6) == null)
             noteTextPane.setText("");
         else    
-            noteTextPane.setText(model.getValueAt(i, 6).toString());
+            noteTextPane.setText(model.getValueAt(a, 6).toString());
+        
+        
         
         
     }//GEN-LAST:event_contributionTableMouseClicked
