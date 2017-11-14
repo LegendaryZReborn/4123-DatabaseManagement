@@ -162,6 +162,11 @@ public class DonorFrame extends javax.swing.JFrame {
         resetButton.setText("Reset");
 
         deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
         addPanel.setLayout(addPanelLayout);
@@ -328,6 +333,30 @@ public class DonorFrame extends javax.swing.JFrame {
          }
                  // TODO add your handling code here:
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+
+         try {
+             
+            Donor donor = new Donor(Integer.parseInt
+                (envNumTextField.getText()),firstNameTextField.getText(),
+                    firstNameTextField.getText(),streetTextField.getText(),
+                    cityTextField.getText(),stateTextField.getText(),
+                    Integer.parseInt(zipTextField.getText()),
+                    emailTextField.getText(),jComboBox1
+                            .getSelectedItem().toString());
+            donorDAO.deleteDonor(donor);
+            
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset();
+         }
+    }//GEN-LAST:event_deleteButtonActionPerformed
     private void reset(){   
     try{
             donors = this.donorDAO.getAllDonors();
