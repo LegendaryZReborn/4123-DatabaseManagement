@@ -129,6 +129,11 @@ public class FundFrame extends javax.swing.JFrame {
         });
 
         delete_button.setText("Delete");
+        delete_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_buttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout addUpdateDelete_panelLayout = new javax.swing.GroupLayout(addUpdateDelete_panel);
         addUpdateDelete_panel.setLayout(addUpdateDelete_panelLayout);
@@ -257,6 +262,23 @@ public class FundFrame extends javax.swing.JFrame {
                     reset();
         }
     }//GEN-LAST:event_add_buttonActionPerformed
+
+    private void delete_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_buttonActionPerformed
+        // TODO add your handling code here:
+        try{
+        Fund fund = new Fund(fundName_textField.getText(),quickbooksAccNo_textfield.getText());
+        fundDAO.deleteFund(fund);
+        
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        finally{
+                    reset();
+        }
+    }//GEN-LAST:event_delete_buttonActionPerformed
 
         private void reset(){   
     try{
