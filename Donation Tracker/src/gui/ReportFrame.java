@@ -10,6 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import net.sf.jasperreports.view.*;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  *
@@ -199,10 +202,23 @@ public class ReportFrame extends javax.swing.JFrame {
     private void generate_freportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generate_freportActionPerformed
         // TODO add your handling code here:
         try{
-            String reportTemplate = "src\\funds_report.jrxml";
-            JasperReport jr = JasperCompileManager.compileReport(reportTemplate);
+            
+            String date1 = from_fdate.getText();
+            String date2 = to_fdate.getText();
+            
+            String sql_query = "select fund.name as Fund, sum(amt) as Total\n" +
+                "from fund join contribution\n" +
+                "where fund.name = contribution.fund_name\n" + 
+                 "and c_date >= '" + date1 + "' and c_date <= '"+ date2 +"'\n" +
+                "group by fund.name order by fund.name asc;";
+            
+            JasperDesign jd = JRXmlLoader.load("src\\funds_report.jrxml");
+            JRDesignQuery jQuery = new JRDesignQuery();
+            jQuery.setText(sql_query);
+            jd.setQuery(jQuery);
+            JasperReport jr = JasperCompileManager.compileReport(jd);
             JasperPrint jp = JasperFillManager.fillReport(jr, null, this.conn.getConnection());
-            JasperViewer.viewReport(jp);
+            JasperViewer.viewReport(jp, false);
             
         }catch(Exception e){
             System.out.println("Something went wrong in generating the reports:"
