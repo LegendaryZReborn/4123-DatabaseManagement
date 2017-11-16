@@ -141,6 +141,11 @@ public class DonorFrame extends javax.swing.JFrame {
         });
 
         updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
 
         stateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "O", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "VI", "WA", "WV", "WI", "WY" }));
 
@@ -366,6 +371,35 @@ public class DonorFrame extends javax.swing.JFrame {
              reset();
          }
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+                try{ 
+            String env = envNumTextField.getText( );
+            String f_name = firstNameTextField.getText( );
+            String l_name = lastNameTextField.getText( );
+            String street = streetTextField.getText( );
+            String city = cityTextField.getText( );
+            String state = stateComboBox.getSelectedItem( ).toString();
+            String zipcode = zipTextField.getText( );
+            String email = emailTextField.getText( );
+            String mail_pref = mailPrefComboBox.getSelectedItem( ).toString();
+            int env_num = Integer.parseInt( env );
+            int zip = Integer.parseInt( zipcode );
+            Donor donor=new Donor(env_num,f_name,l_name,street,city,state,zip,email,mail_pref);
+            donorDAO.updateDonor(donor);
+         }
+         catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset();
+         }
+   
+
+    }//GEN-LAST:event_updateButtonActionPerformed
    
     private void clearTextBoxes()
     {

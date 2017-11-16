@@ -120,6 +120,11 @@ public class FundFrame extends javax.swing.JFrame {
         });
 
         update_button.setText("Update");
+        update_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update_buttonActionPerformed(evt);
+            }
+        });
 
         Reset.setText("Reset");
         Reset.addActionListener(new java.awt.event.ActionListener() {
@@ -279,6 +284,22 @@ public class FundFrame extends javax.swing.JFrame {
                     reset();
         }
     }//GEN-LAST:event_delete_buttonActionPerformed
+
+    private void update_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_buttonActionPerformed
+        try{
+        Fund x = new Fund(fundName_textField.getText(),quickbooksAccNo_textfield.getText());
+        fundDAO.updateFund(x);
+         }
+        catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        finally{
+                    reset();
+        } 
+    }//GEN-LAST:event_update_buttonActionPerformed
 
         private void reset(){   
     try{
