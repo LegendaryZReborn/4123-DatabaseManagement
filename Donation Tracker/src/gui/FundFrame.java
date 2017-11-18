@@ -234,8 +234,11 @@ public class FundFrame extends javax.swing.JFrame {
 
     private void fund_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fund_tableMouseClicked
        int selectedRowIndex = fund_table.getSelectedRow();
-       fundName_textField.setText(model.getValueAt(selectedRowIndex, 0).toString());
-       quickbooksAccNo_textfield.setText(model.getValueAt(selectedRowIndex, 1).toString());
+       int selectedRowModel = fund_table.convertRowIndexToModel(selectedRowIndex);
+       
+       TableModel fund_model = fund_table.getModel();
+       fundName_textField.setText(fund_model.getValueAt(selectedRowModel, 0).toString());
+       quickbooksAccNo_textfield.setText(fund_model.getValueAt(selectedRowModel, 1).toString());
        
        //disable add button
        add_button.setEnabled(false);
