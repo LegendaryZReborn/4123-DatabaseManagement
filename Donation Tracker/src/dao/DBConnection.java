@@ -26,6 +26,10 @@ public class DBConnection {
         }
     }
 
+    public Connection getConnection() {
+        return conn;
+    }
+
     Statement createStatement() throws Exception {
         return conn.createStatement();
     }

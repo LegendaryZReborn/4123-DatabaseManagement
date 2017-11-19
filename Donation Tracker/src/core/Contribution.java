@@ -5,6 +5,8 @@
  */
 package core;
 import java.sql.Date;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 /**
  *
  * @author legen, Kevin Ellis , Tyler Coleman, Danny Tomei
@@ -39,7 +41,7 @@ public class Contribution {
     }
 
        public Contribution(double amt, Date cdate, String note, String ctype, String fundname, int envnum) {
-	_amt = amt;
+        _amt = amt;
 	_c_date = cdate;
 	_note = note;
 	_c_type = ctype;
