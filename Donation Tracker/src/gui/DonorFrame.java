@@ -299,7 +299,7 @@ public class DonorFrame extends javax.swing.JFrame {
              
             Donor donor = new Donor(Integer.parseInt
                 (envNumTextField.getText()),firstNameTextField.getText(),
-                    firstNameTextField.getText(),streetTextField.getText(),
+                    lastNameTextField.getText(),streetTextField.getText(),
                     cityTextField.getText(),stateComboBox.getSelectedItem().toString(),
                     Integer.parseInt(zipTextField.getText()),
                     emailTextField.getText(),mailPrefComboBox
