@@ -1,126 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b6169682-1b6b-4058-b9d8-6d9106044e07">
-	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="295"/>
-	<property name="ireport.y" value="31"/>
-	<queryString>
-		<![CDATA[]]>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bbf8102b-5ba2-4dc3-990a-598714e359d5">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="date_range" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select fund.name as Fund, sum(amt) as Total
+from fund join contribution
+where fund.name = contribution.fund_name 
+and c_date >= '2017-01-14' and c_date <= '2017-03-14'
+group by fund.name order by fund.name asc;]]>
 	</queryString>
 	<field name="Fund" class="java.lang.String"/>
 	<field name="Total" class="java.math.BigDecimal"/>
+	<variable name="GrandTot" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	</variable>
 	<group name="Fund">
 		<groupExpression><![CDATA[$F{Fund}]]></groupExpression>
-		<groupHeader>
-			<band height="46">
-				<staticText>
-					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6" uuid="4671de81-4c9e-4719-9340-c4a2db67cc81"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-					<text><![CDATA[Fund]]></text>
-				</staticText>
-				<textField>
-					<reportElement mode="Opaque" x="100" y="1" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="e280375e-0838-412d-b065-b056178aa440"/>
-					<textElement>
-						<font size="14" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{Fund}]]></textFieldExpression>
-				</textField>
-				<line>
-					<reportElement x="-20" y="32" width="595" height="1" forecolor="#666666" uuid="98326445-e12d-4247-8ee9-99b1a4f7e968"/>
-				</line>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band/>
-		</groupFooter>
-	</group>
-	<group name="Total">
-		<groupExpression><![CDATA[$F{Total}]]></groupExpression>
-		<groupHeader>
-			<band height="32">
-				<staticText>
-					<reportElement x="0" y="0" width="123" height="32" forecolor="#666666" uuid="1a547b63-2fbe-42c3-821c-76b64bea7613"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-					<text><![CDATA[Total]]></text>
-				</staticText>
-				<textField isBlankWhenNull="false">
-					<reportElement x="123" y="0" width="432" height="32" forecolor="#006699" uuid="36e51754-380c-43e9-9259-d6ae1f1948af"/>
-					<textElement>
-						<font size="14" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band/>
-		</groupFooter>
 	</group>
 	<background>
-		<band/>
+		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="72">
-			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="85f17a0c-f24d-4d46-acbf-42f9ac0bd722"/>
-				<staticText>
-					<reportElement x="143" y="20" width="281" height="43" forecolor="#FFFFFF" uuid="15d5524f-2f06-47df-a0e3-0d786c8ca61f"/>
-					<textElement textAlignment="Center">
-						<font size="34" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Funds Report]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="162" y="63" width="247" height="20" forecolor="#FFFFFF" uuid="1cd53cad-c9da-4604-9643-bbcbc1186353"/>
-					<textElement textAlignment="Center">
-						<font size="14" isBold="false"/>
-					</textElement>
-					<text><![CDATA[Report of funds with ranging the dates]]></text>
-				</staticText>
-			</frame>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="79" forecolor="#FFFFFF" backcolor="#538FCC" uuid="6ecfbcf2-1284-447b-8241-f492929e30ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Funds Report]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="13"/>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="25" backcolor="#444444" uuid="5b7e0411-e3fa-47fb-be71-1ed432896442"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="0" width="555" height="25" forecolor="#FFFFFF" uuid="1f1cd457-33c4-4e37-937e-0724933a652d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date_range}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="21">
-			<line>
-				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="22914e13-e210-421e-bc36-fc021184cd96"/>
-			</line>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="5" width="252" height="28" backcolor="#DDDDDD" uuid="c5b2dad1-53ae-43ab-8de2-b6205abb7325"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[        Fund]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="252" y="5" width="303" height="28" backcolor="#DDDDDD" uuid="01a3feaa-7330-4df0-98a0-268408f60bc1"/>
+				<box rightPadding="15"/>
+				<textElement textAlignment="Right">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="ad710231-36b8-41f7-9a2d-78ba3f7ba602"/>
-			</line>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="39" y="0" width="213" height="30" backcolor="#FFFFFF" uuid="5f8215a5-a3bb-4fdb-84c0-283ebfb9e82d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Fund}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="252" y="0" width="290" height="30" uuid="2a3adf40-2b90-4e4f-bd4b-47caf1761ce8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band/>
+		<band height="6" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="17">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="c9164d28-2616-463c-ba5c-2640a80d770a"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="1c2d7f87-5640-44ed-8752-9461281eecb7"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="4" width="100" height="13" uuid="0f387923-722a-4a7c-b434-f197ee2e3faa"/>
+		<band height="69" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="24" width="555" height="25" backcolor="#444444" uuid="c07c30f3-58ef-4ae8-ba4c-2e68e4ec1e21"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="11" y="29" width="100" height="20" forecolor="#FFFFFF" uuid="187a130c-b0d7-4ef1-a2a9-26ba5d406ed0"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="442" y="29" width="100" height="20" forecolor="#FFFFFF" uuid="c3a3e1fa-8954-46ef-8a5b-eeea76964642"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="260" y="4" width="100" height="20" uuid="3b5445bf-4cbe-44fc-8742-ecf4a56b00a6"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="360" y="4" width="182" height="20" uuid="d5075ca3-a372-4fb9-a808-d8ddb33b2cb3"/>
+				<textElement textAlignment="Right">
+					<font size="14" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{GrandTot}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
 	<summary>
-		<band/>
+		<band height="22" splitType="Stretch"/>
 	</summary>
 </jasperReport>

@@ -8,6 +8,7 @@ package gui;
 import dao.DBConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import net.sf.jasperreports.view.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
@@ -52,8 +53,6 @@ public class ReportFrame extends javax.swing.JFrame {
         from_cdate = new javax.swing.JTextField();
         to_cdate = new javax.swing.JTextField();
         generate_creport = new javax.swing.JButton();
-        donor_label = new javax.swing.JLabel();
-        donors_list = new javax.swing.JComboBox<>();
         min_donation_label = new javax.swing.JLabel();
         min_donation = new javax.swing.JTextField();
         fReport_panel = new javax.swing.JPanel();
@@ -72,11 +71,12 @@ public class ReportFrame extends javax.swing.JFrame {
 
         cfrom_label.setText("From:");
 
-        generate_creport.setText("Generate Report(s)");
-
-        donor_label.setText("Donor: ");
-
-        donors_list.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All" }));
+        generate_creport.setText("Generate Report");
+        generate_creport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generate_creportActionPerformed(evt);
+            }
+        });
 
         min_donation_label.setText("Min. Donation");
 
@@ -89,17 +89,11 @@ public class ReportFrame extends javax.swing.JFrame {
                 .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(generate_creport)
                     .addGroup(cReport_panelLayout.createSequentialGroup()
-                        .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, cReport_panelLayout.createSequentialGroup()
-                                .addComponent(donor_label)
-                                .addGap(18, 18, 18)
-                                .addComponent(donors_list, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, cReport_panelLayout.createSequentialGroup()
-                                .addComponent(cfrom_label)
-                                .addGap(18, 18, 18)
-                                .addComponent(from_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(cto_label)))
+                        .addComponent(cfrom_label)
+                        .addGap(18, 18, 18)
+                        .addComponent(from_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cto_label)
                         .addGap(18, 18, 18)
                         .addComponent(to_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(cReport_panelLayout.createSequentialGroup()
@@ -113,10 +107,6 @@ public class ReportFrame extends javax.swing.JFrame {
             .addGroup(cReport_panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(donor_label)
-                    .addComponent(donors_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cfrom_label)
                     .addComponent(cto_label)
                     .addComponent(from_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -125,7 +115,7 @@ public class ReportFrame extends javax.swing.JFrame {
                 .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(min_donation_label)
                     .addComponent(min_donation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(generate_creport)
                 .addContainerGap())
         );
@@ -191,7 +181,7 @@ public class ReportFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(fReport_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(cReport_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60))
         );
@@ -205,19 +195,25 @@ public class ReportFrame extends javax.swing.JFrame {
             
             String date1 = from_fdate.getText();
             String date2 = to_fdate.getText();
+            String range = "From " + date1 + " through " + date2;
             
+            //Hashmap holds parameters that will be used to fill the report
+            HashMap params = new HashMap();
+            params.put("date_range", range);
+           
             String sql_query = "select fund.name as Fund, sum(amt) as Total\n" +
                 "from fund join contribution\n" +
                 "where fund.name = contribution.fund_name\n" + 
                  "and c_date >= '" + date1 + "' and c_date <= '"+ date2 +"'\n" +
                 "group by fund.name order by fund.name asc;";
             
+            //compile, fill and view the produced the jasport report
             JasperDesign jd = JRXmlLoader.load("src\\funds_report.jrxml");
             JRDesignQuery jQuery = new JRDesignQuery();
             jQuery.setText(sql_query);
             jd.setQuery(jQuery);
             JasperReport jr = JasperCompileManager.compileReport(jd);
-            JasperPrint jp = JasperFillManager.fillReport(jr, null, this.conn.getConnection());
+            JasperPrint jp = JasperFillManager.fillReport(jr, params, this.conn.getConnection());
             JasperViewer.viewReport(jp, false);
             
         }catch(Exception e){
@@ -225,6 +221,51 @@ public class ReportFrame extends javax.swing.JFrame {
                     + e);
         }
     }//GEN-LAST:event_generate_freportActionPerformed
+
+    private void generate_creportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generate_creportActionPerformed
+        // TODO add your handling code here:
+        double min_d = 0;
+       
+        if(!min_donation.getText().isEmpty())
+        {
+            try{
+                 String minDonation = min_donation.getText();
+                 min_d = Double.parseDouble(minDonation);
+            }catch(Exception e){
+                System.out.println("Please input proper value for min donation.");
+            }
+        }
+        
+         try{
+            String date1 = from_cdate.getText();
+            String date2 = to_cdate.getText();
+            String range = "From " + date1 + " through " + date2;
+            
+            //Hashmap holds parameters that will be used to fill the report
+            HashMap params = new HashMap();
+            params.put("date_range", range);
+           
+            
+            String sql_query = "SELECT env_num as EnvNum, ID, f_name as FirstName, l_name as LastName,\n" +
+            "c_date as Date, c_type as Type, fund_name as Fund, amt as Amt \n" +
+            "FROM contribution natural join donor\n"
+            + "where c_date >= '" + date1 + "' and c_date <= '" + date2 + "'\n"
+            + "and amt >= " + Double.toString(min_d) + " order by c_date asc;";
+            
+            //compile, fill and view the produced the jasport report
+            JasperDesign jd = JRXmlLoader.load("src\\contributions_report.jrxml");
+            JRDesignQuery jQuery = new JRDesignQuery();
+            jQuery.setText(sql_query);
+            jd.setQuery(jQuery);
+            JasperReport jr = JasperCompileManager.compileReport(jd);
+            JasperPrint jp = JasperFillManager.fillReport(jr, params, this.conn.getConnection());
+            JasperViewer.viewReport(jp, false);
+            
+        }catch(Exception e){
+            System.out.println("Something went wrong in generating the reports:"
+                    + e);
+        }
+    }//GEN-LAST:event_generate_creportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,8 +306,6 @@ public class ReportFrame extends javax.swing.JFrame {
     private javax.swing.JPanel cReport_panel;
     private javax.swing.JLabel cfrom_label;
     private javax.swing.JLabel cto_label;
-    private javax.swing.JLabel donor_label;
-    private javax.swing.JComboBox<String> donors_list;
     private javax.swing.JPanel fReport_panel;
     private javax.swing.JLabel ffrom_label;
     private javax.swing.JTextField from_cdate;

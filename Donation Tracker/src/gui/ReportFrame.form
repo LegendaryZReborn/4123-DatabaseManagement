@@ -41,7 +41,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Component id="fReport_panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="40" max="32767" attributes="0"/>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
               <Component id="cReport_panel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
           </Group>
@@ -66,20 +66,11 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="generate_creport" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="donor_label" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                                  <Component id="donors_list" min="-2" pref="160" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="cfrom_label" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="from_cdate" min="-2" pref="130" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="cto_label" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="cfrom_label" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="from_cdate" min="-2" pref="130" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="cto_label" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                           <Component id="to_cdate" min="-2" pref="128" max="-2" attributes="0"/>
                       </Group>
@@ -98,11 +89,6 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="donor_label" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="donors_list" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="cfrom_label" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cto_label" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="from_cdate" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -113,7 +99,7 @@
                       <Component id="min_donation_label" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="min_donation" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="23" max="32767" attributes="0"/>
+                  <EmptySpace pref="57" max="32767" attributes="0"/>
                   <Component id="generate_creport" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -137,25 +123,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="generate_creport">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Generate Report(s)"/>
+            <Property name="text" type="java.lang.String" value="Generate Report"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="donor_label">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Donor: "/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="donors_list">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="All"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generate_creportActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="min_donation_label">
           <Properties>
