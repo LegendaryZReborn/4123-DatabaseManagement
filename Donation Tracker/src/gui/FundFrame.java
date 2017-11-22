@@ -13,6 +13,7 @@ package gui;
 import core.Fund;
 import dao.DBConnection;
 import dao.FundDAO;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,7 +83,7 @@ public class FundFrame extends javax.swing.JFrame {
         quickbooksAccNo_textfield = new javax.swing.JTextField();
         add_button = new javax.swing.JButton();
         update_button = new javax.swing.JButton();
-        Reset = new javax.swing.JButton();
+        reset_button = new javax.swing.JButton();
         delete_button = new javax.swing.JButton();
         search_textField = new javax.swing.JTextField();
         search_label = new javax.swing.JLabel();
@@ -104,6 +105,11 @@ public class FundFrame extends javax.swing.JFrame {
                 fund_tableMouseClicked(evt);
             }
         });
+        fund_table.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fund_tableKeyPressed(evt);
+            }
+        });
         fundTable_scrollPane.setViewportView(fund_table);
 
         addUpdateDelete_panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Add/Update/Delete Fund"));
@@ -118,6 +124,11 @@ public class FundFrame extends javax.swing.JFrame {
                 add_buttonActionPerformed(evt);
             }
         });
+        add_button.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                add_buttonKeyPressed(evt);
+            }
+        });
 
         update_button.setText("Update");
         update_button.addActionListener(new java.awt.event.ActionListener() {
@@ -125,11 +136,21 @@ public class FundFrame extends javax.swing.JFrame {
                 update_buttonActionPerformed(evt);
             }
         });
+        update_button.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                update_buttonKeyPressed(evt);
+            }
+        });
 
-        Reset.setText("Reset");
-        Reset.addActionListener(new java.awt.event.ActionListener() {
+        reset_button.setText("Reset");
+        reset_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ResetActionPerformed(evt);
+                reset_buttonActionPerformed(evt);
+            }
+        });
+        reset_button.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                reset_buttonKeyPressed(evt);
             }
         });
 
@@ -137,6 +158,11 @@ public class FundFrame extends javax.swing.JFrame {
         delete_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 delete_buttonActionPerformed(evt);
+            }
+        });
+        delete_button.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                delete_buttonKeyPressed(evt);
             }
         });
 
@@ -160,7 +186,7 @@ public class FundFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(addUpdateDelete_panelLayout.createSequentialGroup()
-                        .addComponent(Reset, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(reset_button, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -182,7 +208,7 @@ public class FundFrame extends javax.swing.JFrame {
                     .addComponent(update_button))
                 .addGap(30, 30, 30)
                 .addGroup(addUpdateDelete_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Reset)
+                    .addComponent(reset_button)
                     .addComponent(delete_button))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
@@ -242,18 +268,20 @@ public class FundFrame extends javax.swing.JFrame {
        
        //disable add button
        add_button.setEnabled(false);
-       
-       //set focus to fund name
-       fundName_textField.requestFocus();
     }//GEN-LAST:event_fund_tableMouseClicked
-
-    private void ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetActionPerformed
+   
+    //clears the text fields and enables the reset button
+    private void reset_fields()
+    {
         fundName_textField.setText("");
         quickbooksAccNo_textfield.setText("");
         
         //enable add button
         add_button.setEnabled(true);
-    }//GEN-LAST:event_ResetActionPerformed
+    }
+    private void reset_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_buttonActionPerformed
+        reset_fields();
+    }//GEN-LAST:event_reset_buttonActionPerformed
 
     private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
         try{
@@ -268,6 +296,7 @@ public class FundFrame extends javax.swing.JFrame {
         }
         finally{
                     reset();
+                    reset_fields();
         }
     }//GEN-LAST:event_add_buttonActionPerformed
 
@@ -285,6 +314,7 @@ public class FundFrame extends javax.swing.JFrame {
         }
         finally{
                     reset();
+                    reset_fields();
         }
     }//GEN-LAST:event_delete_buttonActionPerformed
 
@@ -301,11 +331,63 @@ public class FundFrame extends javax.swing.JFrame {
         }
         finally{
                     reset();
+                    reset_fields();
         } 
     }//GEN-LAST:event_update_buttonActionPerformed
 
-        private void reset(){   
-    try{
+    private void add_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_add_buttonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            add_button.doClick();
+        }
+    }//GEN-LAST:event_add_buttonKeyPressed
+
+    private void update_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_buttonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            update_button.doClick();
+        }
+    }//GEN-LAST:event_update_buttonKeyPressed
+
+    private void reset_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_reset_buttonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            reset_button.doClick();
+        }
+    }//GEN-LAST:event_reset_buttonKeyPressed
+
+    private void delete_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_delete_buttonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            delete_button.doClick();
+        }
+    }//GEN-LAST:event_delete_buttonKeyPressed
+
+    private void fund_tableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fund_tableKeyPressed
+        int selectedRowIndex = 0;
+        int selectedRowModel = 0;
+        
+        if (evt.getKeyCode() == KeyEvent.VK_UP)            
+        {
+            selectedRowIndex = fund_table.getSelectedRow()-1;
+            selectedRowModel = fund_table.convertRowIndexToModel(selectedRowIndex);
+        }
+        else if (evt.getKeyCode() == KeyEvent.VK_DOWN)
+        {
+            selectedRowIndex = fund_table.getSelectedRow()+1;
+            selectedRowModel = fund_table.convertRowIndexToModel(selectedRowIndex);  
+        }
+
+            TableModel fund_model = fund_table.getModel();
+            fundName_textField.setText(fund_model.getValueAt(selectedRowModel, 0).toString());
+            quickbooksAccNo_textfield.setText(fund_model.getValueAt(selectedRowModel, 1).toString());
+
+            //disable add button
+            add_button.setEnabled(false);            
+    }//GEN-LAST:event_fund_tableKeyPressed
+
+    private void reset(){   
+        try{
             fundList = fundDAO.getAllFunds();
             model = new FundTableModel(fundList);
             fund_table.setModel(model);            
@@ -351,7 +433,6 @@ public class FundFrame extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Reset;
     private javax.swing.JPanel addUpdateDelete_panel;
     private javax.swing.JButton add_button;
     private javax.swing.JButton delete_button;
@@ -361,6 +442,7 @@ public class FundFrame extends javax.swing.JFrame {
     private javax.swing.JTable fund_table;
     private javax.swing.JLabel quickbooksAccNo_label;
     private javax.swing.JTextField quickbooksAccNo_textfield;
+    private javax.swing.JButton reset_button;
     private javax.swing.JLabel search_label;
     private javax.swing.JTextField search_textField;
     private javax.swing.JButton update_button;
