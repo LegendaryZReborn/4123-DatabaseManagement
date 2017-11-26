@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  *
@@ -25,13 +27,9 @@ import javax.swing.JOptionPane;
  */
 public class DonorFrame extends javax.swing.JFrame {
     private DonorDAO donorDAO;
-    private FundDAO fundDAO;
-    private ContributionDAO contributionDAO;
     private List<Donor> donors;
-    private List<Fund> funds;
-    private List<Contribution> contributions;
     private DBConnection conn;
-    private String temp;
+    private DonorTableModel model;
     /**
      * Creates new form DonorFrame
      */
@@ -41,24 +39,37 @@ public class DonorFrame extends javax.swing.JFrame {
         try{
             conn = myConn;
             donorDAO = new DonorDAO(conn);
-            contributionDAO = new ContributionDAO(conn);
-            fundDAO = new FundDAO(conn);
             donors = this.donorDAO.getAllDonors();
-            DonorTableModel model = new DonorTableModel(donors);
+            model = new DonorTableModel(donors);
             TableDonor.setModel(model);
             
             //Default data in TextFields
             String temp = Integer.toString(donorDAO.getNextEnvNum());
+            stateComboBox.setSelectedItem("TX");
             envNumTextField.setText(temp);
             cityTextField.setText("Wichita Falls");
-            stateTextField.setText("Texas");
+            cityTextField.addFocusListener(new FocusListener(){
+                public void focusGained(FocusEvent arg0)
+                {
+                    
+                    cityTextField.selectAll();
+                    
+                }
+                public void focusLost(FocusEvent arg0)
+                {
+                    
+                }
+            });
             
+             
         }
         catch(Exception err){
             JOptionPane.showMessageDialog(this, "Error: "+err,"Error",JOptionPane.ERROR_MESSAGE);
         }
         
     }
+   
+        // You could do something here when the field loses focus, if you like
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,12 +80,6 @@ public class DonorFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
-        TableDonor = new javax.swing.JTable();
-        conButton = new javax.swing.JButton();
-        donorButton = new javax.swing.JButton();
-        fundButton = new javax.swing.JButton();
-        reportButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         addPanel = new javax.swing.JPanel();
         env_numLabel = new javax.swing.JLabel();
@@ -91,43 +96,27 @@ public class DonorFrame extends javax.swing.JFrame {
         lastNameTextField = new javax.swing.JTextField();
         streetTextField = new javax.swing.JTextField();
         cityTextField = new javax.swing.JTextField();
-        stateTextField = new javax.swing.JTextField();
         zipTextField = new javax.swing.JTextField();
         emailTextField = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        mailPrefComboBox = new javax.swing.JComboBox<>();
         addButton = new javax.swing.JButton();
-        updateButton = new javax.swing.JButton();
         resetButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
+        stateComboBox = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableDonor = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(848, 739));
+        setPreferredSize(new java.awt.Dimension(1443, 742));
 
-        TableDonor.setAutoCreateRowSorter(true);
-        TableDonor.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Env_num", "First Name", "Last Name", "Street", "City", "State", "Zip", "Email", "Mail_pref"
-            }
-        ));
-        TableDonor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane2.setViewportView(TableDonor);
-
-        conButton.setText("Contributions");
-
-        donorButton.setText("Donors");
-
-        fundButton.setText("Funds");
-
-        reportButton.setText("Reports");
+        jScrollPane1.setAutoscrolls(true);
 
         addPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Add/Update/Delete Donor"));
         addPanel.setAutoscrolls(true);
+        addPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        addPanel.setFocusCycleRoot(true);
+        addPanel.setNextFocusableComponent(firstNameTextField);
         addPanel.setPreferredSize(new java.awt.Dimension(421, 456));
 
         env_numLabel.setText("Env_num:");
@@ -148,7 +137,13 @@ public class DonorFrame extends javax.swing.JFrame {
 
         mailPrefLabel.setText("Mail_pref:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Printed", "Electronic" }));
+        cityTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cityTextFieldActionPerformed(evt);
+            }
+        });
+
+        mailPrefComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "printed", "electronic" }));
 
         addButton.setText("Add");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -157,112 +152,141 @@ public class DonorFrame extends javax.swing.JFrame {
             }
         });
 
-        updateButton.setText("Update");
-
         resetButton.setText("Reset");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        updateButton.setText("Update");
+
+        stateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "O", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "VI", "WA", "WV", "WI", "WY" }));
 
         javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
         addPanel.setLayout(addPanelLayout);
         addPanelLayout.setHorizontalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(addPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(addPanelLayout.createSequentialGroup()
-                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(addPanelLayout.createSequentialGroup()
-                                .addComponent(firstNameLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addPanelLayout.createSequentialGroup()
-                                .addComponent(lastNameLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addPanelLayout.createSequentialGroup()
-                                .addComponent(env_numLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(envNumTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addPanelLayout.createSequentialGroup()
-                                .addComponent(mailPrefLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addPanelLayout.createSequentialGroup()
-                                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cityLabel)
-                                    .addComponent(stateLabel)
-                                    .addComponent(ZipLabel))
-                                .addGap(28, 28, 28)
-                                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(zipTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(stateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(addPanelLayout.createSequentialGroup()
-                                .addComponent(emailLabel)
-                                .addGap(30, 30, 30)
-                                .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(58, 58, 58)
-                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(53, 53, 53)
-                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(env_numLabel)
+                            .addComponent(streetLabel)))
                     .addGroup(addPanelLayout.createSequentialGroup()
-                        .addComponent(streetLabel)
-                        .addGap(24, 24, 24)
-                        .addComponent(streetTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(375, Short.MAX_VALUE))
+                        .addGap(35, 35, 35)
+                        .addComponent(emailLabel)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(streetTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(envNumTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cityLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(mailPrefLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mailPrefComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lastNameLabel)
+                            .addComponent(stateLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(stateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(51, 51, 51)
+                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(addPanelLayout.createSequentialGroup()
+                                .addComponent(ZipLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(zipTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(632, Short.MAX_VALUE))
         );
         addPanelLayout.setVerticalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(addPanelLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addContainerGap()
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(env_numLabel)
                     .addComponent(envNumTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addButton)
-                    .addComponent(updateButton))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstNameLabel)
-                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lastNameLabel)
-                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(resetButton)
-                    .addComponent(deleteButton))
-                .addGap(18, 18, 18)
+                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(streetLabel)
-                    .addComponent(streetTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cityLabel)
-                    .addComponent(cityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(streetTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(stateLabel)
-                    .addComponent(stateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ZipLabel)
-                    .addComponent(zipTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailLabel)
-                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mailPrefLabel)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(210, Short.MAX_VALUE))
+                    .addComponent(stateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cityLabel)
+                    .addComponent(zipTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ZipLabel))
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(deleteButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(updateButton))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(addButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(resetButton))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailLabel)
+                            .addComponent(mailPrefLabel)
+                            .addComponent(mailPrefComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(388, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(addPanel);
+
+        TableDonor.setAutoCreateRowSorter(true);
+        TableDonor.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Env_num", "First Name", "Last Name", "Street", "City", "State", "Zip", "Email", "Mail_pref"
+            }
+        ));
+        TableDonor.setAutoscrolls(false);
+        TableDonor.setMaximumSize(new java.awt.Dimension(32767, 32767));
+        TableDonor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableDonorMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TableDonor);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -270,33 +294,15 @@ public class DonorFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(25, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 930, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(conButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(donorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(fundButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(reportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1431, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1431, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(conButton)
-                    .addComponent(donorButton)
-                    .addComponent(fundButton)
-                    .addComponent(reportButton))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -310,10 +316,10 @@ public class DonorFrame extends javax.swing.JFrame {
              
             Donor donor = new Donor(Integer.parseInt
                 (envNumTextField.getText()),firstNameTextField.getText(),
-                    firstNameTextField.getText(),streetTextField.getText(),
-                    cityTextField.getText(),stateTextField.getText(),
+                    lastNameTextField.getText(),streetTextField.getText(),
+                    cityTextField.getText(),stateComboBox.getSelectedItem().toString(),
                     Integer.parseInt(zipTextField.getText()),
-                    emailTextField.getText(),jComboBox1
+                    emailTextField.getText(),mailPrefComboBox
                             .getSelectedItem().toString());
             donorDAO.addDonor(donor);
             
@@ -328,6 +334,107 @@ public class DonorFrame extends javax.swing.JFrame {
          }
                  // TODO add your handling code here:
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void TableDonorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableDonorMouseClicked
+        // TODO add your handling code here:
+        int selectedRowIndex = TableDonor.getSelectedRow();
+        envNumTextField.setText(model.getValueAt(selectedRowIndex, 0).toString());
+        firstNameTextField.setText(model.getValueAt(selectedRowIndex, 1).toString());
+        lastNameTextField.setText(model.getValueAt(selectedRowIndex, 2).toString());
+        streetTextField.setText(model.getValueAt(selectedRowIndex, 3).toString());
+        cityTextField.setText(model.getValueAt(selectedRowIndex, 4).toString());
+        stateComboBox.setSelectedItem(model.getValueAt(selectedRowIndex, 5).toString());
+        zipTextField.setText(model.getValueAt(selectedRowIndex, 6).toString());
+        emailTextField.setText(model.getValueAt(selectedRowIndex, 7).toString());
+        mailPrefComboBox.setSelectedItem(model.getValueAt(selectedRowIndex,8).toString());
+    }//GEN-LAST:event_TableDonorMouseClicked
+
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            reset();
+            clearTextBoxes();
+            String temp = Integer.toString(donorDAO.getNextEnvNum());
+            envNumTextField.setText(temp);
+            cityTextField.setText("Wichita Falls");
+            stateComboBox.setSelectedItem("TX");
+            mailPrefComboBox.setSelectedItem("printed");
+        }
+        catch(Exception err)
+        {
+            JOptionPane.showMessageDialog(this, "Error: "+err,"Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+         try {
+             
+            Donor donor = new Donor(Integer.parseInt
+                (envNumTextField.getText()),firstNameTextField.getText(),
+                    firstNameTextField.getText(),streetTextField.getText(),
+                    cityTextField.getText(),stateComboBox.getSelectedItem().toString(),
+                    Integer.parseInt(zipTextField.getText()),
+                    emailTextField.getText(),mailPrefComboBox
+                            .getSelectedItem().toString());
+            donorDAO.deleteDonor(donor);
+            
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset();
+         }
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+                try{ 
+            String env = envNumTextField.getText( );
+            String f_name = firstNameTextField.getText( );
+            String l_name = lastNameTextField.getText( );
+            String street = streetTextField.getText( );
+            String city = cityTextField.getText( );
+            String state = stateComboBox.getSelectedItem( ).toString();
+            String zipcode = zipTextField.getText( );
+            String email = emailTextField.getText( );
+            String mail_pref = mailPrefComboBox.getSelectedItem( ).toString();
+            int env_num = Integer.parseInt( env );
+            int zip = Integer.parseInt( zipcode );
+            Donor donor=new Donor(env_num,f_name,l_name,street,city,state,zip,email,mail_pref);
+            donorDAO.updateDonor(donor);
+         }
+         catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset();
+         }
+   
+
+    }//GEN-LAST:event_updateButtonActionPerformed
+ 
+    private void cityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cityTextFieldActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cityTextFieldActionPerformed
+   
+    private void clearTextBoxes()
+    {
+        envNumTextField.setText("");
+        firstNameTextField.setText("");
+        lastNameTextField.setText("");
+        streetTextField.setText("");
+        cityTextField.setText("");
+        stateComboBox.setSelectedItem("TX");
+        zipTextField.setText("");
+        emailTextField.setText("");
+    }
+    
     private void reset(){   
     try{
             donors = this.donorDAO.getAllDonors();
@@ -380,26 +487,22 @@ public class DonorFrame extends javax.swing.JFrame {
     private javax.swing.JPanel addPanel;
     private javax.swing.JLabel cityLabel;
     private javax.swing.JTextField cityTextField;
-    private javax.swing.JButton conButton;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JButton donorButton;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JTextField envNumTextField;
     private javax.swing.JLabel env_numLabel;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField firstNameTextField;
-    private javax.swing.JButton fundButton;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
+    private javax.swing.JComboBox<String> mailPrefComboBox;
     private javax.swing.JLabel mailPrefLabel;
-    private javax.swing.JButton reportButton;
     private javax.swing.JButton resetButton;
+    private javax.swing.JComboBox<String> stateComboBox;
     private javax.swing.JLabel stateLabel;
-    private javax.swing.JTextField stateTextField;
     private javax.swing.JLabel streetLabel;
     private javax.swing.JTextField streetTextField;
     private javax.swing.JButton updateButton;

@@ -120,6 +120,11 @@ public class FundFrame extends javax.swing.JFrame {
         });
 
         update_button.setText("Update");
+        update_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update_buttonActionPerformed(evt);
+            }
+        });
 
         Reset.setText("Reset");
         Reset.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +134,11 @@ public class FundFrame extends javax.swing.JFrame {
         });
 
         delete_button.setText("Delete");
+        delete_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_buttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout addUpdateDelete_panelLayout = new javax.swing.GroupLayout(addUpdateDelete_panel);
         addUpdateDelete_panel.setLayout(addUpdateDelete_panelLayout);
@@ -224,8 +234,11 @@ public class FundFrame extends javax.swing.JFrame {
 
     private void fund_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fund_tableMouseClicked
        int selectedRowIndex = fund_table.getSelectedRow();
-       fundName_textField.setText(model.getValueAt(selectedRowIndex, 0).toString());
-       quickbooksAccNo_textfield.setText(model.getValueAt(selectedRowIndex, 1).toString());
+       int selectedRowModel = fund_table.convertRowIndexToModel(selectedRowIndex);
+       
+       TableModel fund_model = fund_table.getModel();
+       fundName_textField.setText(fund_model.getValueAt(selectedRowModel, 0).toString());
+       quickbooksAccNo_textfield.setText(fund_model.getValueAt(selectedRowModel, 1).toString());
        
        //disable add button
        add_button.setEnabled(false);
@@ -257,6 +270,39 @@ public class FundFrame extends javax.swing.JFrame {
                     reset();
         }
     }//GEN-LAST:event_add_buttonActionPerformed
+
+    private void delete_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_buttonActionPerformed
+        // TODO add your handling code here:
+        try{
+        Fund fund = new Fund(fundName_textField.getText(),quickbooksAccNo_textfield.getText());
+        fundDAO.deleteFund(fund);
+        
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        finally{
+                    reset();
+        }
+    }//GEN-LAST:event_delete_buttonActionPerformed
+
+    private void update_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_buttonActionPerformed
+        try{
+        Fund x = new Fund(fundName_textField.getText(),quickbooksAccNo_textfield.getText());
+        fundDAO.updateFund(x);
+         }
+        catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        finally{
+                    reset();
+        } 
+    }//GEN-LAST:event_update_buttonActionPerformed
 
         private void reset(){   
     try{

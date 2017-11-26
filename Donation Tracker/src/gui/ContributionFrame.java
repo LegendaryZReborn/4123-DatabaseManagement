@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
@@ -39,6 +40,7 @@ public class ContributionFrame extends javax.swing.JFrame {
     private List<Contribution> contributionList;
     private List<Fund> fundList;
     private List<String> tempList;
+    private int fundID;
     /**
      * Creates new form ContributionFrame
      */
@@ -50,6 +52,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         donDAO = new DonorDAO(this.conn);
         conDAO = new ContributionDAO(this.conn);
         fundDAO = new FundDAO(this.conn);
+        
         
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         dateTextField.requestFocus();
@@ -70,18 +73,24 @@ public class ContributionFrame extends javax.swing.JFrame {
             envComboBox.setModel(new DefaultComboBoxModel(intList.toArray()));
             
             fundList = fundDAO.getAllFunds();
+            
             //look into setting names for funds
             for(int i = 0; i < fundList.size(); i++)
             {
                 tempList.add(fundList.get(i).getName());
             }
+            
+            fundID = setGeneral(tempList);
             fundComboBox.setModel(new DefaultComboBoxModel(tempList.toArray()));
+            fundComboBox.setSelectedIndex(fundID);
             
         } catch(Exception ex)
         {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
+        AutoCompletion.enable(fundComboBox);
     }
 
     /**
@@ -120,6 +129,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         addPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Add/Update/Delete Contribution"));
 
         nameTextField.setEditable(false);
+        nameTextField.setFocusable(false);
 
         amountLabel.setText("Amount:");
 
@@ -142,6 +152,16 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         updateButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         updateButton.setText("Update");
+        updateButton.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                updateButtonFocusLost(evt);
+            }
+        });
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
 
         resetButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         resetButton.setText("Reset");
@@ -153,6 +173,11 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         deleteButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         dateLabel.setText("Date:");
 
@@ -160,11 +185,6 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         fundComboBox.setEditable(true);
         fundComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General Fund", " " }));
-        fundComboBox.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                fundComboBoxFocusLost(evt);
-            }
-        });
 
         fundLabel.setText("Fund:");
 
@@ -175,11 +195,6 @@ public class ContributionFrame extends javax.swing.JFrame {
         envComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 envComboBoxItemStateChanged(evt);
-            }
-        });
-        envComboBox.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                envComboBoxFocusLost(evt);
             }
         });
 
@@ -203,8 +218,8 @@ public class ContributionFrame extends javax.swing.JFrame {
                             .addGroup(addPanelLayout.createSequentialGroup()
                                 .addComponent(fundLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fundComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(98, 98, 98)
+                                .addComponent(fundComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(62, 62, 62)
                         .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(addPanelLayout.createSequentialGroup()
                                 .addComponent(envIDLabel)
@@ -328,88 +343,105 @@ public class ContributionFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_envComboBoxItemStateChanged
 
-    private void envComboBoxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_envComboBoxFocusLost
-        fundComboBox.requestFocus();
-    }//GEN-LAST:event_envComboBoxFocusLost
-
-    private void fundComboBoxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fundComboBoxFocusLost
-        amountTextField.requestFocus();
-    }//GEN-LAST:event_fundComboBoxFocusLost
-
     private void amountTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountTextFieldFocusLost
         addButton.requestFocus();
     }//GEN-LAST:event_amountTextFieldFocusLost
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         reset(donorList);
+        
+        try {
+            fundList = fundDAO.getAllFunds();
+            //look into setting names for funds
+            for(int i = 0; i < fundList.size(); i++)
+            {
+                tempList.add(fundList.get(i).getName());
+            }
+           
+            fundID = setGeneral(tempList);
+            fundComboBox.setModel(new DefaultComboBoxModel(tempList.toArray()));
+            fundComboBox.setSelectedIndex(fundID);
+           
+        } catch (Exception ex) {
+            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void contributionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contributionTableMouseClicked
+        int z;
         int i = contributionTable.getSelectedRow();
+        int a = contributionTable.convertRowIndexToModel(i);
+        
         
         TableModel model = contributionTable.getModel();
+        
         //String id = model.getValueAt(i, 0).toString();
         //int idParam = Integer.parseInt(id);
         
         //NOTE: There has to be a better way to set comboboxes then if/else statements
         //Look into this before finalizing form
-        if(model.getValueAt(i, 5).equals("check"))
+        if(model.getValueAt(a, 5).equals("check"))
             typeComboBox.setSelectedIndex(0);
-        else if(model.getValueAt(i, 5).equals("currency"))
+        else if(model.getValueAt(a, 5).equals("currency"))
             typeComboBox.setSelectedIndex(1);
-        else if(model.getValueAt(i, 5).equals("coin"))
+        else if(model.getValueAt(a, 5).equals("coin"))
             typeComboBox.setSelectedIndex(2);
         else
             typeComboBox.setSelectedIndex(3);
-        
-        if(model.getValueAt(i, 4).equals("Building"))
-            fundComboBox.setSelectedIndex(0);
-        else if(model.getValueAt(i, 4).equals("Bulletins"))
-            fundComboBox.setSelectedIndex(1);
-        else if(model.getValueAt(i, 4).equals("Comfort Dog"))
-            fundComboBox.setSelectedIndex(2);
-        else if(model.getValueAt(i, 4).equals("Facility Use"))
-            fundComboBox.setSelectedIndex(3);
-        else if(model.getValueAt(i, 4).equals("General"))
-            fundComboBox.setSelectedIndex(4);
-        else if(model.getValueAt(i, 4).equals("Missions"))
-            fundComboBox.setSelectedIndex(5);
-        else if(model.getValueAt(i, 4).equals("Music"))
-            fundComboBox.setSelectedIndex(6);
-        else if(model.getValueAt(i, 4).equals("No Longer Active"))
-            fundComboBox.setSelectedIndex(7);
-        else if(model.getValueAt(i, 4).equals("Scholarship"))
-            fundComboBox.setSelectedIndex(8);
-        else if(model.getValueAt(i, 4).equals("Sunday School"))
-            fundComboBox.setSelectedIndex(9);
-        else if(model.getValueAt(i, 4).equals("Youth Camp Fees"))
-            fundComboBox.setSelectedIndex(10);
-        else if(model.getValueAt(i,4).equals("Youth Fundraisers"))
-            fundComboBox.setSelectedIndex(11);
-        else
-            fundComboBox.setSelectedIndex(12);
+
+        String temp = (String) model.getValueAt(a, 4);
+        z = getIndexOfFund(temp);
+        fundComboBox.setSelectedIndex(z);
             
-        
-        int k = Integer.parseInt(model.getValueAt(i,2).toString());
+        int k = Integer.parseInt(model.getValueAt(a,2).toString());
         envComboBox.setSelectedIndex(k);
-        amountTextField.setText(model.getValueAt(i, 3).toString());
-        dateTextField.setText(model.getValueAt(i, 1).toString());
+        amountTextField.setText(model.getValueAt(a, 3).toString());
+        dateTextField.setText(model.getValueAt(a, 1).toString());
         //fund combo box
-        if(model.getValueAt(i, 6) == null)
+        if(model.getValueAt(a, 6) == null)
             noteTextPane.setText("");
         else    
-            noteTextPane.setText(model.getValueAt(i, 6).toString());
+            noteTextPane.setText(model.getValueAt(a, 6).toString());
+        
+        
         
         
     }//GEN-LAST:event_contributionTableMouseClicked
 
+    private int getIndexOfFund(String myString)
+    {
+        int j = 0;
+        try{
+            fundList = fundDAO.getAllFunds();
+            
+            //look into setting names for funds
+            for(int i = 0; i < fundList.size(); i++)
+            {
+                tempList.add(fundList.get(i).getName());
+            }
+            
+            for(int i = 0; i < tempList.size(); i++)
+            {
+                if(tempList.get(i).equals(myString))
+                {
+                    j = i;
+                    return j;
+                }
+            }
+        } catch(Exception ex)
+        {
+            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return j;
+    }
+    
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
          try {
             String sDate = dateTextField.getText();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date date = sdf.parse(sDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            String fund = fundComboBox.getSelectedItem().toString();
             Contribution contribution =   new Contribution(Double.parseDouble
                 (amountTextField.getText()),sqlDate,noteTextPane.getText(),
                     typeComboBox.getSelectedItem().toString(),fundComboBox.
@@ -429,16 +461,88 @@ public class ContributionFrame extends javax.swing.JFrame {
          
     }//GEN-LAST:event_addButtonActionPerformed
 
+    private void updateButtonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_updateButtonFocusLost
+        envComboBox.requestFocus();
+    }//GEN-LAST:event_updateButtonFocusLost
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here
+         try {
+            String sDate = dateTextField.getText();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = sdf.parse(sDate);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            Contribution contribution =   new Contribution(Double.parseDouble
+                (amountTextField.getText()),sqlDate,noteTextPane.getText(),
+                    typeComboBox.getSelectedItem().toString(),fundComboBox.
+                            getSelectedItem().toString(),Integer.parseInt
+                                (envComboBox.getSelectedItem().toString()));
+            conDAO.deleteContribution(contribution);
+            
+         }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+         finally{
+             reset(donorList);
+         }
+         
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        try{
+        String envID =envComboBox.getSelectedItem( ).toString();
+        String sDate = dateTextField.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = sdf.parse(sDate);
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        Contribution contribution=new Contribution(Double.parseDouble
+                (amountTextField.getText()),sqlDate, noteTextPane.getText( ),typeComboBox.getSelectedItem( ).toString(),fundComboBox.getSelectedItem( ).toString(),Integer.parseInt( envID ));
+        conDAO.updateContribution(contribution);
+    }                                            
+    catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);}
+    finally{
+             reset(donorList);
+         }                                
+
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private int setGeneral(List<String> b)
+    {
+        int k = 0;
+        
+        for(int i = 0; i < b.size(); i++)
+        {
+            //System.out.println(b.get(i));
+            if(b.get(i).equals("General"))
+            {
+                k = i;
+                //System.out.println("Found General at index: " + k);
+                return k;
+            }  
+        }
+        return k;
+    }
+    
     private void reset(List<Donor> a)
     {
         
         envComboBox.setSelectedIndex(0);
         nameTextField.setText(a.get(0).getF_name() + " " + a.get(0).getL_name());
-        fundComboBox.setSelectedIndex(0);
         amountTextField.setText("");
         typeComboBox.setSelectedIndex(0);
         noteTextPane.setText("");
-        dateTextField.requestFocus();
+        envComboBox.requestFocus();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        Date date = new Date();
+        dateTextField.setText(sdf.format(date));
         
         try{
             contributionList = conDAO.getAllContributions();
