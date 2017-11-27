@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  *
@@ -46,13 +48,28 @@ public class DonorFrame extends javax.swing.JFrame {
             stateComboBox.setSelectedItem("TX");
             envNumTextField.setText(temp);
             cityTextField.setText("Wichita Falls");
+            cityTextField.addFocusListener(new FocusListener(){
+                public void focusGained(FocusEvent arg0)
+                {
+                    
+                    cityTextField.selectAll();
+                    
+                }
+                public void focusLost(FocusEvent arg0)
+                {
+                    
+                }
+            });
             
+             
         }
         catch(Exception err){
             JOptionPane.showMessageDialog(this, "Error: "+err,"Error",JOptionPane.ERROR_MESSAGE);
         }
         
     }
+   
+        // You could do something here when the field loses focus, if you like
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -295,8 +312,10 @@ public class DonorFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 //(int eNum, String fname, String lname, String street, String city, String state, int zip, String email, String mpref)
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-         try {
-             
+        String temp = null ;
+
+        try {
+            temp = Integer.toString(donorDAO.getNextEnvNum());
             Donor donor = new Donor(Integer.parseInt
                 (envNumTextField.getText()),firstNameTextField.getText(),
                     lastNameTextField.getText(),streetTextField.getText(),
@@ -305,7 +324,6 @@ public class DonorFrame extends javax.swing.JFrame {
                     emailTextField.getText(),mailPrefComboBox
                             .getSelectedItem().toString());
             donorDAO.addDonor(donor);
-            
          }catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -314,6 +332,15 @@ public class DonorFrame extends javax.swing.JFrame {
         }
          finally{
              reset();
+             clearTextBoxes();
+             if(temp == null) {
+                 JOptionPane.showMessageDialog(null,"Couldnt get next envlope number !");
+            } else {
+                 envNumTextField.setText(temp);
+            }
+             cityTextField.setText("Wichita Falls");
+             stateComboBox.setSelectedItem("TX");
+             mailPrefComboBox.setSelectedItem("printed");
          }
                  // TODO add your handling code here:
     }//GEN-LAST:event_addButtonActionPerformed
@@ -373,9 +400,12 @@ public class DonorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-                try{ 
+              String temp = null;
+        try{ 
+            temp = Integer.toString(donorDAO.getNextEnvNum());
+
             String env = envNumTextField.getText( );
-            String f_name = firstNameTextField.getText( );
+            String f_name = firstNameTextField.getText();
             String l_name = lastNameTextField.getText( );
             String street = streetTextField.getText( );
             String city = cityTextField.getText( );
@@ -396,10 +426,23 @@ public class DonorFrame extends javax.swing.JFrame {
         }
          finally{
              reset();
+             clearTextBoxes();
+             if(temp ==null) {
+                  } else {
+                 envNumTextField.setText(temp);
+                  }
+             cityTextField.setText("Wichita Falls");
+             stateComboBox.setSelectedItem("TX");
+             mailPrefComboBox.setSelectedItem("printed");
          }
    
 
     }//GEN-LAST:event_updateButtonActionPerformed
+ 
+    private void cityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cityTextFieldActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cityTextFieldActionPerformed
    
     private void clearTextBoxes()
     {

@@ -4,9 +4,11 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="date_range" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT env_num as EnvNum, ID,  f_name as FirstName, l_name as LastName,
-c_date as Date, c_type as Type, fund_name as Fund, amt as Amt 
+c_date as Date, c_type as Type, fund_name as Fund, amt as Amt,
+note, street, city, zip, state
 FROM contribution natural join donor order by c_date asc;]]>
 	</queryString>
 	<field name="EnvNum" class="java.lang.Integer"/>
@@ -19,6 +21,21 @@ FROM contribution natural join donor order by c_date asc;]]>
 	<field name="Type" class="java.lang.String"/>
 	<field name="Fund" class="java.lang.String"/>
 	<field name="Amt" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="note" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="street" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="city" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="zip" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="state" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<variable name="Total" class="java.lang.Double" calculation="Sum">
@@ -42,7 +59,7 @@ FROM contribution natural join donor order by c_date asc;]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="25" splitType="Stretch">
+		<band height="120" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="555" height="25" backcolor="#444444" uuid="5b7e0411-e3fa-47fb-be71-1ed432896442"/>
 				<text><![CDATA[]]></text>
@@ -53,6 +70,27 @@ FROM contribution natural join donor order by c_date asc;]]>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{date_range}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="175" y="31" width="194" height="20" uuid="fdc098eb-e84d-4478-879c-39dad6c4678b"/>
+				<box rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Contributions for Envelope Number ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="369" y="31" width="58" height="20" uuid="e4eff9be-c38d-4ad5-9058-45882e4c064c"/>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EnvNum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="51" width="485" height="69" uuid="a2daab26-53bc-4dd0-b0b5-e5aac6987ea2"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -66,108 +104,70 @@ FROM contribution natural join donor order by c_date asc;]]>
 				<text><![CDATA[        Fund]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="478" y="6" width="77" height="28" backcolor="#DDDDDD" uuid="01a3feaa-7330-4df0-98a0-268408f60bc1"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="192" y="6" width="122" height="28" backcolor="#DDDDDD" uuid="01a3feaa-7330-4df0-98a0-268408f60bc1"/>
+				<box leftPadding="10"/>
+				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Amt]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="6" width="66" height="28" backcolor="#DDDDDD" uuid="95c12503-8ded-4278-9409-870333dab51e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[EnvNum]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="66" y="6" width="42" height="28" backcolor="#DDDDDD" uuid="b35ada4c-81ec-432e-b415-2512e38c7383"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[ID]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="108" y="6" width="79" height="28" backcolor="#DDDDDD" uuid="07415600-86c6-4c39-934e-e89e1e30f7de"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[FirstName]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="187" y="6" width="73" height="28" backcolor="#DDDDDD" uuid="079a5bf9-b41c-44f3-afc7-e669a9fafb1c"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[LastName]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="324" y="6" width="90" height="28" backcolor="#DDDDDD" uuid="f4233ff3-314c-45ca-84da-f64535369720"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="78" y="6" width="114" height="28" backcolor="#DDDDDD" uuid="f4233ff3-314c-45ca-84da-f64535369720"/>
+				<box leftPadding="10"/>
+				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fund]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="260" y="6" width="64" height="28" backcolor="#DDDDDD" uuid="34b3767a-729a-4f16-96e4-3cf35803f26b"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="0" y="6" width="78" height="28" backcolor="#DDDDDD" uuid="34b3767a-729a-4f16-96e4-3cf35803f26b"/>
+				<box leftPadding="10"/>
+				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="414" y="6" width="64" height="28" backcolor="#DDDDDD" uuid="0188a984-9516-4a49-94f2-a447023b3a1b"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="314" y="6" width="241" height="28" backcolor="#DDDDDD" uuid="67cb3b49-d829-4d02-a21d-19179b14bf4b"/>
+				<box leftPadding="10"/>
+				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Type]]></text>
+				<text><![CDATA[Note]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="30" splitType="Stretch">
 			<textField pattern="¤ #,##0.00">
-				<reportElement x="478" y="0" width="66" height="30" uuid="2a3adf40-2b90-4e4f-bd4b-47caf1761ce8"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<reportElement x="192" y="0" width="122" height="30" uuid="2a3adf40-2b90-4e4f-bd4b-47caf1761ce8"/>
+				<box leftPadding="10"/>
+				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Amt}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="324" y="0" width="90" height="30" backcolor="#FFFFFF" uuid="5f8215a5-a3bb-4fdb-84c0-283ebfb9e82d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="78" y="0" width="114" height="30" backcolor="#FFFFFF" uuid="5f8215a5-a3bb-4fdb-84c0-283ebfb9e82d"/>
+				<box leftPadding="10"/>
+				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Fund}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="414" y="0" width="64" height="30" uuid="6271f439-130d-4fea-9cec-f44d8aaa654d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{Type}]]></textFieldExpression>
-			</textField>
 			<textField pattern="yyyy/MM/dd">
-				<reportElement x="260" y="0" width="64" height="30" uuid="8165928b-0fa4-4e57-adec-341dfddf94d9"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement x="0" y="0" width="78" height="30" uuid="8165928b-0fa4-4e57-adec-341dfddf94d9"/>
+				<box leftPadding="10"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Date}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="187" y="0" width="73" height="30" uuid="015f6bdd-4e54-4b64-8492-fefd504b8989"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{LastName}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="108" y="0" width="79" height="30" uuid="dfe33e15-bf77-48bb-ba74-26a515732fcf"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{FirstName}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="66" y="0" width="42" height="30" uuid="596f0ddb-d8c4-4dad-b376-8ec633cebf12"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="0" width="66" height="30" uuid="e3fcd7d4-3c25-4788-acd4-c0531bfcbe9f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{EnvNum}]]></textFieldExpression>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="314" y="0" width="241" height="30" uuid="0d9a2667-600a-450e-b3ba-111091005dbc"/>
+				<box leftPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{note}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
