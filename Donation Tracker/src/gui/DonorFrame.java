@@ -312,10 +312,8 @@ public class DonorFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 //(int eNum, String fname, String lname, String street, String city, String state, int zip, String email, String mpref)
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        String temp = null ;
 
         try {
-            temp = Integer.toString(donorDAO.getNextEnvNum());
             Donor donor = new Donor(Integer.parseInt
                 (envNumTextField.getText()),firstNameTextField.getText(),
                     lastNameTextField.getText(),streetTextField.getText(),
@@ -332,15 +330,6 @@ public class DonorFrame extends javax.swing.JFrame {
         }
          finally{
              reset();
-             clearTextBoxes();
-             if(temp == null) {
-                 JOptionPane.showMessageDialog(null,"Couldnt get next envlope number !");
-            } else {
-                 envNumTextField.setText(temp);
-            }
-             cityTextField.setText("Wichita Falls");
-             stateComboBox.setSelectedItem("TX");
-             mailPrefComboBox.setSelectedItem("printed");
          }
                  // TODO add your handling code here:
     }//GEN-LAST:event_addButtonActionPerformed
@@ -400,9 +389,7 @@ public class DonorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-              String temp = null;
         try{ 
-            temp = Integer.toString(donorDAO.getNextEnvNum());
 
             String env = envNumTextField.getText( );
             String f_name = firstNameTextField.getText();
@@ -426,14 +413,6 @@ public class DonorFrame extends javax.swing.JFrame {
         }
          finally{
              reset();
-             clearTextBoxes();
-             if(temp ==null) {
-                  } else {
-                 envNumTextField.setText(temp);
-                  }
-             cityTextField.setText("Wichita Falls");
-             stateComboBox.setSelectedItem("TX");
-             mailPrefComboBox.setSelectedItem("printed");
          }
    
 
