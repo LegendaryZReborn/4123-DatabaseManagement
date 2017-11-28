@@ -57,7 +57,7 @@ public class FundDAO {
     public void updateFund(Fund fund) throws Exception {
         PreparedStatement stmt = null;
         try {
-            stmt = conn.prepareStatement("update fund set qb_acc = ? where name = ?");
+            stmt = conn.prepareStatement("update fund set qb_acct = ? where name = ?");
             stmt.setString(1, fund.getQBact());
             stmt.setString(2, fund.getName());
             stmt.execute();
