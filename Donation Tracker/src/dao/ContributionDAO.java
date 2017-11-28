@@ -64,10 +64,10 @@ public class ContributionDAO {
         PreparedStatement stmt = null;
         String sql = "update contribution "
                 + "set amt = ?, "
-                + "date = ?, "
+                + "c_date = ?, "
                 + "note = ?, "
                 + "c_type = ?, "
-                + "fund = ?, "
+                + "fund_name = ?, "
                 + "env_num = ? "
                 + "where ID = ?";
         try {

@@ -122,6 +122,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         noteTextPane = new javax.swing.JTextPane();
         noteLabel = new javax.swing.JLabel();
+        IDTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         contributionTable = new javax.swing.JTable();
 
@@ -156,6 +157,11 @@ public class ContributionFrame extends javax.swing.JFrame {
         updateButton.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 updateButtonFocusLost(evt);
+            }
+        });
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
             }
         });
 
@@ -198,12 +204,17 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         noteLabel.setText("Note:");
 
+        IDTextField.setText("jTextField1");
+        IDTextField.setPreferredSize(new java.awt.Dimension(0, 0));
+
         javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
         addPanel.setLayout(addPanelLayout);
         addPanelLayout.setHorizontalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPanelLayout.createSequentialGroup()
-                .addContainerGap(263, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
+                .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(addPanelLayout.createSequentialGroup()
                         .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +259,7 @@ public class ContributionFrame extends javax.swing.JFrame {
                                 .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(332, 332, 332)))
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addContainerGap(304, Short.MAX_VALUE))
         );
         addPanelLayout.setVerticalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,7 +271,8 @@ public class ContributionFrame extends javax.swing.JFrame {
                     .addComponent(envIDLabel)
                     .addComponent(envComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dateLabel))
+                    .addComponent(dateLabel)
+                    .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(addPanelLayout.createSequentialGroup()
@@ -399,6 +411,10 @@ public class ContributionFrame extends javax.swing.JFrame {
             noteTextPane.setText("");
         else
             noteTextPane.setText(model.getValueAt(a, 6).toString());
+        if(model.getValueAt(a, 0) == null)
+            IDTextField.setText("");
+        else
+            IDTextField.setText(model.getValueAt(a, 0).toString());
 
 
 
@@ -492,10 +508,11 @@ public class ContributionFrame extends javax.swing.JFrame {
         try{
         String envID =envComboBox.getSelectedItem( ).toString();
         String sDate = dateTextField.getText();
+        int id=Integer.parseInt(IDTextField.getText());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = sdf.parse(sDate);
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        Contribution contribution=new Contribution(Double.parseDouble
+        Contribution contribution=new Contribution(id,Double.parseDouble
                 (amountTextField.getText()),sqlDate, noteTextPane.getText( ),typeComboBox.getSelectedItem( ).toString(),fundComboBox.getSelectedItem( ).toString(),Integer.parseInt( envID ));
         conDAO.updateContribution(contribution);
     }
@@ -586,6 +603,7 @@ public class ContributionFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField IDTextField;
     private javax.swing.JButton addButton;
     private javax.swing.JPanel addPanel;
     private javax.swing.JLabel amountLabel;
