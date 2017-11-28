@@ -14,6 +14,7 @@ import dao.DonorDAO;
 import dao.FundDAO;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,44 +53,44 @@ public class ContributionFrame extends javax.swing.JFrame {
         donDAO = new DonorDAO(this.conn);
         conDAO = new ContributionDAO(this.conn);
         fundDAO = new FundDAO(this.conn);
-        
-        
+
+
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         dateTextField.requestFocus();
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         Date date = new Date();
         dateTextField.setText(sdf.format(date));
-        
+
         try{
             contributionList = conDAO.getAllContributions();
             ContributionTableModel model = new ContributionTableModel(contributionList);
             contributionTable.setModel(model);
-            
+
             donorList = donDAO.getAllDonors();
             nameTextField.setText(donorList.get(0).getF_name() + " " + donorList.get(0).getL_name());
-            
+
             intList = donDAO.getAllEnvNums();
             envComboBox.setModel(new DefaultComboBoxModel(intList.toArray()));
-            
+
             fundList = fundDAO.getAllFunds();
-            
+
             //look into setting names for funds
             for(int i = 0; i < fundList.size(); i++)
             {
                 tempList.add(fundList.get(i).getName());
             }
-            
+
             fundID = setGeneral(tempList);
             fundComboBox.setModel(new DefaultComboBoxModel(tempList.toArray()));
             fundComboBox.setSelectedIndex(fundID);
-            
+
         } catch(Exception ex)
         {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         AutoCompletion.enable(fundComboBox);
     }
 
@@ -155,11 +156,6 @@ public class ContributionFrame extends javax.swing.JFrame {
         updateButton.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 updateButtonFocusLost(evt);
-            }
-        });
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
             }
         });
 
@@ -337,7 +333,7 @@ public class ContributionFrame extends javax.swing.JFrame {
             donorList = donDAO.getAllDonors();
             int i = envComboBox.getSelectedIndex();
             nameTextField.setText(donorList.get(i).getF_name() + " " + donorList.get(i).getL_name());
-            
+
         } catch (Exception ex) {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -349,7 +345,7 @@ public class ContributionFrame extends javax.swing.JFrame {
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         reset(donorList);
-        
+
         try {
             fundList = fundDAO.getAllFunds();
             //look into setting names for funds
@@ -357,11 +353,11 @@ public class ContributionFrame extends javax.swing.JFrame {
             {
                 tempList.add(fundList.get(i).getName());
             }
-           
+
             fundID = setGeneral(tempList);
             fundComboBox.setModel(new DefaultComboBoxModel(tempList.toArray()));
             fundComboBox.setSelectedIndex(fundID);
-           
+
         } catch (Exception ex) {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -371,13 +367,13 @@ public class ContributionFrame extends javax.swing.JFrame {
         int z;
         int i = contributionTable.getSelectedRow();
         int a = contributionTable.convertRowIndexToModel(i);
-        
-        
+
+
         TableModel model = contributionTable.getModel();
-        
+
         //String id = model.getValueAt(i, 0).toString();
         //int idParam = Integer.parseInt(id);
-        
+
         //NOTE: There has to be a better way to set comboboxes then if/else statements
         //Look into this before finalizing form
         if(model.getValueAt(a, 5).equals("check"))
@@ -392,20 +388,21 @@ public class ContributionFrame extends javax.swing.JFrame {
         String temp = (String) model.getValueAt(a, 4);
         z = getIndexOfFund(temp);
         fundComboBox.setSelectedIndex(z);
-            
+
         int k = Integer.parseInt(model.getValueAt(a,2).toString());
         envComboBox.setSelectedIndex(k);
         amountTextField.setText(model.getValueAt(a, 3).toString());
+
         dateTextField.setText(model.getValueAt(a, 1).toString());
         //fund combo box
         if(model.getValueAt(a, 6) == null)
             noteTextPane.setText("");
-        else    
+        else
             noteTextPane.setText(model.getValueAt(a, 6).toString());
-        
-        
-        
-        
+
+
+
+
     }//GEN-LAST:event_contributionTableMouseClicked
 
     private int getIndexOfFund(String myString)
@@ -413,13 +410,13 @@ public class ContributionFrame extends javax.swing.JFrame {
         int j = 0;
         try{
             fundList = fundDAO.getAllFunds();
-            
+
             //look into setting names for funds
             for(int i = 0; i < fundList.size(); i++)
             {
                 tempList.add(fundList.get(i).getName());
             }
-            
+
             for(int i = 0; i < tempList.size(); i++)
             {
                 if(tempList.get(i).equals(myString))
@@ -435,7 +432,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         }
         return j;
     }
-    
+
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
          try {
             String sDate = dateTextField.getText();
@@ -448,7 +445,7 @@ public class ContributionFrame extends javax.swing.JFrame {
                             getSelectedItem().toString(),Integer.parseInt
                                 (envComboBox.getSelectedItem().toString()));
             conDAO.addContribution(contribution);
-            
+
          }catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -458,7 +455,7 @@ public class ContributionFrame extends javax.swing.JFrame {
          finally{
              reset(donorList);
          }
-         
+
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_updateButtonFocusLost
@@ -478,7 +475,7 @@ public class ContributionFrame extends javax.swing.JFrame {
                             getSelectedItem().toString(),Integer.parseInt
                                 (envComboBox.getSelectedItem().toString()));
             conDAO.deleteContribution(contribution);
-            
+
          }catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -488,7 +485,7 @@ public class ContributionFrame extends javax.swing.JFrame {
          finally{
              reset(donorList);
          }
-         
+
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
@@ -501,7 +498,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         Contribution contribution=new Contribution(Double.parseDouble
                 (amountTextField.getText()),sqlDate, noteTextPane.getText( ),typeComboBox.getSelectedItem( ).toString(),fundComboBox.getSelectedItem( ).toString(),Integer.parseInt( envID ));
         conDAO.updateContribution(contribution);
-    }                                            
+    }
     catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -509,14 +506,14 @@ public class ContributionFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);}
     finally{
              reset(donorList);
-         }                                
+         }
 
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private int setGeneral(List<String> b)
     {
         int k = 0;
-        
+
         for(int i = 0; i < b.size(); i++)
         {
             //System.out.println(b.get(i));
@@ -525,25 +522,25 @@ public class ContributionFrame extends javax.swing.JFrame {
                 k = i;
                 //System.out.println("Found General at index: " + k);
                 return k;
-            }  
+            }
         }
         return k;
     }
-    
+
     private void reset(List<Donor> a)
     {
-        
+
         envComboBox.setSelectedIndex(0);
         nameTextField.setText(a.get(0).getF_name() + " " + a.get(0).getL_name());
         amountTextField.setText("");
         typeComboBox.setSelectedIndex(0);
         noteTextPane.setText("");
         envComboBox.requestFocus();
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         Date date = new Date();
         dateTextField.setText(sdf.format(date));
-        
+
         try{
             contributionList = conDAO.getAllContributions();
             ContributionTableModel model = new ContributionTableModel(contributionList);
@@ -560,7 +557,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

@@ -8,6 +8,8 @@ package gui;
 import java.util.List;
 import java.sql.Date;
 import core.Contribution;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import javax.swing.table.AbstractTableModel;
 /**
  *
@@ -55,7 +57,10 @@ public class ContributionTableModel extends AbstractTableModel {
 			case ENV_NUM_COL:
                 return tempContribution.getEnv_num();
             case AMT_COL:
-                return tempContribution.getAmt();
+                DecimalFormat decForm = new DecimalFormat("0.00");
+                String formattedText = decForm.format(tempContribution.getAmt());
+                //return Double.parseDouble(formattedText);
+                return formattedText;
 			case FUND_NAME_COL:
                 return tempContribution.getFund_name();
 			case C_TYPE_COL:
@@ -90,6 +95,7 @@ public class ContributionTableModel extends AbstractTableModel {
                 tempContribution.setC_type((String) aValue);
             case NOTE_COL:
                 tempContribution.setNote((String) aValue);
+                
         }
     }
 
