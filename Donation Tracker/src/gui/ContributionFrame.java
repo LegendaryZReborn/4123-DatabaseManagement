@@ -14,6 +14,7 @@ import dao.DonorDAO;
 import dao.FundDAO;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -155,11 +156,6 @@ public class ContributionFrame extends javax.swing.JFrame {
         updateButton.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 updateButtonFocusLost(evt);
-            }
-        });
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
             }
         });
 
@@ -399,6 +395,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         String formattedText = decForm.format(model.getValueAt(a, 3));
         //amountTextField.setText(model.getValueAt(a, 3).toString());
         amountTextField.setText(formattedText);
+
         dateTextField.setText(model.getValueAt(a, 1).toString());
         //fund combo box
         if(model.getValueAt(a, 6) == null)
