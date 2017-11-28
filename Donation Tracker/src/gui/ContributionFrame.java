@@ -376,11 +376,11 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         //NOTE: There has to be a better way to set comboboxes then if/else statements
         //Look into this before finalizing form
-        if(model.getValueAt(a, 5).equals("check"))
+        if(model.getValueAt(a, 5).equals("Check"))
             typeComboBox.setSelectedIndex(0);
-        else if(model.getValueAt(a, 5).equals("currency"))
+        else if(model.getValueAt(a, 5).equals("Currency"))
             typeComboBox.setSelectedIndex(1);
-        else if(model.getValueAt(a, 5).equals("coin"))
+        else if(model.getValueAt(a, 5).equals("Coin"))
             typeComboBox.setSelectedIndex(2);
         else
             typeComboBox.setSelectedIndex(3);

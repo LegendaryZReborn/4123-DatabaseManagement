@@ -64,6 +64,9 @@ public class ContributionTableModel extends AbstractTableModel {
 			case FUND_NAME_COL:
                 return tempContribution.getFund_name();
 			case C_TYPE_COL:
+                            String manipValue = tempContribution.getC_type();
+                            String outValue = manipValue.substring(0, 1).toUpperCase() + manipValue.substring(1);
+                            tempContribution.setC_type(outValue);
                 return tempContribution.getC_type();
             case NOTE_COL:
                 return tempContribution.getNote();
