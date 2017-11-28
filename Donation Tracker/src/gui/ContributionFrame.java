@@ -106,7 +106,6 @@ public class ContributionFrame extends javax.swing.JFrame {
         nameTextField = new javax.swing.JTextField();
         amountLabel = new javax.swing.JLabel();
         amountTextField = new javax.swing.JTextField();
-        DecimalFormat decForm = new DecimalFormat("0.00");
         typeComboBox = new javax.swing.JComboBox<>();
         addButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
@@ -396,6 +395,7 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         int k = Integer.parseInt(model.getValueAt(a,2).toString());
         envComboBox.setSelectedIndex(k);
+        DecimalFormat decForm = new DecimalFormat("0.00");
         String formattedText = decForm.format(model.getValueAt(a, 3));
         //amountTextField.setText(model.getValueAt(a, 3).toString());
         amountTextField.setText(formattedText);
