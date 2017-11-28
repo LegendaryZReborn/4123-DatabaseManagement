@@ -1,5 +1,5 @@
 /*
-* Author(s): Tellon Smith, Johann Readhead
+* Author(s): Tellon Smith, Johann Readhead, Matthew Schenk
 */
 
 
@@ -264,7 +264,11 @@ public class FundFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+			// Code for making error messages easier to read
+            String error = "";
+            if (ex.getMessage().contains("for key 'PRIMARY'"))
+                error = "Fund Name is already being used.";
+            JOptionPane.showMessageDialog(this, "Database Error : " + error, "Error", JOptionPane.ERROR_MESSAGE);
         }
         finally{
                     reset();
