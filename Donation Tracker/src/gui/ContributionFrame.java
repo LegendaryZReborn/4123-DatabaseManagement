@@ -396,7 +396,7 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         int k = Integer.parseInt(model.getValueAt(a,2).toString());
         envComboBox.setSelectedIndex(k);
-        String formattedText = dc.format(model.getValueAt(a, 3));
+        String formattedText = decForm.format(model.getValueAt(a, 3));
         //amountTextField.setText(model.getValueAt(a, 3).toString());
         amountTextField.setText(formattedText);
         dateTextField.setText(model.getValueAt(a, 1).toString());
