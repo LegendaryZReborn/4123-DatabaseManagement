@@ -108,7 +108,7 @@
                                                   <Component id="addButton" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
                                                   <Component id="resetButton" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace pref="141" max="32767" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                   <Component id="deleteButton" max="32767" attributes="0"/>
                                                   <Component id="updateButton" pref="112" max="32767" attributes="0"/>
@@ -270,6 +270,7 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addButtonActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="addButtonKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="resetButton">
@@ -278,6 +279,7 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetButtonActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="resetButtonKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteButton">
@@ -286,6 +288,7 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteButtonActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="deleteButtonKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="updateButton">
@@ -294,6 +297,7 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateButtonActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="updateButtonKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="stateComboBox">
