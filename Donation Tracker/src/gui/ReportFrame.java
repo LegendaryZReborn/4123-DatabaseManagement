@@ -8,10 +8,13 @@ package gui;
 import core.Donor;
 import dao.DBConnection;
 import dao.DonorDAO;
+import java.io.File;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.view.*;
 import net.sf.jasperreports.engine.*;
@@ -223,12 +226,29 @@ public class ReportFrame extends javax.swing.JFrame {
             JasperPrint jp = JasperFillManager.fillReport(jr, params, this.conn.getConnection());
             
              if(jp.getPages().size() != 0)
-                {
-                    //JasperViewer.viewReport(jp, false);
-                    String path=System.getProperty("user.dir");
-                    JasperExportManager.exportReportToPdfFile(jp, path + "/freports/FReport.pdf");
-                    JasperViewer.viewReport(jp, false);
+            {
+                //Open a dialogue box so the user can choose where to save the generated reports
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setCurrentDirectory(new java.io.File(".")); // start at current directory
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                int choice = fileChooser.showSaveDialog(this);
+
+                if(choice == JFileChooser.APPROVE_OPTION) {
+                     File folder = fileChooser.getSelectedFile();
+                    boolean exists = Files.exists(folder.toPath());
+                            
+                    if(exists)
+                    {
+                        String path = folder.getAbsolutePath();
+                        JasperExportManager.exportReportToPdfFile(jp, path + "\\FReport.pdf");
+                        JasperViewer.viewReport(jp, false);
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "The directory selected does not exist!");
+                    }
                 }
+            }
             
         }catch(Exception e){
             System.out.println("Something went wrong in generating the reports:"
@@ -258,48 +278,65 @@ public class ReportFrame extends javax.swing.JFrame {
             DonorDAO donorDAO = new DonorDAO(conn);
             List<Donor> donorList = donorDAO.getAllDonors();
             int reportsGenerated = 0;
-            //For each donor in the list that has contributed
-            //within the time period, generate a contributions report
-            for(int i = 0; i < donorList.size(); i++)
-            {   
-                Donor d = donorList.get(i);
-                int envNum = d.getEnv_num();
-                String address = d.getF_name() + " " + d.getL_name() + "\n\n"
-                        + d.getStreet() + "\n\n" + d.getCity() + ", " + d.getState() +
-                        " " + d.getZip();
-                
-                //Hashmap holds parameters that will be used to fill the report
-                HashMap params = new HashMap();
-                params.put("date_range", range);
-                params.put("address", address);
-                
-                String sql_query = "SELECT env_num as EnvNum, ID, f_name as FirstName, l_name as LastName,\n" +
-                "c_date as Date, c_type as Type, fund_name as Fund, amt as Amt, \n" +
-                "note as Note, street, state, zip, city \n" +
-                "FROM contribution natural join donor\n" +
-                "where env_num = " + envNum + " and c_date >= '" + date1 + "' and c_date <= '" + date2 + "'\n" +
-                 "and amt >= " + Double.toString(min_d) + " order by c_date asc;";
+            
+            //Open a dialogue box so the user can choose where to save the generated reports
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new java.io.File(".")); // start at current directory
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int choice = fileChooser.showSaveDialog(this);
 
-                 System.out.println(sql_query);
-                 
-                //compile, fill and view the produced the jasport report
-                JasperDesign jd = JRXmlLoader.load("src\\contributions_report.jrxml");
-                JRDesignQuery jQuery = new JRDesignQuery();
-                jQuery.setText(sql_query);
-                jd.setQuery(jQuery);
-                JasperReport jr = JasperCompileManager.compileReport(jd);
-                JasperPrint jp = JasperFillManager.fillReport(jr, params, this.conn.getConnection());
+            if(choice == JFileChooser.APPROVE_OPTION) {
+                File folder = fileChooser.getSelectedFile();
+                boolean exists = Files.exists(folder.toPath());   
                 
-                //Genrate save the report in a pdf if it is not empty
-                if(jp.getPages().size() != 0)
-                {   //JasperViewer.viewReport(jp, false);
-                    String path=System.getProperty("user.dir");
-                    JasperExportManager.exportReportToPdfFile(jp, path + "/creports/CReport" + envNum + ".pdf");
-                    reportsGenerated++;
+                if(exists)
+                {
+                    //For each donor in the list that has contributed
+                    //within the time period, generate a contributions report
+                    for(int i = 0; i < donorList.size(); i++)
+                    {   
+                        Donor d = donorList.get(i);
+                        int envNum = d.getEnv_num();
+                        String address = d.getF_name() + " " + d.getL_name() + "\n\n"
+                                + d.getStreet() + "\n\n" + d.getCity() + ", " + d.getState() +
+                                " " + d.getZip();
+
+                        //Hashmap holds parameters that will be used to fill the report
+                        HashMap params = new HashMap();
+                        params.put("date_range", range);
+                        params.put("address", address);
+
+                        String sql_query = "SELECT env_num as EnvNum, ID, f_name as FirstName, l_name as LastName,\n" +
+                        "c_date as Date, c_type as Type, fund_name as Fund, amt as Amt, \n" +
+                        "note as Note, street, state, zip, city \n" +
+                        "FROM contribution natural join donor\n" +
+                        "where env_num = " + envNum + " and c_date >= '" + date1 + "' and c_date <= '" + date2 + "'\n" +
+                         "and amt >= " + Double.toString(min_d) + " order by c_date asc;";
+
+                        //compile, fill and view the produced the jasport report
+                        JasperDesign jd = JRXmlLoader.load("src\\contributions_report.jrxml");
+                        JRDesignQuery jQuery = new JRDesignQuery();
+                        jQuery.setText(sql_query);
+                        jd.setQuery(jQuery);
+                        JasperReport jr = JasperCompileManager.compileReport(jd);
+                        JasperPrint jp = JasperFillManager.fillReport(jr, params, this.conn.getConnection());
+
+                        //Genrate save the report in a pdf if it is not empty
+                        if(jp.getPages().size() != 0)
+                        {   
+                            String path = folder.getAbsolutePath();
+                            JasperExportManager.exportReportToPdfFile(jp, path + "\\CReport" + envNum + ".pdf");
+                            reportsGenerated++;
+                        }
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Contribution reports for " + reportsGenerated + " donor(s) have been generated.");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "The directory selected does not exist!");
                 }
             }
-            
-            JOptionPane.showMessageDialog(null, "Contribution reports for " + reportsGenerated + " donor(s) have been generated.");
             
         }catch(Exception e){
             System.out.println("Something went wrong in generating the reports:"
