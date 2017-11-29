@@ -119,11 +119,21 @@ public class FundFrame extends javax.swing.JFrame {
                 add_buttonActionPerformed(evt);
             }
         });
+        add_button.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                add_buttonKeyPressed(evt);
+            }
+        });
 
         update_button.setText("Update");
         update_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 update_buttonActionPerformed(evt);
+            }
+        });
+        update_button.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                update_buttonKeyPressed(evt);
             }
         });
 
@@ -133,11 +143,21 @@ public class FundFrame extends javax.swing.JFrame {
                 reset_buttonActionPerformed(evt);
             }
         });
+        reset_button.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                reset_buttonKeyPressed(evt);
+            }
+        });
 
         delete_button.setText("Delete");
         delete_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 delete_buttonActionPerformed(evt);
+            }
+        });
+        delete_button.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                delete_buttonKeyPressed(evt);
             }
         });
 
@@ -313,6 +333,34 @@ public class FundFrame extends javax.swing.JFrame {
                     reset_fields();
         } 
     }//GEN-LAST:event_update_buttonActionPerformed
+
+    private void add_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_add_buttonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            add_button.doClick();
+        }
+    }//GEN-LAST:event_add_buttonKeyPressed
+
+    private void update_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_buttonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            update_button.doClick();
+        }
+    }//GEN-LAST:event_update_buttonKeyPressed
+
+    private void reset_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_reset_buttonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            reset_button.doClick();
+        }
+    }//GEN-LAST:event_reset_buttonKeyPressed
+
+    private void delete_buttonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_delete_buttonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            delete_button.doClick();
+        }
+    }//GEN-LAST:event_delete_buttonKeyPressed
 
     private void reset(){   
         try{

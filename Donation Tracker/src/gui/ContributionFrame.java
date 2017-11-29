@@ -152,6 +152,11 @@ public class ContributionFrame extends javax.swing.JFrame {
                 addButtonActionPerformed(evt);
             }
         });
+        addButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                addButtonKeyPressed(evt);
+            }
+        });
 
         updateButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         updateButton.setText("Update");
@@ -165,6 +170,11 @@ public class ContributionFrame extends javax.swing.JFrame {
                 updateButtonActionPerformed(evt);
             }
         });
+        updateButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                updateButtonKeyPressed(evt);
+            }
+        });
 
         resetButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         resetButton.setText("Reset");
@@ -173,12 +183,22 @@ public class ContributionFrame extends javax.swing.JFrame {
                 resetButtonActionPerformed(evt);
             }
         });
+        resetButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                resetButtonKeyPressed(evt);
+            }
+        });
 
         deleteButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         deleteButton.setText("Delete");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
+            }
+        });
+        deleteButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                deleteButtonKeyPressed(evt);
             }
         });
 
@@ -502,6 +522,34 @@ public class ContributionFrame extends javax.swing.JFrame {
          }
 
     }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void addButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addButtonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            addButton.doClick();
+        }
+    }//GEN-LAST:event_addButtonKeyPressed
+
+    private void deleteButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deleteButtonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            deleteButton.doClick();
+        }
+    }//GEN-LAST:event_deleteButtonKeyPressed
+
+    private void resetButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resetButtonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            resetButton.doClick();
+        }
+    }//GEN-LAST:event_resetButtonKeyPressed
+
+    private void updateButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_updateButtonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            updateButton.doClick();
+        }
+    }//GEN-LAST:event_updateButtonKeyPressed
 
     private int setGeneral(List<String> b)
     {
