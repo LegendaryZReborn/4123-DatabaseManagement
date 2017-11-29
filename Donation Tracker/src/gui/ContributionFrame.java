@@ -376,77 +376,56 @@ public class ContributionFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void contributionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contributionTableMouseClicked
-        int z;
         int i = contributionTable.getSelectedRow();
-        int a = contributionTable.convertRowIndexToModel(i);
-
+        int rowNum = contributionTable.convertRowIndexToModel(i);
 
         TableModel model = contributionTable.getModel();
 
-        //String id = model.getValueAt(i, 0).toString();
-        //int idParam = Integer.parseInt(id);
+        String typeVal = model.getValueAt(rowNum, 5).toString();
+        int typeBoxI = getIndexInComboBox(typeVal, typeComboBox);
+        typeComboBox.setSelectedIndex(typeBoxI);
 
-        //NOTE: There has to be a better way to set comboboxes then if/else statements
-        //Look into this before finalizing form
-        if(model.getValueAt(a, 5).equals("Check"))
-            typeComboBox.setSelectedIndex(0);
-        else if(model.getValueAt(a, 5).equals("Currency"))
-            typeComboBox.setSelectedIndex(1);
-        else if(model.getValueAt(a, 5).equals("Coin"))
-            typeComboBox.setSelectedIndex(2);
-        else
-            typeComboBox.setSelectedIndex(3);
+        String fundVal = (String) model.getValueAt(rowNum, 4);
+        int fundBoxI = getIndexInComboBox(fundVal, fundComboBox);
+        fundComboBox.setSelectedIndex(fundBoxI);
 
-        String temp = (String) model.getValueAt(a, 4);
-        z = getIndexOfFund(temp);
-        fundComboBox.setSelectedIndex(z);
+        String envNum = model.getValueAt(rowNum,2).toString();
+        int envBoxI = getIndexInComboBox(envNum, envComboBox);
+        envComboBox.setSelectedIndex(envBoxI);
+        
+        amountTextField.setText(model.getValueAt(rowNum, 3).toString());
 
-        int k = Integer.parseInt(model.getValueAt(a,2).toString());
-        envComboBox.setSelectedIndex(k);
-        amountTextField.setText(model.getValueAt(a, 3).toString());
-
-        dateTextField.setText(model.getValueAt(a, 1).toString());
-        //fund combo box
-        if(model.getValueAt(a, 6) == null)
+        dateTextField.setText(model.getValueAt(rowNum, 1).toString());
+        
+        if(model.getValueAt(rowNum, 6) == null)
             noteTextPane.setText("");
         else
-            noteTextPane.setText(model.getValueAt(a, 6).toString());
-        if(model.getValueAt(a, 0) == null)
+            noteTextPane.setText(model.getValueAt(rowNum, 6).toString());
+        
+        if(model.getValueAt(rowNum, 0) == null)
             IDTextField.setText("");
         else
-            IDTextField.setText(model.getValueAt(a, 0).toString());
-
-
-
+            IDTextField.setText(model.getValueAt(rowNum, 0).toString());
 
     }//GEN-LAST:event_contributionTableMouseClicked
 
-    private int getIndexOfFund(String myString)
+    //Searches a combo box for the index of a string value and returns it
+    private int getIndexInComboBox(String toFind, JComboBox jBox)
     {
-        int j = 0;
-        try{
-            fundList = fundDAO.getAllFunds();
-
-            //look into setting names for funds
-            for(int i = 0; i < fundList.size(); i++)
-            {
-                tempList.add(fundList.get(i).getName());
-            }
-
-            for(int i = 0; i < tempList.size(); i++)
-            {
-                if(tempList.get(i).equals(myString))
-                {
-                    j = i;
-                    return j;
-                }
-            }
-        } catch(Exception ex)
-        {
-            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        return j;
+        String item;
+        boolean found = false;
+        int index = -1;
+       for(int i = 0; i < jBox.getItemCount() && !found; i++)
+       {
+           item = jBox.getItemAt(i).toString();
+           if(item.equals(toFind))
+           {
+               index = i;
+               found = true;
+           }
+       }
+       
+       return index;
     }
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
