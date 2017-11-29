@@ -450,9 +450,12 @@ public class ContributionFrame extends javax.swing.JFrame {
     }
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-         try {
+
+        try {
+            
             String sDate = dateTextField.getText();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
             java.util.Date date = sdf.parse(sDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             Contribution contribution =   new Contribution(Double.parseDouble
@@ -467,7 +470,7 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
-        }
+            }
          finally{
              reset(donorList);
          }
@@ -483,6 +486,7 @@ public class ContributionFrame extends javax.swing.JFrame {
          try {
             String sDate = dateTextField.getText();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
             java.util.Date date = sdf.parse(sDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             Contribution contribution =   new Contribution(Double.parseDouble
@@ -510,6 +514,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         String sDate = dateTextField.getText();
         int id=Integer.parseInt(IDTextField.getText());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
         java.util.Date date = sdf.parse(sDate);
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         Contribution contribution=new Contribution(id,Double.parseDouble
