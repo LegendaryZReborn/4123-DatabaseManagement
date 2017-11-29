@@ -52,35 +52,28 @@ public class ContributionTableModel extends AbstractTableModel {
         switch (col) {
             case ID_COL:
                 return tempContribution.getID();
-			case C_DATE_COL:
+            case C_DATE_COL:
                 return tempContribution.getC_date();
-			case ENV_NUM_COL:
+            case ENV_NUM_COL:
                 return tempContribution.getEnv_num();
             case AMT_COL:
                 DecimalFormat decForm = new DecimalFormat("0.00");
                 String formattedText = decForm.format(tempContribution.getAmt());
                 //return Double.parseDouble(formattedText);
                 return formattedText;
-			case FUND_NAME_COL:
+            case FUND_NAME_COL:
                 return tempContribution.getFund_name();
-			case C_TYPE_COL:
-                            String manipValue = tempContribution.getC_type();
-                            String outValue = manipValue.substring(0, 1).toUpperCase() + manipValue.substring(1);
-                            tempContribution.setC_type(outValue);
+            case C_TYPE_COL:
+                String manipValue = tempContribution.getC_type();
+                String outValue = manipValue.substring(0, 1).toUpperCase() + manipValue.substring(1);
+                tempContribution.setC_type(outValue);
                 return tempContribution.getC_type();
             case NOTE_COL:
                 return tempContribution.getNote();
             default:
                 return tempContribution.getID();
         }
-    }
-    @Override
-	public boolean isCellEditable(int row, int col)
-    {
-        return col != ID_COL; //Cant edit ID
-        //Can edit everything else
-    }
-	
+    }	
     @Override
 	public void setValueAt(Object aValue, int row, int col)
     {
