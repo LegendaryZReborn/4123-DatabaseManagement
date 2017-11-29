@@ -312,8 +312,8 @@ public class DonorFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 //(int eNum, String fname, String lname, String street, String city, String state, int zip, String email, String mpref)
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-         try {
-             
+
+        try {
             Donor donor = new Donor(Integer.parseInt
                 (envNumTextField.getText()),firstNameTextField.getText(),
                     lastNameTextField.getText(),streetTextField.getText(),
@@ -322,7 +322,6 @@ public class DonorFrame extends javax.swing.JFrame {
                     emailTextField.getText(),mailPrefComboBox
                             .getSelectedItem().toString());
             donorDAO.addDonor(donor);
-            
          }catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -390,9 +389,10 @@ public class DonorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-                try{ 
+        try{ 
+
             String env = envNumTextField.getText( );
-            String f_name = firstNameTextField.getText( );
+            String f_name = firstNameTextField.getText();
             String l_name = lastNameTextField.getText( );
             String street = streetTextField.getText( );
             String city = cityTextField.getText( );
