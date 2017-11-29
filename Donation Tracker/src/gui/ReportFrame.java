@@ -8,6 +8,7 @@ package gui;
 import core.Donor;
 import dao.DBConnection;
 import dao.DonorDAO;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -86,6 +87,11 @@ public class ReportFrame extends javax.swing.JFrame {
                 generate_creportActionPerformed(evt);
             }
         });
+        generate_creport.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                generate_creportKeyPressed(evt);
+            }
+        });
 
         min_donation_label.setText("Min. Donation");
 
@@ -139,6 +145,11 @@ public class ReportFrame extends javax.swing.JFrame {
         generate_freport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 generate_freportActionPerformed(evt);
+            }
+        });
+        generate_freport.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                generate_freportKeyPressed(evt);
             }
         });
 
@@ -343,6 +354,20 @@ public class ReportFrame extends javax.swing.JFrame {
                     + e);
         }
     }//GEN-LAST:event_generate_creportActionPerformed
+
+    private void generate_freportKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_generate_freportKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            generate_freport.doClick();
+        }
+    }//GEN-LAST:event_generate_freportKeyPressed
+
+    private void generate_creportKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_generate_creportKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            generate_creport.doClick();
+        }
+    }//GEN-LAST:event_generate_creportKeyPressed
 
     /**
      * @param args the command line arguments
