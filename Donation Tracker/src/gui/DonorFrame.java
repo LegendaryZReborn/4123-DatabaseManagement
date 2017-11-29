@@ -339,8 +339,7 @@ public class DonorFrame extends javax.swing.JFrame {
             stateComboBox.setSelectedItem("TX");
             envNumTextField.setText(temp);
             cityTextField.setText("Wichita Falls");
-            //enable add button
-            addButton.setEnabled(true);
+            
         }
             
         catch(Exception err){
