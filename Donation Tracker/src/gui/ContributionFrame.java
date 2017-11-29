@@ -12,9 +12,7 @@ import dao.ContributionDAO;
 import dao.DBConnection;
 import dao.DonorDAO;
 import dao.FundDAO;
-import java.awt.Color;
 import java.text.SimpleDateFormat;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +23,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -61,11 +61,17 @@ public class ContributionFrame extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         Date date = new Date();
         dateTextField.setText(sdf.format(date));
+        
+        //Added by Max Duhan to fix non right justifing amounts
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
 
         try{
             contributionList = conDAO.getAllContributions();
             ContributionTableModel model = new ContributionTableModel(contributionList);
             contributionTable.setModel(model);
+            
+            contributionTable.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);// Max Duhan
 
             donorList = donDAO.getAllDonors();
             nameTextField.setText(donorList.get(0).getF_name() + " " + donorList.get(0).getL_name());
