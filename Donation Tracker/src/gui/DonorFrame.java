@@ -408,20 +408,27 @@ public class DonorFrame extends javax.swing.JFrame {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try{ 
-
-            String env = envNumTextField.getText( );
-            String f_name = firstNameTextField.getText();
-            String l_name = lastNameTextField.getText( );
-            String street = streetTextField.getText( );
-            String city = cityTextField.getText( );
-            String state = stateComboBox.getSelectedItem( ).toString();
-            String zipcode = zipTextField.getText( );
-            String email = emailTextField.getText( );
-            String mail_pref = mailPrefComboBox.getSelectedItem( ).toString();
-            int env_num = Integer.parseInt( env );
-            int zip = Integer.parseInt( zipcode );
-            Donor donor=new Donor(env_num,f_name,l_name,street,city,state,zip,email,mail_pref);
-            donorDAO.updateDonor(donor);
+            
+             if(mailPrefComboBox.getSelectedItem().toString() == "electronic" &&  emailTextField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(this, "The electronic mail preference requires an email address!");
+            }
+            else
+            {
+                String env = envNumTextField.getText( );
+                String f_name = firstNameTextField.getText();
+                String l_name = lastNameTextField.getText( );
+                String street = streetTextField.getText( );
+                String city = cityTextField.getText( );
+                String state = stateComboBox.getSelectedItem( ).toString();
+                String zipcode = zipTextField.getText( );
+                String email = emailTextField.getText( );
+                String mail_pref = mailPrefComboBox.getSelectedItem( ).toString();
+                int env_num = Integer.parseInt( env );
+                int zip = Integer.parseInt( zipcode );
+                Donor donor=new Donor(env_num,f_name,l_name,street,city,state,zip,email,mail_pref);
+                donorDAO.updateDonor(donor);
+            }
          }
          catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
