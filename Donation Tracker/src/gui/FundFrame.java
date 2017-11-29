@@ -253,6 +253,7 @@ public class FundFrame extends javax.swing.JFrame {
         
         //enable add button
         add_button.setEnabled(true);
+         fundName_textField.requestFocus();
     }//GEN-LAST:event_ResetActionPerformed
 
     private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
@@ -312,7 +313,8 @@ public class FundFrame extends javax.swing.JFrame {
     try{
             fundList = fundDAO.getAllFunds();
             model = new FundTableModel(fundList);
-            fund_table.setModel(model);            
+            fund_table.setModel(model); 
+            fundName_textField.requestFocus();
         } catch (Exception ex)
         {
             JOptionPane.showMessageDialog(this, "Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);

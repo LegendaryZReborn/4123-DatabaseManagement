@@ -460,6 +460,7 @@ public class DonorFrame extends javax.swing.JFrame {
         stateComboBox.setSelectedItem("TX");
         zipTextField.setText("");
         emailTextField.setText("");
+        firstNameTextField.requestFocus();
     }
     
     private void reset(){   
@@ -467,6 +468,7 @@ public class DonorFrame extends javax.swing.JFrame {
             donors = donorDAO.getAllDonors();
             DonorTableModel model = new DonorTableModel(donors);
             TableDonor.setModel(model);
+            firstNameTextField.requestFocus();
         } catch (Exception ex)
         {
             JOptionPane.showMessageDialog(this, "Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
