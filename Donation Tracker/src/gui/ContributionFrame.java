@@ -604,7 +604,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         typeComboBox.setSelectedIndex(0);
         noteTextPane.setText("");
         envComboBox.requestFocus();
-        fundComboBox.setSelectedIndex(5);
+        fundComboBox.setSelectedItem("General");
 
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         Date date = new Date();
