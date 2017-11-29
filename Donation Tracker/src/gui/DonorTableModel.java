@@ -23,7 +23,7 @@ public class DonorTableModel extends AbstractTableModel{
     private static final int ZIP_COL = 6;
     private static final int EMAIL_COL = 7;
     private static final int MAIL_PREF_COL = 8;
-    private String[] columnNames = {"env_num", "f_name", "l_name", "street","city","state","zip","email","mail_pref"};
+    private String[] columnNames = {"Envelope Number", "First Name", "Last Name", "Street","City","State","Zip","Email","Mail Pref"};
     private List<Donor> donors;
     
     public DonorTableModel(List<Donor> d) {
