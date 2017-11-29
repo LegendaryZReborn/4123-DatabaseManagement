@@ -101,8 +101,8 @@ public class DonorDAO {
     public void updateDonor(Donor donor) throws Exception {
         PreparedStatement stmt = null;
         String sql = "update donor "
-                + "set first = ?, "
-                + "last = ?, "
+                + "set f_name = ?, "
+                + "l_name = ?, "
                 + "street = ?, "
                 + "city = ?, "
                 + "state = ?, "

@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author cotyhamilton
+ * @author cotyhamilton, Matthew Schenk
  */
 public class LoginFrame extends javax.swing.JFrame {
     
@@ -166,8 +166,13 @@ public class LoginFrame extends javax.swing.JFrame {
             this.setVisible(false);
             
         }catch(Exception exc) {
-                
-            JOptionPane.showMessageDialog(this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
+			// Code for making error messages easier to read
+            String error ="";
+            if (exc.getMessage().contains("Access denied for user"))
+                error = "Invalid Username / Password";
+            else if (exc.getMessage().contains("Communications link failure"))
+                error = "Can not connect to Database.\nPlease check the address and database.";
+            JOptionPane.showMessageDialog(this, "Error: " + error, "Error",JOptionPane.ERROR_MESSAGE);
             
         }
         
