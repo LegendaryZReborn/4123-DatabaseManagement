@@ -53,7 +53,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         donDAO = new DonorDAO(this.conn);
         conDAO = new ContributionDAO(this.conn);
         fundDAO = new FundDAO(this.conn);
-
+        IDTextField.setVisible(false);
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         dateTextField.requestFocus();
@@ -159,11 +159,6 @@ public class ContributionFrame extends javax.swing.JFrame {
                 updateButtonFocusLost(evt);
             }
         });
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
-            }
-        });
 
         resetButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         resetButton.setText("Reset");
@@ -187,6 +182,15 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         fundComboBox.setEditable(true);
         fundComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General Fund", " " }));
+        fundComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                fundComboBoxPopupMenuWillBecomeVisible(evt);
+            }
+        });
 
         fundLabel.setText("Fund:");
 
@@ -199,22 +203,31 @@ public class ContributionFrame extends javax.swing.JFrame {
                 envComboBoxItemStateChanged(evt);
             }
         });
+        envComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                envComboBoxPopupMenuWillBecomeVisible(evt);
+            }
+        });
 
         jScrollPane2.setViewportView(noteTextPane);
 
         noteLabel.setText("Note:");
 
-        IDTextField.setText("jTextField1");
-        IDTextField.setPreferredSize(new java.awt.Dimension(0, 0));
+        IDTextField.setEditable(false);
+        IDTextField.setFocusable(false);
 
         javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
         addPanel.setLayout(addPanelLayout);
         addPanelLayout.setHorizontalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPanelLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addContainerGap(169, Short.MAX_VALUE)
                 .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                .addGap(57, 57, 57)
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(addPanelLayout.createSequentialGroup()
                         .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +272,7 @@ public class ContributionFrame extends javax.swing.JFrame {
                                 .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(332, 332, 332)))
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(295, Short.MAX_VALUE))
         );
         addPanelLayout.setVerticalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +358,6 @@ public class ContributionFrame extends javax.swing.JFrame {
             donorList = donDAO.getAllDonors();
             int i = envComboBox.getSelectedIndex();
             nameTextField.setText(donorList.get(i).getF_name() + " " + donorList.get(i).getL_name());
-
         } catch (Exception ex) {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -511,6 +523,55 @@ public class ContributionFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_updateButtonActionPerformed
 
+    private void envComboBoxPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_envComboBoxPopupMenuWillBecomeVisible
+
+        // TODO add your handling code here:
+        reloadEnvNumList();
+
+    }//GEN-LAST:event_envComboBoxPopupMenuWillBecomeVisible
+
+    private void fundComboBoxPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_fundComboBoxPopupMenuWillBecomeVisible
+        // TODO add your handling code here:
+        reloadFundList();
+    }//GEN-LAST:event_fundComboBoxPopupMenuWillBecomeVisible
+
+     private void reloadEnvNumList()
+    {
+        try{
+            List<Integer> envNumList;
+            envNumList = donDAO.getAllEnvNums();
+            envComboBox.setModel(new DefaultComboBoxModel(envNumList.toArray()));
+        }catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "Error reloading envelope number list on the contributions tab: " + e);
+        }
+    }
+     
+      private void reloadFundList()
+    {
+        try{
+            List<Fund> fundList;
+            List<String> fundListS = new ArrayList<>();
+            fundList = fundDAO.getAllFunds();
+            int index = fundComboBox.getSelectedIndex();
+            for(int i = 0; i < fundList.size(); i++)
+            {
+                fundListS.add(fundList.get(i).getName());
+            }
+            
+            fundComboBox.setModel(new DefaultComboBoxModel(fundListS.toArray()));
+            
+            if(index > fundComboBox.getItemCount())
+                index = 0;
+            
+            fundComboBox.setSelectedIndex(index);
+            
+        }catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "Error reloading fund list on the contributions tab: " + e);
+        }
+    }
+     
     private int setGeneral(List<String> b)
     {
         int k = 0;
