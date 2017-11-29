@@ -14,6 +14,7 @@ import dao.DonorDAO;
 import dao.FundDAO;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,44 +53,44 @@ public class ContributionFrame extends javax.swing.JFrame {
         donDAO = new DonorDAO(this.conn);
         conDAO = new ContributionDAO(this.conn);
         fundDAO = new FundDAO(this.conn);
-        
-        
+
+
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         dateTextField.requestFocus();
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         Date date = new Date();
         dateTextField.setText(sdf.format(date));
-        
+
         try{
             contributionList = conDAO.getAllContributions();
             ContributionTableModel model = new ContributionTableModel(contributionList);
             contributionTable.setModel(model);
-            
+
             donorList = donDAO.getAllDonors();
             nameTextField.setText(donorList.get(0).getF_name() + " " + donorList.get(0).getL_name());
-            
+
             intList = donDAO.getAllEnvNums();
             envComboBox.setModel(new DefaultComboBoxModel(intList.toArray()));
-            
+
             fundList = fundDAO.getAllFunds();
-            
+
             //look into setting names for funds
             for(int i = 0; i < fundList.size(); i++)
             {
                 tempList.add(fundList.get(i).getName());
             }
-            
+
             fundID = setGeneral(tempList);
             fundComboBox.setModel(new DefaultComboBoxModel(tempList.toArray()));
             fundComboBox.setSelectedIndex(fundID);
-            
+
         } catch(Exception ex)
         {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         AutoCompletion.enable(fundComboBox);
     }
 
@@ -121,6 +122,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         noteTextPane = new javax.swing.JTextPane();
         noteLabel = new javax.swing.JLabel();
+        IDTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         contributionTable = new javax.swing.JTable();
 
@@ -202,12 +204,17 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         noteLabel.setText("Note:");
 
+        IDTextField.setText("jTextField1");
+        IDTextField.setPreferredSize(new java.awt.Dimension(0, 0));
+
         javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
         addPanel.setLayout(addPanelLayout);
         addPanelLayout.setHorizontalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPanelLayout.createSequentialGroup()
-                .addContainerGap(263, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
+                .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(addPanelLayout.createSequentialGroup()
                         .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +259,7 @@ public class ContributionFrame extends javax.swing.JFrame {
                                 .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(332, 332, 332)))
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addContainerGap(304, Short.MAX_VALUE))
         );
         addPanelLayout.setVerticalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,7 +271,8 @@ public class ContributionFrame extends javax.swing.JFrame {
                     .addComponent(envIDLabel)
                     .addComponent(envComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dateLabel))
+                    .addComponent(dateLabel)
+                    .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(addPanelLayout.createSequentialGroup()
@@ -337,7 +345,7 @@ public class ContributionFrame extends javax.swing.JFrame {
             donorList = donDAO.getAllDonors();
             int i = envComboBox.getSelectedIndex();
             nameTextField.setText(donorList.get(i).getF_name() + " " + donorList.get(i).getL_name());
-            
+
         } catch (Exception ex) {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -349,7 +357,7 @@ public class ContributionFrame extends javax.swing.JFrame {
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         reset(donorList);
-        
+
         try {
             fundList = fundDAO.getAllFunds();
             //look into setting names for funds
@@ -357,89 +365,76 @@ public class ContributionFrame extends javax.swing.JFrame {
             {
                 tempList.add(fundList.get(i).getName());
             }
-           
+
             fundID = setGeneral(tempList);
             fundComboBox.setModel(new DefaultComboBoxModel(tempList.toArray()));
             fundComboBox.setSelectedIndex(fundID);
-           
+
         } catch (Exception ex) {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void contributionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contributionTableMouseClicked
-        int z;
         int i = contributionTable.getSelectedRow();
-        int a = contributionTable.convertRowIndexToModel(i);
-        
-        
-        TableModel model = contributionTable.getModel();
-        
-        //String id = model.getValueAt(i, 0).toString();
-        //int idParam = Integer.parseInt(id);
-        
-        //NOTE: There has to be a better way to set comboboxes then if/else statements
-        //Look into this before finalizing form
-        if(model.getValueAt(a, 5).equals("check"))
-            typeComboBox.setSelectedIndex(0);
-        else if(model.getValueAt(a, 5).equals("currency"))
-            typeComboBox.setSelectedIndex(1);
-        else if(model.getValueAt(a, 5).equals("coin"))
-            typeComboBox.setSelectedIndex(2);
-        else
-            typeComboBox.setSelectedIndex(3);
+        int rowNum = contributionTable.convertRowIndexToModel(i);
 
-        String temp = (String) model.getValueAt(a, 4);
-        z = getIndexOfFund(temp);
-        fundComboBox.setSelectedIndex(z);
-            
-        int k = Integer.parseInt(model.getValueAt(a,2).toString());
-        envComboBox.setSelectedIndex(k);
-        amountTextField.setText(model.getValueAt(a, 3).toString());
-        dateTextField.setText(model.getValueAt(a, 1).toString());
-        //fund combo box
-        if(model.getValueAt(a, 6) == null)
+        TableModel model = contributionTable.getModel();
+
+        String typeVal = model.getValueAt(rowNum, 5).toString();
+        int typeBoxI = getIndexInComboBox(typeVal, typeComboBox);
+        typeComboBox.setSelectedIndex(typeBoxI);
+
+        String fundVal = (String) model.getValueAt(rowNum, 4);
+        int fundBoxI = getIndexInComboBox(fundVal, fundComboBox);
+        fundComboBox.setSelectedIndex(fundBoxI);
+
+        String envNum = model.getValueAt(rowNum,2).toString();
+        int envBoxI = getIndexInComboBox(envNum, envComboBox);
+        envComboBox.setSelectedIndex(envBoxI);
+        
+        amountTextField.setText(model.getValueAt(rowNum, 3).toString());
+
+        dateTextField.setText(model.getValueAt(rowNum, 1).toString());
+        
+        if(model.getValueAt(rowNum, 6) == null)
             noteTextPane.setText("");
-        else    
-            noteTextPane.setText(model.getValueAt(a, 6).toString());
+        else
+            noteTextPane.setText(model.getValueAt(rowNum, 6).toString());
         
-        
-        
-        
+        if(model.getValueAt(rowNum, 0) == null)
+            IDTextField.setText("");
+        else
+            IDTextField.setText(model.getValueAt(rowNum, 0).toString());
+
     }//GEN-LAST:event_contributionTableMouseClicked
 
-    private int getIndexOfFund(String myString)
+    //Searches a combo box for the index of a string value and returns it
+    private int getIndexInComboBox(String toFind, JComboBox jBox)
     {
-        int j = 0;
-        try{
-            fundList = fundDAO.getAllFunds();
-            
-            //look into setting names for funds
-            for(int i = 0; i < fundList.size(); i++)
-            {
-                tempList.add(fundList.get(i).getName());
-            }
-            
-            for(int i = 0; i < tempList.size(); i++)
-            {
-                if(tempList.get(i).equals(myString))
-                {
-                    j = i;
-                    return j;
-                }
-            }
-        } catch(Exception ex)
-        {
-            Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        return j;
+        String item;
+        boolean found = false;
+        int index = -1;
+       for(int i = 0; i < jBox.getItemCount() && !found; i++)
+       {
+           item = jBox.getItemAt(i).toString();
+           if(item.equals(toFind))
+           {
+               index = i;
+               found = true;
+           }
+       }
+       
+       return index;
     }
-    
+
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-         try {
+
+        try {
+            
             String sDate = dateTextField.getText();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
             java.util.Date date = sdf.parse(sDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             Contribution contribution =   new Contribution(Double.parseDouble
@@ -448,17 +443,17 @@ public class ContributionFrame extends javax.swing.JFrame {
                             getSelectedItem().toString(),Integer.parseInt
                                 (envComboBox.getSelectedItem().toString()));
             conDAO.addContribution(contribution);
-            
+
          }catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
-        }
+            }
          finally{
              reset(donorList);
          }
-         
+
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_updateButtonFocusLost
@@ -470,6 +465,7 @@ public class ContributionFrame extends javax.swing.JFrame {
          try {
             String sDate = dateTextField.getText();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
             java.util.Date date = sdf.parse(sDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             Contribution contribution =   new Contribution(Double.parseDouble
@@ -478,7 +474,7 @@ public class ContributionFrame extends javax.swing.JFrame {
                             getSelectedItem().toString(),Integer.parseInt
                                 (envComboBox.getSelectedItem().toString()));
             conDAO.deleteContribution(contribution);
-            
+
          }catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -488,20 +484,22 @@ public class ContributionFrame extends javax.swing.JFrame {
          finally{
              reset(donorList);
          }
-         
+
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try{
         String envID =envComboBox.getSelectedItem( ).toString();
         String sDate = dateTextField.getText();
+        int id=Integer.parseInt(IDTextField.getText());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
         java.util.Date date = sdf.parse(sDate);
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        Contribution contribution=new Contribution(Double.parseDouble
+        Contribution contribution=new Contribution(id,Double.parseDouble
                 (amountTextField.getText()),sqlDate, noteTextPane.getText( ),typeComboBox.getSelectedItem( ).toString(),fundComboBox.getSelectedItem( ).toString(),Integer.parseInt( envID ));
         conDAO.updateContribution(contribution);
-    }                                            
+    }
     catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -509,14 +507,14 @@ public class ContributionFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);}
     finally{
              reset(donorList);
-         }                                
+         }
 
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private int setGeneral(List<String> b)
     {
         int k = 0;
-        
+
         for(int i = 0; i < b.size(); i++)
         {
             //System.out.println(b.get(i));
@@ -525,25 +523,26 @@ public class ContributionFrame extends javax.swing.JFrame {
                 k = i;
                 //System.out.println("Found General at index: " + k);
                 return k;
-            }  
+            }
         }
         return k;
     }
-    
+
     private void reset(List<Donor> a)
     {
-        
+
         envComboBox.setSelectedIndex(0);
         nameTextField.setText(a.get(0).getF_name() + " " + a.get(0).getL_name());
         amountTextField.setText("");
         typeComboBox.setSelectedIndex(0);
         noteTextPane.setText("");
         envComboBox.requestFocus();
-        
+        fundComboBox.setSelectedIndex(5);
+
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         Date date = new Date();
         dateTextField.setText(sdf.format(date));
-        
+
         try{
             contributionList = conDAO.getAllContributions();
             ContributionTableModel model = new ContributionTableModel(contributionList);
@@ -560,7 +559,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -589,6 +588,7 @@ public class ContributionFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField IDTextField;
     private javax.swing.JButton addButton;
     private javax.swing.JPanel addPanel;
     private javax.swing.JLabel amountLabel;

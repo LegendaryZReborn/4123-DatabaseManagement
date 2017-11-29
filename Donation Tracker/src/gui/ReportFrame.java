@@ -5,10 +5,14 @@
  */
 package gui;
 
+import core.Donor;
 import dao.DBConnection;
+import dao.DonorDAO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.view.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
@@ -25,6 +29,8 @@ public class ReportFrame extends javax.swing.JFrame {
      * Creates new form ReportFrame
      */
     private DBConnection conn;
+   
+    
     public ReportFrame(DBConnection myConn) {
         initComponents();
         this.conn = myConn;
@@ -189,6 +195,7 @@ public class ReportFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void generate_freportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generate_freportActionPerformed
         // TODO add your handling code here:
         try{
@@ -214,7 +221,14 @@ public class ReportFrame extends javax.swing.JFrame {
             jd.setQuery(jQuery);
             JasperReport jr = JasperCompileManager.compileReport(jd);
             JasperPrint jp = JasperFillManager.fillReport(jr, params, this.conn.getConnection());
-            JasperViewer.viewReport(jp, false);
+            
+             if(jp.getPages().size() != 0)
+                {
+                    //JasperViewer.viewReport(jp, false);
+                    String path=System.getProperty("user.dir");
+                    JasperExportManager.exportReportToPdfFile(jp, path + "/freports/FReport.pdf");
+                    JasperViewer.viewReport(jp, false);
+                }
             
         }catch(Exception e){
             System.out.println("Something went wrong in generating the reports:"
@@ -241,25 +255,51 @@ public class ReportFrame extends javax.swing.JFrame {
             String date2 = to_cdate.getText();
             String range = "From " + date1 + " through " + date2;
             
-            //Hashmap holds parameters that will be used to fill the report
-            HashMap params = new HashMap();
-            params.put("date_range", range);
-           
+            DonorDAO donorDAO = new DonorDAO(conn);
+            List<Donor> donorList = donorDAO.getAllDonors();
+            int reportsGenerated = 0;
+            //For each donor in the list that has contributed
+            //within the time period, generate a contributions report
+            for(int i = 0; i < donorList.size(); i++)
+            {   
+                Donor d = donorList.get(i);
+                int envNum = d.getEnv_num();
+                String address = d.getF_name() + " " + d.getL_name() + "\n\n"
+                        + d.getStreet() + "\n\n" + d.getCity() + ", " + d.getState() +
+                        " " + d.getZip();
+                
+                //Hashmap holds parameters that will be used to fill the report
+                HashMap params = new HashMap();
+                params.put("date_range", range);
+                params.put("address", address);
+                
+                String sql_query = "SELECT env_num as EnvNum, ID, f_name as FirstName, l_name as LastName,\n" +
+                "c_date as Date, c_type as Type, fund_name as Fund, amt as Amt, \n" +
+                "note as Note, street, state, zip, city \n" +
+                "FROM contribution natural join donor\n" +
+                "where env_num = " + envNum + " and c_date >= '" + date1 + "' and c_date <= '" + date2 + "'\n" +
+                 "and amt >= " + Double.toString(min_d) + " order by c_date asc;";
+
+                 System.out.println(sql_query);
+                 
+                //compile, fill and view the produced the jasport report
+                JasperDesign jd = JRXmlLoader.load("src\\contributions_report.jrxml");
+                JRDesignQuery jQuery = new JRDesignQuery();
+                jQuery.setText(sql_query);
+                jd.setQuery(jQuery);
+                JasperReport jr = JasperCompileManager.compileReport(jd);
+                JasperPrint jp = JasperFillManager.fillReport(jr, params, this.conn.getConnection());
+                
+                //Genrate save the report in a pdf if it is not empty
+                if(jp.getPages().size() != 0)
+                {   //JasperViewer.viewReport(jp, false);
+                    String path=System.getProperty("user.dir");
+                    JasperExportManager.exportReportToPdfFile(jp, path + "/creports/CReport" + envNum + ".pdf");
+                    reportsGenerated++;
+                }
+            }
             
-            String sql_query = "SELECT env_num as EnvNum, ID, f_name as FirstName, l_name as LastName,\n" +
-            "c_date as Date, c_type as Type, fund_name as Fund, amt as Amt \n" +
-            "FROM contribution natural join donor\n"
-            + "where c_date >= '" + date1 + "' and c_date <= '" + date2 + "'\n"
-            + "and amt >= " + Double.toString(min_d) + " order by c_date asc;";
-            
-            //compile, fill and view the produced the jasport report
-            JasperDesign jd = JRXmlLoader.load("src\\contributions_report.jrxml");
-            JRDesignQuery jQuery = new JRDesignQuery();
-            jQuery.setText(sql_query);
-            jd.setQuery(jQuery);
-            JasperReport jr = JasperCompileManager.compileReport(jd);
-            JasperPrint jp = JasperFillManager.fillReport(jr, params, this.conn.getConnection());
-            JasperViewer.viewReport(jp, false);
+            JOptionPane.showMessageDialog(null, "Contribution reports for " + reportsGenerated + " donor(s) have been generated.");
             
         }catch(Exception e){
             System.out.println("Something went wrong in generating the reports:"
