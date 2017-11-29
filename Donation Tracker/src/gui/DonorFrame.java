@@ -349,16 +349,21 @@ public class DonorFrame extends javax.swing.JFrame {
     
     private void TableDonorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableDonorMouseClicked
         // TODO add your handling code here:
+        TableModel donor_model = TableDonor.getModel();
         int selectedRowIndex = TableDonor.getSelectedRow();
-        envNumTextField.setText(model.getValueAt(selectedRowIndex, 0).toString());
-        firstNameTextField.setText(model.getValueAt(selectedRowIndex, 1).toString());
-        lastNameTextField.setText(model.getValueAt(selectedRowIndex, 2).toString());
-        streetTextField.setText(model.getValueAt(selectedRowIndex, 3).toString());
-        cityTextField.setText(model.getValueAt(selectedRowIndex, 4).toString());
-        stateComboBox.setSelectedItem(model.getValueAt(selectedRowIndex, 5).toString());
-        zipTextField.setText(model.getValueAt(selectedRowIndex, 6).toString());
-        emailTextField.setText(model.getValueAt(selectedRowIndex, 7).toString());
-        mailPrefComboBox.setSelectedItem(model.getValueAt(selectedRowIndex,8).toString());
+        int selectedRowModel = TableDonor.convertRowIndexToModel(selectedRowIndex);
+
+        
+        envNumTextField.setText(donor_model.getValueAt(selectedRowModel, 0).toString());
+        firstNameTextField.setText(donor_model.getValueAt(selectedRowModel, 1).toString());
+        lastNameTextField.setText(donor_model.getValueAt(selectedRowModel, 2).toString());
+        streetTextField.setText(donor_model.getValueAt(selectedRowModel, 3).toString());
+        cityTextField.setText(donor_model.getValueAt(selectedRowModel, 4).toString());
+        stateComboBox.setSelectedItem(donor_model.getValueAt(selectedRowModel, 5).toString());
+        zipTextField.setText(donor_model.getValueAt(selectedRowModel, 6).toString());
+        emailTextField.setText(donor_model.getValueAt(selectedRowModel, 7).toString());
+        mailPrefComboBox.setSelectedItem(donor_model.getValueAt(selectedRowModel,8).toString());
+       
     }//GEN-LAST:event_TableDonorMouseClicked
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
