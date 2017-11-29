@@ -108,7 +108,7 @@
                                                   <Component id="addButton" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
                                                   <Component id="resetButton" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace pref="141" max="32767" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                   <Component id="deleteButton" max="32767" attributes="0"/>
                                                   <Component id="updateButton" pref="112" max="32767" attributes="0"/>
