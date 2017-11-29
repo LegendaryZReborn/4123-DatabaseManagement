@@ -310,14 +310,22 @@ public class DonorFrame extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 
         try {
-            Donor donor = new Donor(Integer.parseInt
-                (envNumTextField.getText()),firstNameTextField.getText(),
-                    lastNameTextField.getText(),streetTextField.getText(),
-                    cityTextField.getText(),stateComboBox.getSelectedItem().toString(),
-                    Integer.parseInt(zipTextField.getText()),
-                    emailTextField.getText(),mailPrefComboBox
-                            .getSelectedItem().toString());
-            donorDAO.addDonor(donor);
+            
+            if(mailPrefComboBox.getSelectedItem().toString() == "electronic" &&  emailTextField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(this, "The electronic mail preference requires an email address!");
+            }
+            else
+            {
+                Donor donor = new Donor(Integer.parseInt
+                    (envNumTextField.getText()),firstNameTextField.getText(),
+                        lastNameTextField.getText(),streetTextField.getText(),
+                        cityTextField.getText(),stateComboBox.getSelectedItem().toString(),
+                        Integer.parseInt(zipTextField.getText()),
+                        emailTextField.getText(),mailPrefComboBox
+                                .getSelectedItem().toString());
+                donorDAO.addDonor(donor);
+            }
          }catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
