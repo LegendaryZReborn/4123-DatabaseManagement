@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import javax.swing.table.TableModel;
 
 /**
@@ -138,11 +139,21 @@ public class DonorFrame extends javax.swing.JFrame {
                 addButtonActionPerformed(evt);
             }
         });
+        addButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                addButtonKeyPressed(evt);
+            }
+        });
 
         resetButton.setText("Reset");
         resetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetButtonActionPerformed(evt);
+            }
+        });
+        resetButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                resetButtonKeyPressed(evt);
             }
         });
 
@@ -152,11 +163,21 @@ public class DonorFrame extends javax.swing.JFrame {
                 deleteButtonActionPerformed(evt);
             }
         });
+        deleteButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                deleteButtonKeyPressed(evt);
+            }
+        });
 
         updateButton.setText("Update");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
+            }
+        });
+        updateButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                updateButtonKeyPressed(evt);
             }
         });
 
@@ -198,7 +219,7 @@ public class DonorFrame extends javax.swing.JFrame {
                                         .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))))
@@ -445,10 +466,33 @@ public class DonorFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_updateButtonActionPerformed
  
-    private void cityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cityTextFieldActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_cityTextFieldActionPerformed
+    private void addButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addButtonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            addButton.doClick();
+        }
+    }//GEN-LAST:event_addButtonKeyPressed
+
+    private void deleteButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deleteButtonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+           deleteButton.doClick();
+        }
+    }//GEN-LAST:event_deleteButtonKeyPressed
+
+    private void resetButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resetButtonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            resetButton.doClick();
+        }
+    }//GEN-LAST:event_resetButtonKeyPressed
+
+    private void updateButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_updateButtonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)            
+        {
+            updateButton.doClick();
+        }
+    }//GEN-LAST:event_updateButtonKeyPressed
    
     private void clearTextBoxes()
     {
