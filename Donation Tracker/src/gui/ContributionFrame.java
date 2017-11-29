@@ -468,8 +468,8 @@ public class ContributionFrame extends javax.swing.JFrame {
             sdf.setLenient(false);
             java.util.Date date = sdf.parse(sDate);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            Contribution contribution =   new Contribution(Double.parseDouble
-                (amountTextField.getText()),sqlDate,noteTextPane.getText(),
+            Contribution contribution =   new Contribution(Integer.parseInt(IDTextField.getText()),
+                    Double.parseDouble(amountTextField.getText()),sqlDate,noteTextPane.getText(),
                     typeComboBox.getSelectedItem().toString(),fundComboBox.
                             getSelectedItem().toString(),Integer.parseInt
                                 (envComboBox.getSelectedItem().toString()));
