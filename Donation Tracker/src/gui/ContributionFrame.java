@@ -458,6 +458,9 @@ public class ContributionFrame extends javax.swing.JFrame {
             IDTextField.setText("");
         else
             IDTextField.setText(model.getValueAt(rowNum, 0).toString());
+        
+        //disable add button
+        addButton.setEnabled(false);
 
     }//GEN-LAST:event_contributionTableMouseClicked
 

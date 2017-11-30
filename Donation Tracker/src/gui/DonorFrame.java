@@ -427,6 +427,8 @@ public class DonorFrame extends javax.swing.JFrame {
         zipTextField.setText(donor_model.getValueAt(selectedRowModel, 6).toString());
         emailTextField.setText(donor_model.getValueAt(selectedRowModel, 7).toString());
         mailPrefComboBox.setSelectedItem(donor_model.getValueAt(selectedRowModel,8).toString());
+        //disable add button
+        addButton.setEnabled(false);
        
     }//GEN-LAST:event_TableDonorMouseClicked
 
