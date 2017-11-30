@@ -497,10 +497,26 @@ public class ContributionFrame extends javax.swing.JFrame {
             conDAO.addContribution(contribution);
 
          }catch (NumberFormatException ex){
-            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+             String errorMessage = "";
+             if(ex.getMessage().contains("input string"))
+             {
+                 errorMessage = "Invalid format entered in the money field";
+                 errorMessage += ". Please enter an integer or floating point value";
+                 JOptionPane.showMessageDialog(this, "Value Error : " + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+             }
+             else
+                JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+             String errorMessage = "";
+             if(ex.getMessage().contains("parse"))
+             {
+                 errorMessage = "Invalid format entered into date field";
+                 errorMessage += ". Please enter a date with the form yyyy-mm-dd";
+                 JOptionPane.showMessageDialog(this, "Value Error : " + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+             }
+             else
+                JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
             }
          finally{
              reset(donorList);
@@ -528,10 +544,26 @@ public class ContributionFrame extends javax.swing.JFrame {
             conDAO.deleteContribution(contribution);
 
          }catch (NumberFormatException ex){
-            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+             String errorMessage = "";
+             if(ex.getMessage().contains("input string"))
+             {
+                 errorMessage = "Invalid format entered in the money field";
+                 errorMessage += ". Please enter an integer or floating point value";
+                 JOptionPane.showMessageDialog(this, "Value Error : " + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+             }
+             else
+                JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+             String errorMessage = "";
+             if(ex.getMessage().contains("parse"))
+             {
+                 errorMessage = "Invalid format entered into date field";
+                 errorMessage += ". Please enter a date with the form yyyy-mm-dd";
+                 JOptionPane.showMessageDialog(this, "Value Error : " + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+             }
+             else
+                JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
          finally{
              reset(donorList);
@@ -553,10 +585,28 @@ public class ContributionFrame extends javax.swing.JFrame {
         conDAO.updateContribution(contribution);
     }
     catch (NumberFormatException ex){
-            JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+             String errorMessage = "";
+             if(ex.getMessage().contains("input string"))
+             {
+                 errorMessage = "Invalid format entered in the money field";
+                 errorMessage += ". Please enter an integer or floating point value";
+                 JOptionPane.showMessageDialog(this, "Value Error : " + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+             }
+             else
+                JOptionPane.showMessageDialog(this, "Value Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
 
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);}
+        } 
+    catch (Exception ex) {
+             String errorMessage = "";
+             if(ex.getMessage().contains("parse"))
+             {
+                 errorMessage = "Invalid format entered into date field";
+                 errorMessage += ". Please enter a date with the form yyyy-mm-dd";
+                 JOptionPane.showMessageDialog(this, "Value Error : " + errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+             }
+             else
+                JOptionPane.showMessageDialog(this, "Database Error : " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+    }
     finally{
              reset(donorList);
          }
