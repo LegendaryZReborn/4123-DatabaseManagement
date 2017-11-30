@@ -351,6 +351,11 @@ public class ContributionFrame extends javax.swing.JFrame {
                 contributionTableMouseClicked(evt);
             }
         });
+        contributionTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                contributionTableKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(contributionTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -408,6 +413,8 @@ public class ContributionFrame extends javax.swing.JFrame {
             fundID = setGeneral(tempList);
             fundComboBox.setModel(new DefaultComboBoxModel(tempList.toArray()));
             fundComboBox.setSelectedIndex(fundID);
+            
+            addButton.setEnabled(true);
 
         } catch (Exception ex) {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -589,6 +596,53 @@ public class ContributionFrame extends javax.swing.JFrame {
             updateButton.doClick();
         }
     }//GEN-LAST:event_updateButtonKeyPressed
+
+    private void contributionTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_contributionTableKeyPressed
+        int selectedRowIndex = 0;
+        int selectedRowModel = 0;
+        
+        if (evt.getKeyCode() == KeyEvent.VK_UP)            
+        {
+            selectedRowIndex = contributionTable.getSelectedRow()-1;
+            selectedRowModel = contributionTable.convertRowIndexToModel(selectedRowIndex);
+        }
+        else if (evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            selectedRowIndex = contributionTable.getSelectedRow()+1;
+            selectedRowModel = contributionTable.convertRowIndexToModel(selectedRowIndex);  
+        }
+
+        TableModel model = contributionTable.getModel();
+
+        String typeVal = model.getValueAt(selectedRowModel, 5).toString();
+        int typeBoxI = getIndexInComboBox(typeVal, typeComboBox);
+        typeComboBox.setSelectedIndex(typeBoxI);
+
+        String fundVal = (String) model.getValueAt(selectedRowModel, 4);
+        int fundBoxI = getIndexInComboBox(fundVal, fundComboBox);
+        fundComboBox.setSelectedIndex(fundBoxI);
+
+        String envNum = model.getValueAt(selectedRowModel,2).toString();
+        int envBoxI = getIndexInComboBox(envNum, envComboBox);
+        envComboBox.setSelectedIndex(envBoxI);
+        
+        amountTextField.setText(model.getValueAt(selectedRowModel, 3).toString());
+
+        dateTextField.setText(model.getValueAt(selectedRowModel, 1).toString());
+        
+        if(model.getValueAt(selectedRowModel, 6) == null)
+            noteTextPane.setText("");
+        else
+            noteTextPane.setText(model.getValueAt(selectedRowModel, 6).toString());
+        
+        if(model.getValueAt(selectedRowModel, 0) == null)
+            IDTextField.setText("");
+        else
+            IDTextField.setText(model.getValueAt(selectedRowModel, 0).toString()); 
+
+        //disable add button
+        addButton.setEnabled(false);
+    }//GEN-LAST:event_contributionTableKeyPressed
 
      private void reloadEnvNumList()
     {

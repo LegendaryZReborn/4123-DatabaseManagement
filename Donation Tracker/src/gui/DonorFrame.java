@@ -303,6 +303,11 @@ public class DonorFrame extends javax.swing.JFrame {
                 TableDonorMouseClicked(evt);
             }
         });
+        TableDonor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TableDonorKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(TableDonor);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -400,6 +405,8 @@ public class DonorFrame extends javax.swing.JFrame {
         reset();
         clearTextBoxes();
         restoreDefaults();
+        addButton.setEnabled(true);
+        
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -493,6 +500,36 @@ public class DonorFrame extends javax.swing.JFrame {
             updateButton.doClick();
         }
     }//GEN-LAST:event_updateButtonKeyPressed
+
+    private void TableDonorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TableDonorKeyPressed
+        int selectedRowIndex = 0;
+        int selectedRowModel = 0;
+        
+        if (evt.getKeyCode() == KeyEvent.VK_UP)            
+        {
+            selectedRowIndex = TableDonor.getSelectedRow()-1;
+            selectedRowModel = TableDonor.convertRowIndexToModel(selectedRowIndex);
+        }
+        else if (evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            selectedRowIndex = TableDonor.getSelectedRow()+1;
+            selectedRowModel = TableDonor.convertRowIndexToModel(selectedRowIndex);  
+        }
+
+        TableModel donor_model = TableDonor.getModel();
+        envNumTextField.setText(donor_model.getValueAt(selectedRowModel, 0).toString());
+        firstNameTextField.setText(donor_model.getValueAt(selectedRowModel, 1).toString());
+        lastNameTextField.setText(donor_model.getValueAt(selectedRowModel, 2).toString());
+        streetTextField.setText(donor_model.getValueAt(selectedRowModel, 3).toString());
+        cityTextField.setText(donor_model.getValueAt(selectedRowModel, 4).toString());
+        stateComboBox.setSelectedItem(donor_model.getValueAt(selectedRowModel, 5).toString());
+        zipTextField.setText(donor_model.getValueAt(selectedRowModel, 6).toString());
+        emailTextField.setText(donor_model.getValueAt(selectedRowModel, 7).toString());
+        mailPrefComboBox.setSelectedItem(donor_model.getValueAt(selectedRowModel,8).toString());
+        
+        //disable add button
+        addButton.setEnabled(false);
+    }//GEN-LAST:event_TableDonorKeyPressed
    
     private void clearTextBoxes()
     {

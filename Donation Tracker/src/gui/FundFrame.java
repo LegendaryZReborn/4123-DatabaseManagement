@@ -105,6 +105,11 @@ public class FundFrame extends javax.swing.JFrame {
                 fund_tableMouseClicked(evt);
             }
         });
+        fund_table.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fund_tableKeyPressed(evt);
+            }
+        });
         fundTable_scrollPane.setViewportView(fund_table);
 
         addUpdateDelete_panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Add/Update/Delete Fund"));
@@ -263,9 +268,6 @@ public class FundFrame extends javax.swing.JFrame {
        
        //disable add button
        add_button.setEnabled(false);
-       
-       //set focus to fund name
-       fundName_textField.requestFocus();
     }//GEN-LAST:event_fund_tableMouseClicked
 
     private void reset_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_buttonActionPerformed
@@ -355,6 +357,29 @@ public class FundFrame extends javax.swing.JFrame {
             delete_button.doClick();
         }
     }//GEN-LAST:event_delete_buttonKeyPressed
+
+    private void fund_tableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fund_tableKeyPressed
+        int selectedRowIndex = 0;
+        int selectedRowModel = 0;
+        
+        if (evt.getKeyCode() == KeyEvent.VK_UP)            
+        {
+            selectedRowIndex = fund_table.getSelectedRow()-1;
+            selectedRowModel = fund_table.convertRowIndexToModel(selectedRowIndex);
+        }
+        else if (evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            selectedRowIndex = fund_table.getSelectedRow()+1;
+            selectedRowModel = fund_table.convertRowIndexToModel(selectedRowIndex);  
+        }
+
+            TableModel fund_model = fund_table.getModel();
+            fundName_textField.setText(fund_model.getValueAt(selectedRowModel, 0).toString());
+            quickbooksAccNo_textfield.setText(fund_model.getValueAt(selectedRowModel, 1).toString());
+
+            //disable add button
+            add_button.setEnabled(false);
+    }//GEN-LAST:event_fund_tableKeyPressed
 
     private void reset(){   
         try{
