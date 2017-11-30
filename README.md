@@ -6,4 +6,5 @@ Repository for the class' project
 
 ![](http://imgs.xkcd.com/comics/git.png)
 
+![](https://i.redd.it/lpfx2tbc32101.png)
 
