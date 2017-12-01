@@ -54,7 +54,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         donDAO = new DonorDAO(this.conn);
         conDAO = new ContributionDAO(this.conn);
         fundDAO = new FundDAO(this.conn);
-        IDTextField.setVisible(false);
+       // IDTextField.setVisible(false);
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         dateTextField.requestFocus();
@@ -69,7 +69,7 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         try{
             contributionList = conDAO.getAllContributions();
-            ContributionTableModel model = new ContributionTableModel(contributionList);
+            ContributionTableModel model = new ContributionTableModel(contributionList);       
             contributionTable.setModel(model);
             
             contributionTable.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);// Max Duhan
@@ -91,7 +91,7 @@ public class ContributionFrame extends javax.swing.JFrame {
             fundID = setGeneral(tempList);
             fundComboBox.setModel(new DefaultComboBoxModel(tempList.toArray()));
             fundComboBox.setSelectedIndex(fundID);
-
+            
         } catch(Exception ex)
         {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,6 +99,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         }
 
         AutoCompletion.enable(fundComboBox);
+
     }
 
     /**

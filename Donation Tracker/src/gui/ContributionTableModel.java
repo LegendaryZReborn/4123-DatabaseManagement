@@ -73,7 +73,8 @@ public class ContributionTableModel extends AbstractTableModel {
                             }
                             return tempContribution.getC_type();
             case NOTE_COL:
-                return tempContribution.getNote();
+                     return tempContribution.getNote();
+               
             default:
                 return tempContribution.getID();
         }

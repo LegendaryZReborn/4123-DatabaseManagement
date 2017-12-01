@@ -34,7 +34,7 @@ public class Contribution {
 	_ID = ID;
 	_amt = amt;
 	_c_date = cdate;
-	_note = note;
+	_note = note != null? note : "";
 	_c_type = ctype;
 	_fund_name = fundname;
 	_env_num = envnum;
@@ -43,7 +43,7 @@ public class Contribution {
        public Contribution(double amt, Date cdate, String note, String ctype, String fundname, int envnum) {
         _amt = amt;
 	_c_date = cdate;
-	_note = note;
+	_note = note != null? note : "";
 	_c_type = ctype;
 	_fund_name = fundname;
 	_env_num = envnum;
