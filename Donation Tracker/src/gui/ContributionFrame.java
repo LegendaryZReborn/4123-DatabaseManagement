@@ -54,7 +54,7 @@ public class ContributionFrame extends javax.swing.JFrame {
         donDAO = new DonorDAO(this.conn);
         conDAO = new ContributionDAO(this.conn);
         fundDAO = new FundDAO(this.conn);
-       // IDTextField.setVisible(false);
+        IDTextField.setVisible(false);
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         dateTextField.requestFocus();
