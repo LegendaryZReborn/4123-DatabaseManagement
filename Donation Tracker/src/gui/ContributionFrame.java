@@ -772,11 +772,17 @@ public class ContributionFrame extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         Date date = new Date();
         dateTextField.setText(sdf.format(date));
+        
+        // Using this again everytime the table reloads
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
 
         try{
             contributionList = conDAO.getAllContributions();
             ContributionTableModel model = new ContributionTableModel(contributionList);
             contributionTable.setModel(model);
+            
+            contributionTable.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
         } catch (Exception ex)
         {
             JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
