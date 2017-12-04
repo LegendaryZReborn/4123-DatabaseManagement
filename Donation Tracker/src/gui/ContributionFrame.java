@@ -769,9 +769,9 @@ public class ContributionFrame extends javax.swing.JFrame {
         envComboBox.requestFocus();
         fundComboBox.setSelectedItem("General");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
-        Date date = new Date();
-        dateTextField.setText(sdf.format(date));
+        //SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        //Date date = new Date();
+        //dateTextField.setText(sdf.format(date));
         
         // Using this again everytime the table reloads
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();

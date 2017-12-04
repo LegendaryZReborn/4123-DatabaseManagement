@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.view.*;
@@ -45,6 +46,7 @@ public class ReportFrame extends javax.swing.JFrame {
         to_fdate.setText(sdf.format(date));
         from_cdate.setText(sdf.format(date));
         to_cdate.setText(sdf.format(date));
+        envNumComboBox.setSelectedIndex(0);
 
     }
 
@@ -65,6 +67,8 @@ public class ReportFrame extends javax.swing.JFrame {
         generate_creport = new javax.swing.JButton();
         min_donation_label = new javax.swing.JLabel();
         min_donation = new javax.swing.JTextField();
+        envNumComboBox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
         fReport_panel = new javax.swing.JPanel();
         ffrom_label = new javax.swing.JLabel();
         fto_label = new javax.swing.JLabel();
@@ -95,6 +99,19 @@ public class ReportFrame extends javax.swing.JFrame {
 
         min_donation_label.setText("Min. Donation");
 
+        envNumComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", " " }));
+        envNumComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                envNumComboBoxPopupMenuWillBecomeVisible(evt);
+            }
+        });
+
+        jLabel1.setText("Envelope ID:");
+
         javax.swing.GroupLayout cReport_panelLayout = new javax.swing.GroupLayout(cReport_panel);
         cReport_panel.setLayout(cReport_panelLayout);
         cReport_panelLayout.setHorizontalGroup(
@@ -104,18 +121,24 @@ public class ReportFrame extends javax.swing.JFrame {
                 .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(generate_creport)
                     .addGroup(cReport_panelLayout.createSequentialGroup()
-                        .addComponent(cfrom_label)
+                        .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(cReport_panelLayout.createSequentialGroup()
+                                .addComponent(cfrom_label)
+                                .addGap(18, 18, 18)
+                                .addComponent(from_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cto_label))
+                            .addGroup(cReport_panelLayout.createSequentialGroup()
+                                .addComponent(min_donation_label)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(min_donation, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel1)))
                         .addGap(18, 18, 18)
-                        .addComponent(from_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cto_label)
-                        .addGap(18, 18, 18)
-                        .addComponent(to_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(cReport_panelLayout.createSequentialGroup()
-                        .addComponent(min_donation_label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(min_donation, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(195, Short.MAX_VALUE))
+                        .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(to_cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(envNumComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
         cReport_panelLayout.setVerticalGroup(
             cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,7 +152,9 @@ public class ReportFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(cReport_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(min_donation_label)
-                    .addComponent(min_donation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(min_donation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(envNumComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(generate_creport)
                 .addContainerGap())
@@ -302,9 +327,10 @@ public class ReportFrame extends javax.swing.JFrame {
                 
                 if(exists)
                 {
+                    boolean isAll = true;
                     //For each donor in the list that has contributed
                     //within the time period, generate a contributions report
-                    for(int i = 0; i < donorList.size(); i++)
+                    for(int i = 0; i < donorList.size() && isAll; i++)
                     {   
                         Donor d = donorList.get(i);
                         int envNum = d.getEnv_num();
@@ -317,13 +343,30 @@ public class ReportFrame extends javax.swing.JFrame {
                         params.put("date_range", range);
                         params.put("address", address);
 
-                        String sql_query = "SELECT env_num as EnvNum, ID, f_name as FirstName, l_name as LastName,\n" +
-                        "c_date as Date, c_type as Type, fund_name as Fund, amt as Amt, \n" +
-                        "note as Note, street, state, zip, city \n" +
-                        "FROM contribution natural join donor\n" +
-                        "where env_num = " + envNum + " and c_date >= '" + date1 + "' and c_date <= '" + date2 + "'\n" +
-                         "and amt >= " + Double.toString(min_d) + " order by c_date asc;";
-
+                        String selected = envNumComboBox.getSelectedItem().toString();
+                        String sql_query;
+                        if(selected.equals("All"))
+                        {
+                            sql_query = "SELECT env_num as EnvNum, ID, f_name as FirstName, l_name as LastName,\n" +
+                            "c_date as Date, c_type as Type, fund_name as Fund, amt as Amt, \n" +
+                            "note as Note, street, state, zip, city \n" +
+                            "FROM contribution natural join donor\n" +
+                            "where env_num = " + envNum + " and c_date >= '" + date1 + "' and c_date <= '" + date2 + "'\n" +
+                             "and amt >= " + Double.toString(min_d) + " order by c_date asc;";
+                        }
+                        else
+                        {
+                            envNum = Integer.parseInt(selected);
+                            
+                             sql_query = "SELECT env_num as EnvNum, ID, f_name as FirstName, l_name as LastName,\n" +
+                            "c_date as Date, c_type as Type, fund_name as Fund, amt as Amt, \n" +
+                            "note as Note, street, state, zip, city \n" +
+                            "FROM contribution natural join donor\n" +
+                            "where env_num = " + envNum + " and c_date >= '" + date1 + "' and c_date <= '" + date2 + "'\n" +
+                             "and amt >= " + Double.toString(min_d) + " order by c_date asc;";
+                             
+                             isAll = false;
+                        }
                         //compile, fill and view the produced the jasport report
                         JasperDesign jd = JRXmlLoader.load("src\\contributions_report.jrxml");
                         JRDesignQuery jQuery = new JRDesignQuery();
@@ -369,6 +412,51 @@ public class ReportFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_generate_creportKeyPressed
 
+    private void envNumComboBoxPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_envNumComboBoxPopupMenuWillBecomeVisible
+        // TODO add your handling code here:
+        loadDonorBox();
+    }//GEN-LAST:event_envNumComboBoxPopupMenuWillBecomeVisible
+
+    private void loadDonorBox()
+    {
+        DonorDAO donorDao = new DonorDAO(conn);
+        
+        try
+        {
+          List<Integer> donorEnvNumList = donorDao.getAllEnvNums();
+          envNumComboBox.removeAllItems();
+          envNumComboBox.addItem("All");
+    
+          //fill Donor env num box list
+          for(Integer i: donorEnvNumList)
+          {
+              envNumComboBox.addItem(Integer.toString(i));
+          }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Error 2: " + e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    //Searches a combo box for the index of a string value and returns it
+    private int getIndexInComboBox(String toFind, JComboBox jBox)
+    {
+        String item;
+        boolean found = false;
+        int index = -1;
+       for(int i = 0; i < jBox.getItemCount() && !found; i++)
+       {
+           item = jBox.getItemAt(i).toString();
+           if(item.equals(toFind))
+           {
+               index = i;
+               found = true;
+           }
+       }
+       
+       return index;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -408,6 +496,7 @@ public class ReportFrame extends javax.swing.JFrame {
     private javax.swing.JPanel cReport_panel;
     private javax.swing.JLabel cfrom_label;
     private javax.swing.JLabel cto_label;
+    private javax.swing.JComboBox<String> envNumComboBox;
     private javax.swing.JPanel fReport_panel;
     private javax.swing.JLabel ffrom_label;
     private javax.swing.JTextField from_cdate;
@@ -415,6 +504,7 @@ public class ReportFrame extends javax.swing.JFrame {
     private javax.swing.JLabel fto_label;
     private javax.swing.JButton generate_creport;
     private javax.swing.JButton generate_freport;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField min_donation;
     private javax.swing.JLabel min_donation_label;
     private javax.swing.JTextField to_cdate;
