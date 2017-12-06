@@ -111,9 +111,13 @@ public class AutoCompletion extends PlainDocument {
         String beforeOffset = currentText.substring(0, offs);
         String afterOffset = currentText.substring(offs, currentText.length());
         String futureText = beforeOffset + str + afterOffset;
-        
+
+        // return immediately when selecting an item
+        if (selecting) return;
+        // insert the string into the document
+        super.insertString(offs, str, a);
         // lookup and select a matching item
-        Object item = lookupItem(currentText+futureText);
+        Object item = lookupItem(futureText);
         if (item != null) {
             comboBox.setSelectedItem(item);
         } else {
@@ -124,21 +128,9 @@ public class AutoCompletion extends PlainDocument {
             // provide feedback to the user that his input has been received but can not be accepted
             comboBox.getToolkit().beep(); // when available use: UIManager.getLookAndFeel().provideErrorFeedback(comboBox);
         }
-        
-        // remove all text and insert the completed string
-        super.remove(0, getLength());
-        super.insertString(0, item.toString(), a);
-        
-        // if the user selects an item via mouse the the whole string will be inserted.
-        // highlight the entire text if this happens.
-        if (item.toString().equals(str) && offs==0) {
-            highlightCompletedText(0);
-        } else {
-            highlightCompletedText(offs+str.length());
-            // show popup when the user types
-            comboBox.setPopupVisible(true);
-        }
-        
+        setText(item.toString());
+        // select the completed part
+        highlightCompletedText(offs+str.length());
     }
     
     private void setText(String text) throws BadLocationException {
