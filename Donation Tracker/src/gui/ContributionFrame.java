@@ -25,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -87,19 +88,19 @@ public class ContributionFrame extends javax.swing.JFrame {
             {
                 tempList.add(fundList.get(i).getName());
             }
-
+            
             fundID = setGeneral(tempList);
             fundComboBox.setModel(new DefaultComboBoxModel(tempList.toArray()));
             fundComboBox.setSelectedIndex(fundID);
+            
+            AutoCompletion.enable(fundComboBox);
+            AutoCompletion.enable(envComboBox);
             
         } catch(Exception ex)
         {
             Logger.getLogger(ContributionFrame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Error 2: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        AutoCompletion.enable(fundComboBox);
-
     }
 
     /**
@@ -172,11 +173,6 @@ public class ContributionFrame extends javax.swing.JFrame {
                 updateButtonFocusLost(evt);
             }
         });
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
-            }
-        });
         updateButton.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 updateButtonKeyPressed(evt);
@@ -216,12 +212,12 @@ public class ContributionFrame extends javax.swing.JFrame {
         fundComboBox.setEditable(true);
         fundComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General Fund", " " }));
         fundComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-                fundComboBoxPopupMenuWillBecomeVisible(evt);
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
             public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
             }
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                fundComboBoxPopupMenuWillBecomeVisible(evt);
             }
         });
 
@@ -230,19 +226,21 @@ public class ContributionFrame extends javax.swing.JFrame {
         envIDLabel.setText("Envelope ID:");
 
         envComboBox.setEditable(true);
-        envComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
+        envComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
+        envComboBox.setSelectedIndex(-1);
+        envComboBox.setSelectedItem("");
         envComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 envComboBoxItemStateChanged(evt);
             }
         });
         envComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-                envComboBoxPopupMenuWillBecomeVisible(evt);
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
             public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
             }
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                envComboBoxPopupMenuWillBecomeVisible(evt);
             }
         });
 
@@ -252,14 +250,13 @@ public class ContributionFrame extends javax.swing.JFrame {
 
         IDTextField.setEditable(false);
         IDTextField.setFocusable(false);
-        IDTextField.setPreferredSize(new java.awt.Dimension(0, 0));
 
         javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
         addPanel.setLayout(addPanelLayout);
         addPanelLayout.setHorizontalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPanelLayout.createSequentialGroup()
-                .addContainerGap(174, Short.MAX_VALUE)
+                .addContainerGap(169, Short.MAX_VALUE)
                 .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -306,7 +303,7 @@ public class ContributionFrame extends javax.swing.JFrame {
                                 .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(332, 332, 332)))
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addContainerGap(295, Short.MAX_VALUE))
         );
         addPanelLayout.setVerticalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
