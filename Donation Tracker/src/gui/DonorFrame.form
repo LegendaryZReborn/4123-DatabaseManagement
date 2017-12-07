@@ -273,6 +273,9 @@
             <Component class="javax.swing.JTextField" name="envNumTextField">
             </Component>
             <Component class="javax.swing.JTextField" name="firstNameTextField">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="firstNameTextFieldActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="lastNameTextField">
             </Component>
