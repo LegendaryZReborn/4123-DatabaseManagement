@@ -131,6 +131,12 @@ public class DonorFrame extends javax.swing.JFrame {
 
         mailPrefLabel.setText("Statement preference:");
 
+        firstNameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firstNameTextFieldActionPerformed(evt);
+            }
+        });
+
         mailPrefComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "printed", "electronic" }));
 
         addButton.setText("Add");
@@ -355,8 +361,11 @@ public class DonorFrame extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 
         try {
-            
-            if(mailPrefComboBox.getSelectedItem().toString() == "electronic" &&  emailTextField.getText().isEmpty())
+            if(firstNameTextField.getText().isEmpty() || lastNameTextField.getText().isEmpty() )
+            {
+                JOptionPane.showMessageDialog(this, "First Name and Last Name fields need to be entered!");
+            }
+       else if(mailPrefComboBox.getSelectedItem().toString() == "electronic" &&  emailTextField.getText().isEmpty())
             {
                 JOptionPane.showMessageDialog(this, "The electronic mail preference requires an email address!");
             }
@@ -588,6 +597,10 @@ public class DonorFrame extends javax.swing.JFrame {
     private void mailPrefComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mailPrefComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mailPrefComboBoxActionPerformed
+
+    private void firstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_firstNameTextFieldActionPerformed
    
     private void clearTextBoxes()
     {
